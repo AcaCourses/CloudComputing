@@ -1,0 +1,148 @@
+{
+  "labs": [
+    {
+      "id": 1,
+      "name": "Lab 1: Exploración de la consola cloud",
+      "group": "A",
+      "dueDate": "2026-08-22",
+      "submitLink": "",
+      "status": "pending",
+      "unit": 1
+    },
+    {
+      "id": 2,
+      "name": "Lab 2: Modelos de servicio y despliegue",
+      "group": "A",
+      "dueDate": "2026-08-29",
+      "submitLink": "",
+      "status": "pending",
+      "unit": 1
+    },
+    {
+      "id": 3,
+      "name": "Lab 3: Redes virtuales y subredes",
+      "group": "A",
+      "dueDate": "2026-09-12",
+      "submitLink": "",
+      "status": "pending",
+      "unit": 2
+    },
+    {
+      "id": 4,
+      "name": "Lab 4: CDN y DNS",
+      "group": "A",
+      "dueDate": "2026-09-19",
+      "submitLink": "",
+      "status": "pending",
+      "unit": 2
+    },
+    {
+      "id": 5,
+      "name": "Lab 5: Máquinas virtuales y App Services",
+      "group": "A",
+      "dueDate": "2026-10-03",
+      "submitLink": "",
+      "status": "pending",
+      "unit": 3
+    },
+    {
+      "id": 6,
+      "name": "Lab 6: Almacenamiento y bases de datos",
+      "group": "A",
+      "dueDate": "2026-10-10",
+      "submitLink": "",
+      "status": "pending",
+      "unit": 3
+    },
+    {
+      "id": 7,
+      "name": "Lab 7: Identidad, acceso y seguridad",
+      "group": "A",
+      "dueDate": "2026-10-24",
+      "submitLink": "",
+      "status": "pending",
+      "unit": 4
+    },
+    {
+      "id": 8,
+      "name": "Lab 8: Monitoreo y gobernanza",
+      "group": "A",
+      "dueDate": "2026-10-31",
+      "submitLink": "",
+      "status": "pending",
+      "unit": 4
+    },
+    {
+      "id": 9,
+      "name": "Lab 1: Exploración de la consola cloud",
+      "group": "B",
+      "dueDate": "2026-08-22",
+      "submitLink": "",
+      "status": "pending",
+      "unit": 1
+    },
+    {
+      "id": 10,
+      "name": "Lab 2: Modelos de servicio y despliegue",
+      "group": "B",
+      "dueDate": "2026-08-29",
+      "submitLink": "",
+      "status": "pending",
+      "unit": 1
+    },
+    {
+      "id": 11,
+      "name": "Lab 3: Redes virtuales y subredes",
+      "group": "B",
+      "dueDate": "2026-09-12",
+      "submitLink": "",
+      "status": "pending",
+      "unit": 2
+    },
+    {
+      "id": 12,
+      "name": "Lab 4: CDN y DNS",
+      "group": "B",
+      "dueDate": "2026-09-19",
+      "submitLink": "",
+      "status": "pending",
+      "unit": 2
+    },
+    {
+      "id": 13,
+      "name": "Lab 5: Máquinas virtuales y App Services",
+      "group": "B",
+      "dueDate": "2026-10-03",
+      "submitLink": "",
+      "status": "pending",
+      "unit": 3
+    },
+    {
+      "id": 14,
+      "name": "Lab 6: Almacenamiento y bases de datos",
+      "group": "B",
+      "dueDate": "2026-10-10",
+      "submitLink": "",
+      "status": "pending",
+      "unit": 3
+    },
+    {
+      "id": 15,
+      "name": "Lab 7: Identidad, acceso y seguridad",
+      "group": "B",
+      "dueDate": "2026-10-24",
+      "submitLink": "",
+      "status": "pending",
+      "unit": 4
+    },
+    {
+      "id": 16,
+      "name": "Lab 8: Monitoreo y gobernanza",
+      "group": "B",
+      "dueDate": "2026-10-31",
+      "submitLink": "",
+      "status": "pending",
+      "unit": 4
+    }
+  ]
+}

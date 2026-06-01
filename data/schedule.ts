@@ -1,0 +1,187 @@
+export type WeekEntry = {
+  week: number;
+  dateRange: string;
+  groupA: { days: string; dates: string };
+  groupB: { days: string; dates: string };
+  unit: number;
+  topic: string;
+  lab?: string;
+  labDue?: string;
+  type: "class" | "exam" | "holiday" | "project";
+};
+
+// Semestre 2026-2: Agosto – Noviembre
+// Grupo A: Martes y Jueves
+// Grupo B: Miércoles y Viernes
+export const schedule: WeekEntry[] = [
+  {
+    week: 1,
+    dateRange: "3 – 7 Ago",
+    groupA: { days: "Mar/Jue", dates: "4, 6 Ago" },
+    groupB: { days: "Mié/Vie", dates: "5, 7 Ago" },
+    unit: 1,
+    topic: "Introducción a la computación en la nube",
+    type: "class",
+  },
+  {
+    week: 2,
+    dateRange: "10 – 14 Ago",
+    groupA: { days: "Mar/Jue", dates: "11, 13 Ago" },
+    groupB: { days: "Mié/Vie", dates: "12, 14 Ago" },
+    unit: 1,
+    topic: "Historia, evolución y modelos de servicio (IaaS, PaaS, SaaS)",
+    type: "class",
+  },
+  {
+    week: 3,
+    dateRange: "17 – 21 Ago",
+    groupA: { days: "Mar/Jue", dates: "18, 20 Ago" },
+    groupB: { days: "Mié/Vie", dates: "19, 21 Ago" },
+    unit: 1,
+    topic: "Modelos de despliegue y proveedores principales",
+    lab: "Lab 1: Exploración de la consola cloud",
+    labDue: "21 Ago",
+    type: "class",
+  },
+  {
+    week: 4,
+    dateRange: "24 – 28 Ago",
+    groupA: { days: "Mar/Jue", dates: "25, 27 Ago" },
+    groupB: { days: "Mié/Vie", dates: "26, 28 Ago" },
+    unit: 2,
+    topic: "Regiones, zonas de disponibilidad y redes virtuales",
+    lab: "Lab 2: Modelos de servicio y despliegue",
+    labDue: "28 Ago",
+    type: "class",
+  },
+  {
+    week: 5,
+    dateRange: "31 Ago – 4 Sep",
+    groupA: { days: "Mar/Jue", dates: "1, 3 Sep" },
+    groupB: { days: "Mié/Vie", dates: "2, 4 Sep" },
+    unit: 2,
+    topic: "Subredes, grupos de seguridad y balanceo de carga",
+    type: "class",
+  },
+  {
+    week: 6,
+    dateRange: "7 – 11 Sep",
+    groupA: { days: "Mar/Jue", dates: "8, 10 Sep" },
+    groupB: { days: "Mié/Vie", dates: "9, 11 Sep" },
+    unit: 2,
+    topic: "DNS, CDN y conectividad híbrida",
+    lab: "Lab 3: Redes virtuales y subredes",
+    labDue: "11 Sep",
+    type: "class",
+  },
+  {
+    week: 7,
+    dateRange: "14 – 18 Sep",
+    groupA: { days: "Mar/Jue", dates: "15, 17 Sep" },
+    groupB: { days: "Mié/Vie", dates: "16, 18 Sep" },
+    unit: 3,
+    topic: "Máquinas virtuales y contenedores",
+    lab: "Lab 4: CDN y DNS",
+    labDue: "18 Sep",
+    type: "class",
+  },
+  {
+    week: 8,
+    dateRange: "21 – 25 Sep",
+    groupA: { days: "Mar/Jue", dates: "22, 24 Sep" },
+    groupB: { days: "Mié/Vie", dates: "23, 25 Sep" },
+    unit: 3,
+    topic: "Serverless, Functions y App Services",
+    type: "class",
+  },
+  {
+    week: 9,
+    dateRange: "28 Sep – 2 Oct",
+    groupA: { days: "Mar/Jue", dates: "29 Sep, 1 Oct" },
+    groupB: { days: "Mié/Vie", dates: "30 Sep, 2 Oct" },
+    unit: 3,
+    topic: "Almacenamiento de objetos, bloques y archivos",
+    lab: "Lab 5: Máquinas virtuales y App Services",
+    labDue: "2 Oct",
+    type: "class",
+  },
+  {
+    week: 10,
+    dateRange: "5 – 9 Oct",
+    groupA: { days: "Mar/Jue", dates: "6, 8 Oct" },
+    groupB: { days: "Mié/Vie", dates: "7, 9 Oct" },
+    unit: 3,
+    topic: "Bases de datos SQL y NoSQL administradas",
+    lab: "Lab 6: Almacenamiento y bases de datos",
+    labDue: "9 Oct",
+    type: "class",
+  },
+  {
+    week: 11,
+    dateRange: "12 – 16 Oct",
+    groupA: { days: "Mar/Jue", dates: "13, 15 Oct" },
+    groupB: { days: "Mié/Vie", dates: "14, 16 Oct" },
+    unit: 4,
+    topic: "Identidad, gestión de acceso (IAM) y autenticación",
+    type: "class",
+  },
+  {
+    week: 12,
+    dateRange: "19 – 23 Oct",
+    groupA: { days: "Mar/Jue", dates: "20, 22 Oct" },
+    groupB: { days: "Mié/Vie", dates: "21, 23 Oct" },
+    unit: 4,
+    topic: "Cifrado, protección de datos y cumplimiento normativo",
+    lab: "Lab 7: Identidad, acceso y seguridad",
+    labDue: "23 Oct",
+    type: "class",
+  },
+  {
+    week: 13,
+    dateRange: "26 – 30 Oct",
+    groupA: { days: "Mar/Jue", dates: "27, 29 Oct" },
+    groupB: { days: "Mié/Vie", dates: "28, 30 Oct" },
+    unit: 4,
+    topic: "Monitoreo, observabilidad y gobernanza",
+    lab: "Lab 8: Monitoreo y gobernanza",
+    labDue: "30 Oct",
+    type: "class",
+  },
+  {
+    week: 14,
+    dateRange: "2 – 6 Nov",
+    groupA: { days: "Mar/Jue", dates: "3, 5 Nov" },
+    groupB: { days: "Mié/Vie", dates: "4, 6 Nov" },
+    unit: 5,
+    topic: "Modelos de precios, calculadoras y optimización de costos",
+    type: "class",
+  },
+  {
+    week: 15,
+    dateRange: "9 – 13 Nov",
+    groupA: { days: "Mar/Jue", dates: "10, 12 Nov" },
+    groupB: { days: "Mié/Vie", dates: "11, 13 Nov" },
+    unit: 5,
+    topic: "Well-Architected Framework y tendencias emergentes",
+    type: "class",
+  },
+  {
+    week: 16,
+    dateRange: "16 – 20 Nov",
+    groupA: { days: "Mar/Jue", dates: "17, 19 Nov" },
+    groupB: { days: "Mié/Vie", dates: "18, 20 Nov" },
+    unit: 5,
+    topic: "Presentación del proyecto integrador",
+    lab: "Entrega proyecto final",
+    labDue: "20 Nov",
+    type: "project",
+  },
+];
+
+export const unitColors: Record<number, { bg: string; text: string; border: string; dot: string }> = {
+  1: { bg: "bg-blue-light/50", text: "text-blue-dark", border: "border-blue/30", dot: "bg-blue" },
+  2: { bg: "bg-blue-light/30", text: "text-blue", border: "border-blue/20", dot: "bg-blue" },
+  3: { bg: "bg-green-light/50", text: "text-green-dark", border: "border-green/30", dot: "bg-green" },
+  4: { bg: "bg-red-light/50", text: "text-red", border: "border-red/30", dot: "bg-red" },
+  5: { bg: "bg-yellow-light/50", text: "text-orange", border: "border-orange/30", dot: "bg-orange" },
+};

@@ -1,26 +1,109 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  /* Google Cloud color palette */
+  --color-background: #FFFFFF;
+  --color-foreground: #202124;
+  --color-panel: #F8F9FA;
+  --color-panel-glass: rgba(241, 243, 244, 0.92);
+  --color-border: #DADCE0;
+  --color-text-secondary: #5F6368;
+
+  /* Google primary colors */
+  --color-blue: #4285F4;
+  --color-blue-dark: #174EA6;
+  --color-red: #EA4335;
+  --color-red-dark: #A50E0E;
+  --color-yellow: #FBBC04;
+  --color-orange: #E37400;
+  --color-green: #34A853;
+  --color-green-dark: #0D652D;
+
+  /* Light tints */
+  --color-blue-light: #D2E3FC;
+  --color-red-light: #FAD2CF;
+  --color-yellow-light: #FEEFC3;
+  --color-green-light: #CEEAD6;
+
+  /* Neutrals */
+  --color-grey: #9AA0A6;
+  --color-grey-light: #F1F3F4;
+  --color-black: #202124;
+
+  /* Semantic aliases */
+  --color-azure: #4285F4;
+  --color-azure-dark: #174EA6;
+  --color-cyan: #174EA6;
+  --color-success: #34A853;
+  --color-warning: #FBBC04;
+  --color-error: #EA4335;
+  --color-unam-blue: #174EA6;
+  --color-unam-gold: #E37400;
+  --color-unam-prussian: #174EA6;
+  --color-unam-gold-dark: #E37400;
+
+  --font-sans: var(--font-inter);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #F8F9FA;
+}
+::-webkit-scrollbar-thumb {
+  background: #DADCE0;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #9AA0A6;
+}
+
+/* Utility animations */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(1rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) translateX(0); }
+  25% { transform: translateY(-20px) translateX(10px); }
+  50% { transform: translateY(-10px) translateX(-15px); }
+  75% { transform: translateY(-30px) translateX(5px); }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.6s ease-out both;
+}
+
+.animate-pulse-soft {
+  animation: pulse-soft 2s ease-in-out infinite;
 }
