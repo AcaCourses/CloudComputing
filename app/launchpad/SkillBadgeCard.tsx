@@ -4,12 +4,14 @@ interface SkillBadgeProps {
   title: string;
   category: string;
   level: string;
+  index?: number;
 }
 
-export default function SkillBadgeCard({ title, category, level }: SkillBadgeProps) {
+export default function SkillBadgeCard({ title, category, level, index = 0 }: SkillBadgeProps) {
+  const rotateDir = index % 2 === 0 ? "group-hover:[transform:rotate(-2deg)]" : "group-hover:[transform:rotate(2deg)]";
   return (
     <div className="group relative w-full">
-      <div className="relative bg-white rounded-[24px] border border-[#B0B0B0] p-8 flex flex-col items-center text-center transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-1.5 overflow-hidden h-[280px] justify-center">
+      <div className={`relative bg-white rounded-[24px] border border-[#B0B0B0] p-8 flex flex-col items-center text-center transition-all duration-300 group-hover:shadow-xl ${rotateDir} group-hover:border-[#4285F4]/40 overflow-hidden h-[280px] justify-center`}>
         {/* Google Cloud logo */}
         <img
           src="/assets/logoCloud.png"
