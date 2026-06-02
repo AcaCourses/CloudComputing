@@ -58,10 +58,10 @@ const evaluationItems = [
   },
   {
     icon: FolderKanban,
-    label: "Exposición final",
+    label: "Proyecto final",
     value: "15%",
     numValue: 15,
-    description: "Portafolio de evidencias del curso.",
+    description: "Exposicion final, el numero de integrantes por equipo esta por definir",
     color: "text-orange",
     barColor: "bg-orange",
     hasDetails: null as string | null,
