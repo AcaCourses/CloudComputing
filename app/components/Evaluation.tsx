@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
 import {
   Scale,
   MessageSquare,
@@ -34,7 +35,7 @@ const evaluationItems = [
     description: "Completar todas las actividades del programa.",
     color: "text-blue",
     barColor: "bg-blue",
-    hasDetails: null as string | null,
+    hasDetails: "launchpad" as string | null,
   },
   {
     icon: FileCheck,
@@ -61,7 +62,7 @@ const evaluationItems = [
     label: "Proyecto final",
     value: "15%",
     numValue: 15,
-    description: "Exposicion final, el numero de integrantes por equipo esta por definir",
+    description: "Exposicion final, el numero de integrantes por equipo esta por definir ",
     color: "text-orange",
     barColor: "bg-orange",
     hasDetails: null as string | null,
@@ -123,6 +124,7 @@ const criteria = [
 ];
 
 export default function Evaluation() {
+  const router = useRouter();
   const headerAnim = useInView();
   const [hoveredBar, setHoveredBar] = useState<number | null>(null);
   const [showCursoModal, setShowCursoModal] = useState(false);
@@ -227,7 +229,8 @@ export default function Evaluation() {
                 <div
                   key={item.label}
                   onClick={
-                    item.hasDetails === "examen" ? () => setShowExamenModal(true)
+                    item.hasDetails === "launchpad" ? () => router.push("/launchpad")
+                    : item.hasDetails === "examen" ? () => setShowExamenModal(true)
                     : item.hasDetails === "practicas" ? () => setShowPracticasModal(true)
                     : undefined
                   }
@@ -269,9 +272,11 @@ export default function Evaluation() {
                     </p>
                   </div>
                   {item.hasDetails && (
-                    <div className="flex items-center gap-1 text-red mt-auto">
+                    <div className={`flex items-center gap-1 mt-auto ${item.hasDetails === "launchpad" ? "text-blue" : "text-red"}`}>
                       <Info className="w-3.5 h-3.5" />
-                      <span className="text-[10px] font-medium">Ver reglas</span>
+                      <span className="text-[10px] font-medium">
+                        {item.hasDetails === "launchpad" ? "Ver programa" : "Ver reglas"}
+                      </span>
                     </div>
                   )}
                 </div>
