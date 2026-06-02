@@ -6,7 +6,6 @@ import {
   Scale,
   MessageSquare,
   FlaskConical,
-  FolderKanban,
   FileCheck,
   Award,
   AlertCircle,
@@ -30,8 +29,8 @@ const evaluationItems = [
   {
     icon: FlaskConical,
     label: "Google Career Launch Pad",
-    value: "50%",
-    numValue: 50,
+    value: "60%",
+    numValue: 60,
     description: "Completar todas las actividades del programa.",
     color: "text-blue",
     barColor: "bg-blue",
@@ -50,22 +49,12 @@ const evaluationItems = [
   {
     icon: MessageSquare,
     label: "Prácticas y tareas",
-    value: "15%",
-    numValue: 15,
+    value: "20%",
+    numValue: 20,
     description: "Actividades prácticas realizadas en clase.",
     color: "text-green",
     barColor: "bg-green",
     hasDetails: "practicas" as string | null,
-  },
-  {
-    icon: FolderKanban,
-    label: "Proyecto final",
-    value: "15%",
-    numValue: 15,
-    description: "Exposicion final, el numero de integrantes por equipo esta por definir ",
-    color: "text-orange",
-    barColor: "bg-orange",
-    hasDetails: null as string | null,
   },
 ];
 

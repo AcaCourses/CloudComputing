@@ -6,7 +6,6 @@ import {
   Clock,
   CalendarDays,
   FlaskConical,
-  FolderKanban,
   GraduationCap,
 } from "lucide-react";
 
@@ -15,7 +14,6 @@ const metrics = [
   { icon: Clock, label: "Horas semestre", value: "64", color: "text-cyan" },
   { icon: CalendarDays, label: "Sesiones/semana", value: "2", color: "text-azure" },
   { icon: FlaskConical, label: "Labs semanales", value: "✓", color: "text-success" },
-  { icon: FolderKanban, label: "Proyecto final", value: "Integrador", color: "text-unam-gold" },
   { icon: GraduationCap, label: "Azure for Students", value: "Activo", color: "text-success" },
 ];
 
