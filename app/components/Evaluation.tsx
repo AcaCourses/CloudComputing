@@ -39,8 +39,8 @@ const evaluationItems = [
   {
     icon: FileCheck,
     label: "Exámenes",
-    value: "10%",
-    numValue: 10,
+    value: "20%",
+    numValue: 20,
     description: "2 exámenes parciales. Es requisito aprobar ambos.",
     color: "text-red",
     barColor: "bg-red",
@@ -49,8 +49,8 @@ const evaluationItems = [
   {
     icon: MessageSquare,
     label: "Prácticas y tareas",
-    value: "10%",
-    numValue: 10,
+    value: "15%",
+    numValue: 15,
     description: "Actividades prácticas realizadas en clase.",
     color: "text-green",
     barColor: "bg-green",
@@ -59,8 +59,8 @@ const evaluationItems = [
   {
     icon: FolderKanban,
     label: "Exposición final",
-    value: "10%",
-    numValue: 10,
+    value: "15%",
+    numValue: 15,
     description: "Portafolio de evidencias del curso.",
     color: "text-orange",
     barColor: "bg-orange",
