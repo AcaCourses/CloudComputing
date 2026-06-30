@@ -3,119 +3,59 @@
 import { useState, useEffect, useRef } from "react";
 import {
   Cloud,
-  Network,
   Server,
+  Monitor,
+  Zap,
   Database,
+  Code,
   Shield,
-  Eye,
-  DollarSign,
-  ChevronDown,
   ChevronRight,
 } from "lucide-react";
 import { useInView } from "../hooks/useInView";
+import { unitsData } from "@/data/units";
+import type { LucideIcon } from "lucide-react";
 
-const units = [
-  {
-    number: 1,
-    title: "Fundamentos de computación en la nube y modelos de servicio/despliegue",
-    description:
-      "Conceptos base de cloud computing, historia, ventajas, modelos IaaS/PaaS/SaaS y tipos de despliegue.",
-    hours: 12,
-    icon: Cloud,
-    color: "text-azure",
-    borderColor: "border-azure/30",
-    tags: ["fundamentals", "models"],
-    modules: [
-      "Introducción a la computación en la nube",
-      "Historia y evolución del cloud",
-      "Modelos de servicio: IaaS, PaaS, SaaS",
-      "Modelos de despliegue: público, privado, híbrido",
-      "Ventajas y consideraciones del cloud",
-      "Proveedores principales: Azure, AWS, GCP",
-    ],
-  },
-  {
-    number: 2,
-    title: "Infraestructura, redes y entrega de contenido en la nube",
-    description:
-      "Regiones, zonas de disponibilidad, redes virtuales, balanceo de carga, DNS y CDN.",
-    hours: 14,
-    icon: Network,
-    color: "text-cyan",
-    borderColor: "border-cyan/30",
-    tags: ["networking", "infrastructure"],
-    modules: [
-      "Regiones y zonas de disponibilidad",
-      "Redes virtuales (VNet/VPC)",
-      "Subredes y grupos de seguridad",
-      "Balanceo de carga",
-      "DNS en la nube",
-      "CDN y entrega de contenido",
-      "Conectividad híbrida",
-    ],
-  },
-  {
-    number: 3,
-    title: "Servicios de cómputo, almacenamiento y bases de datos en la nube",
-    description:
-      "Máquinas virtuales, contenedores, serverless, almacenamiento de objetos/bloques y bases de datos administradas.",
-    hours: 14,
-    icon: Server,
-    color: "text-azure",
-    borderColor: "border-azure/30",
-    tags: ["compute", "storage", "databases"],
-    modules: [
-      "Máquinas virtuales",
-      "Contenedores y orquestación",
-      "Serverless / Functions",
-      "App Services y PaaS de cómputo",
-      "Almacenamiento de objetos (Blob/S3)",
-      "Almacenamiento de bloques y archivos",
-      "Bases de datos SQL administradas",
-      "Bases de datos NoSQL",
-    ],
-  },
-  {
-    number: 4,
-    title: "Seguridad, cumplimiento, monitoreo y gobierno de la nube",
-    description:
-      "Identidad, acceso, cifrado, cumplimiento normativo, monitoreo de recursos y gobernanza cloud.",
-    hours: 12,
-    icon: Shield,
-    color: "text-success",
-    borderColor: "border-success/30",
-    tags: ["security", "monitoring", "governance"],
-    modules: [
-      "Identidad y gestión de acceso (IAM)",
-      "Autenticación y autorización",
-      "Cifrado y protección de datos",
-      "Cumplimiento y normatividad",
-      "Monitoreo y observabilidad",
-      "Alertas y logging",
-      "Gobernanza y políticas",
-    ],
-  },
-  {
-    number: 5,
-    title: "Costos, buenas prácticas, tendencias emergentes y proyecto integrador",
-    description:
-      "Optimización de costos, Well-Architected Framework, tendencias cloud y desarrollo del proyecto final.",
-    hours: 12,
-    icon: DollarSign,
-    color: "text-unam-gold",
-    borderColor: "border-unam-gold/30",
-    tags: ["costs", "best-practices", "trends"],
-    modules: [
-      "Modelos de precios en la nube",
-      "Calculadoras de costos",
-      "Optimización y ahorro",
-      "Well-Architected Framework",
-      "Tendencias: IA, edge, multi-cloud",
-      "Proyecto integrador: diseño",
-      "Proyecto integrador: implementación",
-    ],
-  },
-];
+type UnitDisplay = {
+  number: number;
+  title: string;
+  shortTitle: string;
+  description: string;
+  hours: number;
+  icon: LucideIcon;
+  color: string;
+  borderColor: string;
+  tags: string[];
+  modules: string[];
+};
+
+const unitMeta: Record<number, { description: string; hours: number; icon: LucideIcon; color: string; borderColor: string; tags: string[] }> = {
+  1: { description: "Conceptos base de cloud computing, historia, ventajas, modelos IaaS/PaaS/SaaS y tipos de despliegue.", hours: 12, icon: Cloud, color: "text-azure", borderColor: "border-azure/30", tags: ["fundamentals", "models"] },
+  2: { description: "Arquitectura cloud, acceso, consola, herramientas de trabajo y automatización.", hours: 12, icon: Monitor, color: "text-cyan", borderColor: "border-cyan/30", tags: ["architecture", "tools"] },
+  3: { description: "Máquinas virtuales, escalamiento, contenedores, orquestación y serverless.", hours: 14, icon: Server, color: "text-success", borderColor: "border-success/30", tags: ["compute", "containers"] },
+  4: { description: "Eventos, funciones reactivas, automatización y despliegues básicos.", hours: 10, icon: Zap, color: "text-unam-gold", borderColor: "border-unam-gold/30", tags: ["events", "automation"] },
+  5: { description: "Opciones de almacenamiento, datos estructurados/no estructurados y arquitectura.", hours: 10, icon: Database, color: "text-azure", borderColor: "border-azure/30", tags: ["storage", "data"] },
+  6: { description: "Almacenamiento de objetos, bases de datos SQL, NoSQL y distribuidas.", hours: 12, icon: Database, color: "text-cyan", borderColor: "border-cyan/30", tags: ["SQL", "NoSQL"] },
+  7: { description: "APIs REST, gestión de APIs, mensajería e integración asíncrona.", hours: 10, icon: Code, color: "text-success", borderColor: "border-success/30", tags: ["APIs", "messaging"] },
+  8: { description: "Seguridad cloud, responsabilidad compartida, cifrado e IAM.", hours: 10, icon: Shield, color: "text-unam-gold", borderColor: "border-unam-gold/30", tags: ["security", "IAM"] },
+};
+
+const defaultMeta = { description: "", hours: 10, icon: Server, color: "text-azure", borderColor: "border-azure/30", tags: [] };
+
+const units: UnitDisplay[] = unitsData.map((u) => {
+  const meta = unitMeta[u.number] ?? defaultMeta;
+  return {
+    number: u.number,
+    title: u.title,
+    shortTitle: u.shortTitle,
+    description: meta.description,
+    hours: meta.hours,
+    icon: meta.icon,
+    color: meta.color,
+    borderColor: meta.borderColor,
+    tags: meta.tags,
+    modules: u.modules.map((m) => m.title),
+  };
+});
 
 export default function Units() {
   const [expanded, setExpanded] = useState<number | null>(null);
@@ -162,7 +102,7 @@ export default function Units() {
             Unidades Temáticas
           </h2>
           <p className="mt-2 text-text-secondary max-w-2xl">
-            5 unidades operativas que cubren el espectro completo de fundamentos cloud.
+            {unitsData.length} unidades que cubren el espectro completo de fundamentos cloud.
           </p>
         </div>
 
@@ -199,7 +139,7 @@ function TimelineUnit({
   expanded,
   onToggle,
 }: {
-  unit: (typeof units)[0];
+  unit: UnitDisplay;
   expanded: boolean;
   onToggle: () => void;
 }) {
