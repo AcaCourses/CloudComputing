@@ -48,13 +48,13 @@ const evaluationItems = [
   },
   {
     icon: MessageSquare,
-    label: "Prácticas y tareas",
+    label: "Proyecto final",
     value: "20%",
     numValue: 20,
-    description: "Actividades prácticas realizadas en clase.",
+    description: "Exposición por equipos con propuesta cloud.",
     color: "text-green",
     barColor: "bg-green",
-    hasDetails: "practicas" as string | null,
+    hasDetails: "proyecto" as string | null,
   },
 ];
 
@@ -78,12 +78,6 @@ const examenRules = [
   { icon: AlertCircle, text: "Es requisito aprobar ambos exámenes para acreditar la materia." },
   { icon: Clock, text: "Si reprueban uno o ambos exámenes, van a examen final." },
   { icon: BookOpen, text: "El examen final es la reposición del examen o exámenes reprobados." },
-];
-
-const practicasRules = [
-  { icon: AlertCircle, text: "Las prácticas y tareas son REQUISITO para poder presentar el examen." },
-  { icon: FileCheck, text: "Para el Examen 1: todas las prácticas y tareas asignadas antes del examen deben estar entregadas para poder presentarlo." },
-  { icon: CheckCircle2, text: "Para el Examen 2: las prácticas y tareas asignadas después del primer examen y antes del segundo son requisito para presentar el Examen 2." },
 ];
 
 const extras = [
@@ -119,7 +113,6 @@ export default function Evaluation() {
   const [showCursoModal, setShowCursoModal] = useState(false);
   const [showEventoModal, setShowEventoModal] = useState(false);
   const [showExamenModal, setShowExamenModal] = useState(false);
-  const [showPracticasModal, setShowPracticasModal] = useState(false);
   const { ref: extrasRef, visibleItems: extrasVisible } = useStaggeredInView(extras.length, 200);
 
   // Animated progress fill & counting
@@ -220,7 +213,7 @@ export default function Evaluation() {
                   onClick={
                     item.hasDetails === "launchpad" ? () => router.push("/launchpad")
                     : item.hasDetails === "examen" ? () => setShowExamenModal(true)
-                    : item.hasDetails === "practicas" ? () => setShowPracticasModal(true)
+                    : item.hasDetails === "proyecto" ? () => router.push("/proyecto")
                     : undefined
                   }
                   className={`flex flex-col gap-3 p-4 rounded-lg border transition-all duration-300 ${
@@ -261,10 +254,10 @@ export default function Evaluation() {
                     </p>
                   </div>
                   {item.hasDetails && (
-                    <div className={`flex items-center gap-1 mt-auto ${item.hasDetails === "launchpad" ? "text-blue" : "text-red"}`}>
+                    <div className={`flex items-center gap-1 mt-auto ${item.hasDetails === "launchpad" ? "text-blue" : item.hasDetails === "proyecto" ? "text-green" : "text-red"}`}>
                       <Info className="w-3.5 h-3.5" />
                       <span className="text-[10px] font-medium">
-                        {item.hasDetails === "launchpad" ? "Ver programa" : "Ver reglas"}
+                        {item.hasDetails === "launchpad" ? "Ver programa" : item.hasDetails === "proyecto" ? "Ver lineamientos" : "Ver reglas"}
                       </span>
                     </div>
                   )}
@@ -412,63 +405,6 @@ export default function Evaluation() {
             <button
               onClick={() => setShowExamenModal(false)}
               className="px-4 py-2 rounded-lg bg-red text-white text-xs font-medium hover:bg-red-dark transition-colors shadow-sm"
-            >
-              Entendido
-            </button>
-          </div>
-        </div>
-      </div>
-    )}
-
-    {/* Modal: Reglas de prácticas y tareas */}
-    {showPracticasModal && (
-      <div
-        className="fixed inset-0 z-50 flex items-center justify-center p-4"
-        onClick={() => setShowPracticasModal(false)}
-      >
-        <div className="absolute inset-0 bg-black/40 backdrop-blur-sm animate-fade-in-up" />
-        <div
-          className="relative bg-white rounded-2xl border border-border shadow-2xl max-w-md w-full p-6 animate-fade-in-up"
-          onClick={(e) => e.stopPropagation()}
-        >
-          <button
-            onClick={() => setShowPracticasModal(false)}
-            className="absolute top-4 right-4 p-1.5 rounded-lg hover:bg-grey-light transition-colors"
-          >
-            <X className="w-4 h-4 text-text-secondary" />
-          </button>
-          <div className="flex items-center gap-3 mb-5">
-            <div className="p-3 rounded-xl bg-green-light">
-              <MessageSquare className="w-6 h-6 text-green" />
-            </div>
-            <div>
-              <h3 className="text-base font-bold text-foreground">
-                Prácticas y Tareas — Reglas
-              </h3>
-              <p className="text-xs text-text-secondary mt-0.5">
-                30% de la calificación final
-              </p>
-            </div>
-          </div>
-          <div className="space-y-3">
-            {practicasRules.map((rule, i) => (
-              <div
-                key={i}
-                className="flex items-start gap-3 p-3 rounded-xl bg-grey-light/60 border border-border/50"
-              >
-                <div className="p-1.5 rounded-lg bg-green-light/60 shrink-0 mt-0.5">
-                  <rule.icon className="w-4 h-4 text-green" />
-                </div>
-                <span className="text-sm text-foreground leading-relaxed">
-                  {rule.text}
-                </span>
-              </div>
-            ))}
-          </div>
-          <div className="mt-5 pt-4 border-t border-border/50 flex justify-end">
-            <button
-              onClick={() => setShowPracticasModal(false)}
-              className="px-4 py-2 rounded-lg bg-green text-white text-xs font-medium hover:bg-green-dark transition-colors shadow-sm"
             >
               Entendido
             </button>
