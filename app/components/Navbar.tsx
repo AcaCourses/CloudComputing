@@ -16,7 +16,7 @@ const navItems = [
   { label: "Curso", href: "/#curso" },
   { label: "Unidades", href: "/#unidades", hasDropdown: true },
   { label: "Laboratorios", href: "/#laboratorios" },
-  { label: "Calendario", href: "/#calendario" },
+
   { label: "Evaluación", href: "/#evaluacion" },
   { label: "Profesor", href: "/#profesor" },
   { label: "Recursos", href: "/#recursos" },

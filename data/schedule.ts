@@ -5,7 +5,7 @@ export type WeekEntry = {
   groupB: { days: string; dates: string };
   unit: number;
   topic: string;
-  lab?: string;
+  lab?: string | string[];
   labDue?: string;
   type: "class" | "exam" | "holiday" | "project";
 };
@@ -39,7 +39,7 @@ export const schedule: WeekEntry[] = [
     groupB: { days: "Mié/Vie", dates: "19, 21 Ago" },
     unit: 1,
     topic: "Modelos de despliegue y proveedores principales",
-    lab: "Lab 1: Exploración de la consola cloud",
+    lab: "Lab 1: A Tour of Google Cloud Hands-on Labs",
     labDue: "21 Ago",
     type: "class",
   },
@@ -50,7 +50,7 @@ export const schedule: WeekEntry[] = [
     groupB: { days: "Mié/Vie", dates: "26, 28 Ago" },
     unit: 2,
     topic: "Regiones, zonas de disponibilidad y redes virtuales",
-    lab: "Lab 2: Modelos de servicio y despliegue",
+    lab: ["Lab 2: Getting Started with Cloud Shell and gcloud", "Lab 3: Create a Virtual Machine"],
     labDue: "28 Ago",
     type: "class",
   },
@@ -70,7 +70,7 @@ export const schedule: WeekEntry[] = [
     groupB: { days: "Mié/Vie", dates: "9, 11 Sep" },
     unit: 2,
     topic: "DNS, CDN y conectividad híbrida",
-    lab: "Lab 3: Redes virtuales y subredes",
+    lab: "Lab 4: App Engine: Qwik Start - Python",
     labDue: "11 Sep",
     type: "class",
   },
@@ -81,7 +81,7 @@ export const schedule: WeekEntry[] = [
     groupB: { days: "Mié/Vie", dates: "16, 18 Sep" },
     unit: 3,
     topic: "Máquinas virtuales y contenedores",
-    lab: "Lab 4: CDN y DNS",
+    lab: "Lab 5: Cloud Run Functions: Qwik Start - Command Line",
     labDue: "18 Sep",
     type: "class",
   },
@@ -92,6 +92,8 @@ export const schedule: WeekEntry[] = [
     groupB: { days: "Mié/Vie", dates: "23, 25 Sep" },
     unit: 3,
     topic: "Serverless, Functions y App Services",
+    lab: "Lab 6: Google Kubernetes Engine: Qwik Start",
+    labDue: "25 Sep",
     type: "class",
   },
   {
@@ -101,7 +103,7 @@ export const schedule: WeekEntry[] = [
     groupB: { days: "Mié/Vie", dates: "30 Sep, 2 Oct" },
     unit: 3,
     topic: "Almacenamiento de objetos, bloques y archivos",
-    lab: "Lab 5: Máquinas virtuales y App Services",
+    lab: "Lab 7: Cloud Storage: Qwik Start - CLI/SDK",
     labDue: "2 Oct",
     type: "class",
   },
@@ -112,7 +114,7 @@ export const schedule: WeekEntry[] = [
     groupB: { days: "Mié/Vie", dates: "7, 9 Oct" },
     unit: 3,
     topic: "Bases de datos SQL y NoSQL administradas",
-    lab: "Lab 6: Almacenamiento y bases de datos",
+    lab: "Lab 8: Cloud SQL for MySQL: Qwik Start",
     labDue: "9 Oct",
     type: "class",
   },
@@ -123,6 +125,8 @@ export const schedule: WeekEntry[] = [
     groupB: { days: "Mié/Vie", dates: "14, 16 Oct" },
     unit: 4,
     topic: "Identidad, gestión de acceso (IAM) y autenticación",
+    lab: "Lab 9: Introduction to APIs in Google Cloud",
+    labDue: "16 Oct",
     type: "class",
   },
   {
@@ -132,7 +136,7 @@ export const schedule: WeekEntry[] = [
     groupB: { days: "Mié/Vie", dates: "21, 23 Oct" },
     unit: 4,
     topic: "Cifrado, protección de datos y cumplimiento normativo",
-    lab: "Lab 7: Identidad, acceso y seguridad",
+    lab: "Lab 10: Pub/Sub: Qwik Start - Python",
     labDue: "23 Oct",
     type: "class",
   },
@@ -143,7 +147,7 @@ export const schedule: WeekEntry[] = [
     groupB: { days: "Mié/Vie", dates: "28, 30 Oct" },
     unit: 4,
     topic: "Monitoreo, observabilidad y gobernanza",
-    lab: "Lab 8: Monitoreo y gobernanza",
+    lab: "Lab 11: User Authentication: Identity-Aware Proxy",
     labDue: "30 Oct",
     type: "class",
   },
@@ -154,6 +158,8 @@ export const schedule: WeekEntry[] = [
     groupB: { days: "Mié/Vie", dates: "4, 6 Nov" },
     unit: 5,
     topic: "Modelos de precios, calculadoras y optimización de costos",
+    lab: "Lab 12: Cloud IAM: Qwik Start",
+    labDue: "6 Nov",
     type: "class",
   },
   {

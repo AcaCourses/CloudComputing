@@ -47,22 +47,25 @@ function buildEvents(): CalEvent[] {
     if (entry.lab && entry.labDue) {
       const labDate = parseSingleDate(entry.labDue, entry.dateRange);
       if (labDate) {
-        events.push({
-          id: `lab-A-${entry.week}`,
-          title: entry.lab,
-          date: labDate,
-          type: entry.type === "project" ? "project" : "lab",
-          group: "A",
-          unit: entry.unit,
-        });
-        events.push({
-          id: `lab-B-${entry.week}`,
-          title: entry.lab,
-          date: labDate,
-          type: entry.type === "project" ? "project" : "lab",
-          group: "B",
-          unit: entry.unit,
-        });
+        const labs = Array.isArray(entry.lab) ? entry.lab : [entry.lab];
+        for (let i = 0; i < labs.length; i++) {
+          events.push({
+            id: `lab-A-${entry.week}-${i}`,
+            title: labs[i],
+            date: labDate,
+            type: entry.type === "project" ? "project" : "lab",
+            group: "A",
+            unit: entry.unit,
+          });
+          events.push({
+            id: `lab-B-${entry.week}-${i}`,
+            title: labs[i],
+            date: labDate,
+            type: entry.type === "project" ? "project" : "lab",
+            group: "B",
+            unit: entry.unit,
+          });
+        }
       }
     }
   }

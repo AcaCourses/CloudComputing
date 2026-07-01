@@ -2,147 +2,243 @@
   "labs": [
     {
       "id": 1,
-      "name": "Lab 1: Exploración de la consola cloud",
+      "name": "Lab 1: A Tour of Google Cloud Hands-on Labs",
+      "description": "Introducción práctica a la consola de Google Cloud, gestión de proyectos, recursos y permisos básicos.",
       "group": "A",
-      "dueDate": "2026-08-22",
+      "dueDate": "2026-08-21",
       "submitLink": "",
       "status": "pending",
       "unit": 1
     },
     {
       "id": 2,
-      "name": "Lab 2: Modelos de servicio y despliegue",
+      "name": "Lab 2: Getting Started with Cloud Shell and gcloud",
+      "description": "Uso del entorno interactivo Cloud Shell y comandos de gcloud para gestionar recursos en la nube.",
       "group": "A",
-      "dueDate": "2026-08-29",
+      "dueDate": "2026-08-28",
       "submitLink": "",
       "status": "pending",
-      "unit": 1
+      "unit": 2
     },
     {
       "id": 3,
-      "name": "Lab 3: Redes virtuales y subredes",
+      "name": "Lab 3: Create a Virtual Machine",
+      "description": "Creación y configuración básica de una máquina virtual en Google Compute Engine explorando zonas y regiones.",
       "group": "A",
-      "dueDate": "2026-09-12",
+      "dueDate": "2026-08-28",
       "submitLink": "",
       "status": "pending",
       "unit": 2
     },
     {
       "id": 4,
-      "name": "Lab 4: CDN y DNS",
+      "name": "Lab 4: App Engine: Qwik Start - Python",
+      "description": "Despliegue rápido de una aplicación web sencilla escrita en Python utilizando el entorno administrado App Engine.",
       "group": "A",
-      "dueDate": "2026-09-19",
+      "dueDate": "2026-09-11",
       "submitLink": "",
       "status": "pending",
       "unit": 2
     },
     {
       "id": 5,
-      "name": "Lab 5: Máquinas virtuales y App Services",
+      "name": "Lab 5: Cloud Run Functions: Qwik Start - Command Line",
+      "description": "Creación y despliegue de una función serverless orientada a eventos mediante la interfaz de comandos.",
       "group": "A",
-      "dueDate": "2026-10-03",
+      "dueDate": "2026-09-18",
       "submitLink": "",
       "status": "pending",
       "unit": 3
     },
     {
       "id": 6,
-      "name": "Lab 6: Almacenamiento y bases de datos",
+      "name": "Lab 6: Google Kubernetes Engine: Qwik Start",
+      "description": "Despliegue y escalado de una aplicación contenedorizada dentro de un entorno gestionado con Kubernetes.",
       "group": "A",
-      "dueDate": "2026-10-10",
+      "dueDate": "2026-09-25",
       "submitLink": "",
       "status": "pending",
       "unit": 3
     },
     {
       "id": 7,
-      "name": "Lab 7: Identidad, acceso y seguridad",
+      "name": "Lab 7: Cloud Storage: Qwik Start - CLI/SDK",
+      "description": "Uso de la herramienta de línea de comandos gsutil para realizar tareas básicas de gestión de objetos en Cloud Storage.",
       "group": "A",
-      "dueDate": "2026-10-24",
+      "dueDate": "2026-10-02",
       "submitLink": "",
       "status": "pending",
-      "unit": 4
+      "unit": 3
     },
     {
       "id": 8,
-      "name": "Lab 8: Monitoreo y gobernanza",
+      "name": "Lab 8: Cloud SQL for MySQL: Qwik Start",
+      "description": "Creación de una instancia administrada de MySQL en Cloud SQL y ejecución de operaciones SQL básicas.",
       "group": "A",
-      "dueDate": "2026-10-31",
+      "dueDate": "2026-10-09",
       "submitLink": "",
       "status": "pending",
-      "unit": 4
+      "unit": 3
     },
     {
       "id": 9,
-      "name": "Lab 1: Exploración de la consola cloud",
-      "group": "B",
-      "dueDate": "2026-08-22",
+      "name": "Lab 9: Introduction to APIs in Google Cloud",
+      "description": "Exploración de la arquitectura de las APIs y ejecución práctica de métodos de la API de Cloud Storage desde Cloud Shell.",
+      "group": "A",
+      "dueDate": "2026-10-16",
       "submitLink": "",
       "status": "pending",
-      "unit": 1
+      "unit": 4
     },
     {
       "id": 10,
-      "name": "Lab 2: Modelos de servicio y despliegue",
+      "name": "Lab 10: Pub/Sub: Qwik Start - Python",
+      "description": "Configuración de un sistema de mensajería asíncrona creando temas y suscripciones mediante scripts de Python.",
+      "group": "A",
+      "dueDate": "2026-10-23",
+      "submitLink": "",
+      "status": "pending",
+      "unit": 4
+    },
+    {
+      "id": 11,
+      "name": "Lab 11: User Authentication: Identity-Aware Proxy",
+      "description": "Restricción de acceso a aplicaciones web y verificación de la identidad del usuario mediante Identity-Aware Proxy (IAP).",
+      "group": "A",
+      "dueDate": "2026-10-30",
+      "submitLink": "",
+      "status": "pending",
+      "unit": 4
+    },
+    {
+      "id": 12,
+      "name": "Lab 12: Cloud IAM: Qwik Start",
+      "description": "Configuración y administración centralizada de políticas, roles y permisos de acceso con Cloud Identity and Access Management.",
+      "group": "A",
+      "dueDate": "2026-11-06",
+      "submitLink": "",
+      "status": "pending",
+      "unit": 5
+    },
+    {
+      "id": 13,
+      "name": "Lab 1: A Tour of Google Cloud Hands-on Labs",
+      "description": "Introducción práctica a la consola de Google Cloud, gestión de proyectos, recursos y permisos básicos.",
       "group": "B",
-      "dueDate": "2026-08-29",
+      "dueDate": "2026-08-21",
       "submitLink": "",
       "status": "pending",
       "unit": 1
     },
     {
-      "id": 11,
-      "name": "Lab 3: Redes virtuales y subredes",
-      "group": "B",
-      "dueDate": "2026-09-12",
-      "submitLink": "",
-      "status": "pending",
-      "unit": 2
-    },
-    {
-      "id": 12,
-      "name": "Lab 4: CDN y DNS",
-      "group": "B",
-      "dueDate": "2026-09-19",
-      "submitLink": "",
-      "status": "pending",
-      "unit": 2
-    },
-    {
-      "id": 13,
-      "name": "Lab 5: Máquinas virtuales y App Services",
-      "group": "B",
-      "dueDate": "2026-10-03",
-      "submitLink": "",
-      "status": "pending",
-      "unit": 3
-    },
-    {
       "id": 14,
-      "name": "Lab 6: Almacenamiento y bases de datos",
+      "name": "Lab 2: Getting Started with Cloud Shell and gcloud",
+      "description": "Uso del entorno interactivo Cloud Shell y comandos de gcloud para gestionar recursos en la nube.",
       "group": "B",
-      "dueDate": "2026-10-10",
+      "dueDate": "2026-08-28",
       "submitLink": "",
       "status": "pending",
-      "unit": 3
+      "unit": 2
     },
     {
       "id": 15,
-      "name": "Lab 7: Identidad, acceso y seguridad",
+      "name": "Lab 3: Create a Virtual Machine",
+      "description": "Creación y configuración básica de una máquina virtual en Google Compute Engine explorando zonas y regiones.",
       "group": "B",
-      "dueDate": "2026-10-24",
+      "dueDate": "2026-08-28",
+      "submitLink": "",
+      "status": "pending",
+      "unit": 2
+    },
+    {
+      "id": 16,
+      "name": "Lab 4: App Engine: Qwik Start - Python",
+      "description": "Despliegue rápido de una aplicación web sencilla escrita en Python utilizando el entorno administrado App Engine.",
+      "group": "B",
+      "dueDate": "2026-09-11",
+      "submitLink": "",
+      "status": "pending",
+      "unit": 2
+    },
+    {
+      "id": 17,
+      "name": "Lab 5: Cloud Run Functions: Qwik Start - Command Line",
+      "description": "Creación y despliegue de una función serverless orientada a eventos mediante la interfaz de comandos.",
+      "group": "B",
+      "dueDate": "2026-09-18",
+      "submitLink": "",
+      "status": "pending",
+      "unit": 3
+    },
+    {
+      "id": 18,
+      "name": "Lab 6: Google Kubernetes Engine: Qwik Start",
+      "description": "Despliegue y escalado de una aplicación contenedorizada dentro de un entorno gestionado con Kubernetes.",
+      "group": "B",
+      "dueDate": "2026-09-25",
+      "submitLink": "",
+      "status": "pending",
+      "unit": 3
+    },
+    {
+      "id": 19,
+      "name": "Lab 7: Cloud Storage: Qwik Start - CLI/SDK",
+      "description": "Uso de la herramienta de línea de comandos gsutil para realizar tareas básicas de gestión de objetos en Cloud Storage.",
+      "group": "B",
+      "dueDate": "2026-10-02",
+      "submitLink": "",
+      "status": "pending",
+      "unit": 3
+    },
+    {
+      "id": 20,
+      "name": "Lab 8: Cloud SQL for MySQL: Qwik Start",
+      "description": "Creación de una instancia administrada de MySQL en Cloud SQL y ejecución de operaciones SQL básicas.",
+      "group": "B",
+      "dueDate": "2026-10-09",
+      "submitLink": "",
+      "status": "pending",
+      "unit": 3
+    },
+    {
+      "id": 21,
+      "name": "Lab 9: Introduction to APIs in Google Cloud",
+      "description": "Exploración de la arquitectura de las APIs y ejecución práctica de métodos de la API de Cloud Storage desde Cloud Shell.",
+      "group": "B",
+      "dueDate": "2026-10-16",
       "submitLink": "",
       "status": "pending",
       "unit": 4
     },
     {
-      "id": 16,
-      "name": "Lab 8: Monitoreo y gobernanza",
+      "id": 22,
+      "name": "Lab 10: Pub/Sub: Qwik Start - Python",
+      "description": "Configuración de un sistema de mensajería asíncrona creando temas y suscripciones mediante scripts de Python.",
       "group": "B",
-      "dueDate": "2026-10-31",
+      "dueDate": "2026-10-23",
       "submitLink": "",
       "status": "pending",
       "unit": 4
+    },
+    {
+      "id": 23,
+      "name": "Lab 11: User Authentication: Identity-Aware Proxy",
+      "description": "Restricción de acceso a aplicaciones web y verificación de la identidad del usuario mediante Identity-Aware Proxy (IAP).",
+      "group": "B",
+      "dueDate": "2026-10-30",
+      "submitLink": "",
+      "status": "pending",
+      "unit": 4
+    },
+    {
+      "id": 24,
+      "name": "Lab 12: Cloud IAM: Qwik Start",
+      "description": "Configuración y administración centralizada de políticas, roles y permisos de acceso con Cloud Identity and Access Management.",
+      "group": "B",
+      "dueDate": "2026-11-06",
+      "submitLink": "",
+      "status": "pending",
+      "unit": 5
     }
   ]
 }

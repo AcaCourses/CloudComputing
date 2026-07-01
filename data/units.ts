@@ -24,10 +24,10 @@ export const unitsData: Unit[] = [
       { title: "Proveedores principales: Azure, AWS, GCP", slug: "proveedores-principales" },
     ],
   },
-{
+  {
     number: 2,
-    title: "Cloud Computing Fundamentals — Parte 1",
-    shortTitle: "Arquitectura y operación básica del entorno cloud",
+    title: "Google Cloud: acceso, consola y administración básica",
+    shortTitle: "Uso de Google Cloud",
     modules: [
       {
         title: "Arquitectura general del entorno cloud",
@@ -38,39 +38,23 @@ export const unitsData: Unit[] = [
         slug: "proyectos-recursos"
       },
       {
-        title: "Acceso, consola y APIs",
-        slug: "acceso-consola-apis"
-      },
-      {
         title: "Facturación y administración básica",
         slug: "facturacion-administracion"
       },
       {
-        title: "Consola web",
+        title: "Consola, CLI y entornos de terminal",
         slug: "consola-web"
       },
       {
-        title: "Línea de comandos",
-        slug: "linea-comandos"
-      },
-      {
-        title: "Entornos de terminal en la nube",
-        slug: "terminal-cloud"
-      },
-      {
-        title: "SDK y herramientas de automatización",
+        title: "SDK, APIs y automatización",
         slug: "sdk-automatizacion"
-      },
-      {
-        title: "APIs y exploración de servicios",
-        slug: "apis-exploracion"
       },
     ]
   },
   {
     number: 3,
-    title: "Cloud Computing Fundamentals — Parte 2",
-    shortTitle: "Cómputo, contenedores y ejecución",
+    title: "Cómputo en la nube: VMs, contenedores y serverless",
+    shortTitle: "Cómputo en la nube",
     modules: [
       {
         title: "Opciones de cómputo en la nube",
@@ -85,20 +69,12 @@ export const unitsData: Unit[] = [
         slug: "regiones-zonas-maquinas"
       },
       {
-        title: "Escalamiento y aplicaciones elásticas",
+        title: "Escalamiento y plataformas administradas",
         slug: "escalamiento"
       },
       {
-        title: "Plataformas administradas para aplicaciones",
-        slug: "plataformas-administradas"
-      },
-      {
-        title: "Contenedores",
+        title: "Contenedores y orquestación",
         slug: "contenedores"
-      },
-      {
-        title: "Orquestación de contenedores",
-        slug: "orquestacion-contenedores"
       },
       {
         title: "Serverless y funciones",
@@ -108,28 +84,20 @@ export const unitsData: Unit[] = [
   },
   {
     number: 4,
-    title: "Cloud Computing Fundamentals — Parte 3",
-    shortTitle: "Eventos, automatización y servicios dirigidos por eventos",
+    title: "Programación dirigida por eventos y automatización",
+    shortTitle: "Eventos y automatización",
     modules: [
       {
-        title: "Qué es un evento",
+        title: "Eventos en la nube",
         slug: "que-es-evento"
-      },
-      {
-        title: "Programación basada en eventos",
-        slug: "programacion-basada-eventos"
       },
       {
         title: "Funciones que responden a eventos",
         slug: "funciones-eventos"
       },
       {
-        title: "Automatización",
+        title: "Automatización y servicios reactivos",
         slug: "automatizacion"
-      },
-      {
-        title: "Servicios reactivos y casos de uso simples",
-        slug: "servicios-reactivos"
       },
       {
         title: "Despliegues básicos de servicios",
@@ -140,13 +108,9 @@ export const unitsData: Unit[] = [
 
   {
     number: 5,
-    title: "Cloud Computing Infrastructure Fundamentals — Parte 1",
-    shortTitle: "Datos, almacenamiento y acceso a servicios",
+    title: "Datos y almacenamiento en la nube",
+    shortTitle: "Datos y almacenamiento",
     modules: [
-      {
-        title: "Introducción a la infraestructura cloud",
-        slug: "introduccion-infraestructura"
-      },
       {
         title: "Opciones de almacenamiento en la nube",
         slug: "opciones-almacenamiento"
@@ -158,25 +122,21 @@ export const unitsData: Unit[] = [
       {
         title: "Arquitectura general de almacenamiento",
         slug: "arquitectura-almacenamiento"
+      },
+      {
+        title: "Almacenamiento de objetos",
+        slug: "almacenamiento-objetos"
       }
     ]
   },
   {
     number: 6,
-    title: "Cloud Computing Infrastructure Fundamentals — Parte 2",
-    shortTitle: "Storage y SQL/NoSQL",
+    title: "Bases de datos y modelos de acceso",
+    shortTitle: "Bases de datos",
     modules: [
       {
-        title: "Almacenamiento de objetos",
-        slug: "almacenamiento-objetos"
-      },
-      {
-        title: "Servicios de bases de datos relacionales",
+        title: "Bases relacionales y SQL administrado",
         slug: "bases-datos-relacionales"
-      },
-      {
-        title: "Servicios SQL administrados",
-        slug: "sql-administrado"
       },
       {
         title: "Bases de datos distribuidas y globales",
@@ -190,8 +150,8 @@ export const unitsData: Unit[] = [
   },
   {
     number: 7,
-    title: "Cloud Computing Infrastructure Fundamentals — Parte 3",
-    shortTitle: "APIs, mensajería e integración",
+    title: "APIs, mensajería e integración",
+    shortTitle: "APIs e integración",
     modules: [
       {
         title: "El propósito de las APIs",
@@ -206,34 +166,26 @@ export const unitsData: Unit[] = [
         slug: "gestion-apis"
       },
       {
-        title: "Servicios de mensajería y eventos",
+        title: "Mensajería e integración asíncrona",
         slug: "mensajeria-eventos"
-      },
-      {
-        title: "Integración asíncrona entre servicios",
-        slug: "integracion-asincrona"
       }
     ]
   },
   {
     number: 8,
-    title: "Cloud Computing Infrastructure Fundamentals — Parte 4",
-    shortTitle: "Modelo compartido, cifrado e IAM",
+    title: "Seguridad, cifrado e IAM",
+    shortTitle: "Seguridad e IAM",
     modules: [
       {
-        title: "Seguridad en la nube",
+        title: "Seguridad y responsabilidad compartida",
         slug: "seguridad-en-la-nube"
-      },
-      {
-        title: "Modelo de responsabilidad compartida",
-        slug: "modelo-responsabilidad-compartida"
       },
       {
         title: "Opciones de cifrado",
         slug: "opciones-cifrado"
       },
       {
-        title: "Autenticación y autorización",
+        title: "Autenticación, autorización e IAM",
         slug: "autenticacion-autorizacion"
       },
       {

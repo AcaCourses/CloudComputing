@@ -29,13 +29,27 @@ import { DeploymentDecision } from "@/app/components/DeploymentDecision";
 import { ProviderExplorer } from "@/app/components/ProviderExplorer";
 import { CloudArchitecture } from "@/app/components/CloudArchitecture";
 import { ProjectOrganizer } from "@/app/components/ProjectOrganizer";
-import { AccessCompare } from "@/app/components/AccessCompare";
 import { BillingSimulator } from "@/app/components/BillingSimulator";
 import { ConsoleMockup } from "@/app/components/ConsoleMockup";
-import { TerminalSimulator } from "@/app/components/TerminalSimulator";
-import { CloudTerminal } from "@/app/components/CloudTerminal";
 import { AutomationTimeline } from "@/app/components/AutomationTimeline";
-import { ApiExplorer } from "@/app/components/ApiExplorer";
+import { ComputeOptions } from "@/app/components/ComputeOptions";
+import { VmBuilder } from "@/app/components/VmBuilder";
+import { RegionZoneExplorer } from "@/app/components/RegionZoneExplorer";
+import { ScalingSimulator } from "@/app/components/ScalingSimulator";
+import { ContainerBuilder } from "@/app/components/ContainerBuilder";
+import { ServerlessFlow } from "@/app/components/ServerlessFlow";
+import { EventMapper } from "@/app/components/EventMapper";
+import { EventFunctionSimulator } from "@/app/components/EventFunctionSimulator";
+import { AutomationBuilder } from "@/app/components/AutomationBuilder";
+import { DeploymentFlow } from "@/app/components/DeploymentFlow";
+import { StorageSelector } from "@/app/components/StorageSelector";
+import { DataClassifier } from "@/app/components/DataClassifier";
+import { StorageArchitecture } from "@/app/components/StorageArchitecture";
+import { ObjectExplorer } from "@/app/components/ObjectExplorer";
+import { RelationalMap } from "@/app/components/RelationalMap";
+import { ManagedSqlExplorer } from "@/app/components/ManagedSqlExplorer";
+import { DistributedDbMap } from "@/app/components/DistributedDbMap";
+import { NoSqlExplorer } from "@/app/components/NoSqlExplorer";
 
 type Params = {
   unit: string;
@@ -197,26 +211,68 @@ function SectionRenderer({ section }: { section: ContentSection }) {
     case "projectOrganizer":
       return <ProjectOrganizer />;
 
-    case "accessCompare":
-      return <AccessCompare />;
-
     case "billingSimulator":
       return <BillingSimulator />;
 
     case "consoleMockup":
       return <ConsoleMockup />;
 
-    case "terminalSimulator":
-      return <TerminalSimulator />;
-
-    case "cloudTerminal":
-      return <CloudTerminal />;
-
     case "automationTimeline":
       return <AutomationTimeline />;
 
-    case "apiExplorer":
-      return <ApiExplorer />;
+    case "computeOptions":
+      return <ComputeOptions />;
+
+    case "vmBuilder":
+      return <VmBuilder />;
+
+    case "regionZoneExplorer":
+      return <RegionZoneExplorer />;
+
+    case "scalingSimulator":
+      return <ScalingSimulator />;
+
+    case "containerBuilder":
+      return <ContainerBuilder />;
+
+    case "serverlessFlow":
+      return <ServerlessFlow />;
+
+    case "eventMapper":
+      return <EventMapper />;
+
+    case "eventFunctionSimulator":
+      return <EventFunctionSimulator />;
+
+    case "automationBuilder":
+      return <AutomationBuilder />;
+
+    case "deploymentFlow":
+      return <DeploymentFlow />;
+
+    case "storageSelector":
+      return <StorageSelector />;
+
+    case "dataClassifier":
+      return <DataClassifier />;
+
+    case "storageArchitecture":
+      return <StorageArchitecture />;
+
+    case "objectExplorer":
+      return <ObjectExplorer />;
+
+    case "relationalMap":
+      return <RelationalMap />;
+
+    case "managedSqlExplorer":
+      return <ManagedSqlExplorer />;
+
+    case "distributedDbMap":
+      return <DistributedDbMap />;
+
+    case "noSqlExplorer":
+      return <NoSqlExplorer />;
 
     case "quiz":
       return <QuizSection section={section} />;

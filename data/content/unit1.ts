@@ -17,13 +17,27 @@ export type ContentSection =
   | { type: "providerExplorer" }
   | { type: "cloudArchitecture" }
   | { type: "projectOrganizer" }
-  | { type: "accessCompare" }
   | { type: "billingSimulator" }
   | { type: "consoleMockup" }
-  | { type: "terminalSimulator" }
-  | { type: "cloudTerminal" }
   | { type: "automationTimeline" }
-  | { type: "apiExplorer" };
+  | { type: "computeOptions" }
+  | { type: "vmBuilder" }
+  | { type: "regionZoneExplorer" }
+  | { type: "scalingSimulator" }
+  | { type: "containerBuilder" }
+  | { type: "serverlessFlow" }
+  | { type: "eventMapper" }
+  | { type: "eventFunctionSimulator" }
+  | { type: "automationBuilder" }
+  | { type: "deploymentFlow" }
+  | { type: "storageSelector" }
+  | { type: "dataClassifier" }
+  | { type: "storageArchitecture" }
+  | { type: "objectExplorer" }
+  | { type: "relationalMap" }
+  | { type: "managedSqlExplorer" }
+  | { type: "distributedDbMap" }
+  | { type: "noSqlExplorer" };
 
 export type TopicContent = {
   slug: string;
