@@ -44,10 +44,28 @@ export default async function LabPage({ params }: PageProps) {
 
           {/* Header */}
           <header className="mb-10">
-            <div className="flex items-center gap-2 mb-3">
+            <div className="flex items-center gap-3 mb-3 flex-wrap">
               <span className="text-xs font-mono font-bold text-azure bg-azure/10 px-2 py-1 rounded-md">
                 Lab {lab.labNumber}
               </span>
+              {/* Google Skills Boost badge */}
+              <a
+                href="https://www.skills.google/paths/36/course_templates/153/labs/625210"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group relative inline-flex items-center gap-0 px-2 py-1 rounded-full transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
+                style={{ background: "linear-gradient(white, white) padding-box, linear-gradient(90deg, #4285F4, #EA4335, #FBBC04, #34A853) border-box", border: "0.5px solid transparent", borderRadius: "9999px" }}
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/assets/GCPLogo.png"
+                  alt="Google Cloud"
+                  className="h-4 object-contain"
+                />
+                <span className="text-[11px] text-gray-600 group-hover:text-gray-900" style={{ fontFamily: "'Google Sans', 'Product Sans', sans-serif" }}>
+                  Google Skills Lab
+                </span>
+              </a>
             </div>
             <h1 className="text-3xl sm:text-4xl font-bold text-foreground mb-3">
               {lab.title}

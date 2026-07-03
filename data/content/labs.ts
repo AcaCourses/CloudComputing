@@ -106,9 +106,14 @@ export const labsContent: LabContent[] = [
       "Este laboratorio es complementario al AB, porque no solo guía al estudiante a completar pasos técnicos, sino que agrega contexto conceptual, preguntas de reflexión y participación para reforzar el aprendizaje. El objetivo es que el estudiante no memorice comandos, sino que comprenda qué está haciendo al crear una VM, elegir una zona, abrir tráfico HTTP e instalar un servidor web. Compute Engine permite crear y administrar instancias desde la consola, la CLI de gcloud y otros mecanismos de gestión.\n\nTambién es importante que el estudiante reconozca que una VM no es solo \"una máquina encendida\", sino un recurso con configuración de región, zona, sistema operativo, disco y red. En Compute Engine, las instancias pertenecen a un proyecto, se crean en una zona específica y usan un sistema operativo e instancias de máquina definidos por el usuario.",
     concepts: [
       {
-        term: "Región y zona",
+        term: "Región",
         definition:
-          "Una región agrupa varias zonas; la zona define dónde vive la VM y otros recursos zonales.",
+          "Ubicación geográfica independiente (por ejemplo us-central1). Cada región contiene varias zonas y determina la latencia hacia los usuarios y la redundancia disponible.",
+      },
+      {
+        term: "Zona",
+        definition:
+          "Subdivisión dentro de una región (por ejemplo us-central1-a). Es donde realmente vive la VM. Si una zona falla, las demás zonas de la misma región siguen operando.",
       },
       {
         term: "Instancia o VM",
@@ -121,9 +126,19 @@ export const labsContent: LabContent[] = [
           "Define CPU y memoria, por ejemplo e2-medium.",
       },
       {
+        term: "SSH (Secure Shell)",
+        definition:
+          "Protocolo de red que permite conectarse de forma segura a una máquina remota mediante terminal cifrada. En Google Cloud, puedes abrir una sesión SSH directamente desde el navegador sin configurar llaves manualmente.",
+      },
+      {
+        term: "NGINX",
+        definition:
+          "Servidor web ligero y de alto rendimiento. En este lab se instala dentro de la VM para servir páginas web; al acceder a la IP externa de la VM por HTTP, NGINX responde con su página por defecto.",
+      },
+      {
         term: "Firewall HTTP",
         definition:
-          "Habilitar tráfico HTTP permite que el navegador acceda al servidor web instalado en la VM.",
+          "Regla de red que permite el tráfico entrante en el puerto 80. Sin esta regla, aunque NGINX esté corriendo, nadie podría acceder desde el navegador.",
       },
       {
         term: "Cloud Shell",

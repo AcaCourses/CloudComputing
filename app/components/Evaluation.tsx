@@ -69,7 +69,7 @@ const cursoRules = [
 const eventoRules = [
   { icon: CalendarCheck, text: "Pueden asistir a cualquier evento de TI (ej. Semana de MAC, eventos mostrados en clase, conferencias, hackatones, etc.)." },
   { icon: CheckCircle2, text: "Ninguno es obligatorio." },
-  { icon: Link2, text: "Cada asistencia cuenta como 4 participaciones si hacen una publicación en LinkedIn sobre su experiencia." },
+  { icon: Link2, text: "Cada asistencia cuenta como 4 participaciones haciendo una publicación en LinkedIn sobre su experiencia." },
   { icon: Users, text: "No hay límite para los eventos asistidos." },
 ];
 
