@@ -304,7 +304,7 @@ export const unit5Content: TopicContent[] = [
         type: "text",
         title: "Una capa de diseño, no una lista de productos",
         content:
-          "Una arquitectura de almacenamiento responde preguntas como: qué datos se guardan, quién los usa, con qué frecuencia se consultan, cuánto tiempo deben conservarse y qué nivel de recuperación necesitan. Esa visión es mucho más pedagógica que comenzar por nombres de servicios. El almacenamiento se organiza por necesidades distintas.",
+          "Una arquitectura de almacenamiento responde preguntas como: qué datos se guardan, quién los usa, con qué frecuencia se consultan, cuánto tiempo deben conservarse y qué nivel de recuperación necesitan.El almacenamiento se organiza por necesidades distintas.",
       },
       {
         type: "text",

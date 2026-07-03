@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { getLabContent } from "@/data/content/labs";
 import Navbar from "@/app/components/Navbar";
+import LabVisualSummary from "@/app/components/LabVisualSummary";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -64,6 +65,9 @@ export default async function LabPage({ params }: PageProps) {
               </a>
             )}
           </header>
+
+          {/* Visual Overview */}
+          {lab.overview && <LabVisualSummary overview={lab.overview} />}
 
           {/* Introduction */}
           <section className="mb-10">

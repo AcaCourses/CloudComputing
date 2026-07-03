@@ -308,7 +308,7 @@ export function ContainerBuilder() {
           )}
 
           {/* Result: visual container */}
-          <div className="rounded-lg border border-border bg-gray-900 p-4 space-y-2">
+          <div className="rounded-lg border border-border bg-gray-900 p-4 space-y-2 container">
             <p className="text-[9px] uppercase tracking-wider text-gray-400 font-medium">
               {viewMode === "gcp"
                 ? "Dockerfile → Artifact Registry → Cloud Run"
@@ -318,9 +318,9 @@ export function ContainerBuilder() {
             </p>
             <div className="space-y-1">
               {selectedLang && (
-                <div className="flex items-center gap-2 text-[11px] text-cyan font-mono">
-                  <span className="text-gray-500">FROM</span>
-                  <span>
+                <div className="flex items-center gap-2 text-[11px] text-green-500 font-mono">
+                  <span className="text-white">FROM</span>
+                  <span className="text-green-500">
                     {selectedLang === "Python"
                       ? "python:3.11-slim"
                       : selectedLang === "Node.js"
@@ -333,7 +333,7 @@ export function ContainerBuilder() {
               )}
               {selectedDeps.length > 0 && (
                 <div className="flex items-center gap-2 text-[11px] text-green font-mono">
-                  <span className="text-gray-500">RUN</span>
+                  <span className="text-white">RUN</span>
                   <span>
                     {selectedLang === "Python"
                       ? `pip install ${selectedDeps.join(" ")}`
@@ -347,18 +347,18 @@ export function ContainerBuilder() {
               )}
               {buildSteps.find((s) => s.id === "config")?.selected && (
                 <div className="flex items-center gap-2 text-[11px] text-orange font-mono">
-                  <span className="text-gray-500">ENV</span>
+                  <span className="text-white">ENV</span>
                   <span>PORT=8080</span>
                 </div>
               )}
               {buildSteps.find((s) => s.id === "app")?.selected && (
                 <>
                   <div className="flex items-center gap-2 text-[11px] text-yellow-300 font-mono">
-                    <span className="text-gray-500">COPY</span>
+                    <span className="text-white">COPY</span>
                     <span>. /app</span>
                   </div>
                   <div className="flex items-center gap-2 text-[11px] text-purple-300 font-mono">
-                    <span className="text-gray-500">CMD</span>
+                    <span className="text-white">CMD</span>
                     <span>
                       {selectedLang === "Python"
                         ? '["python", "app.py"]'

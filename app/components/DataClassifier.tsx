@@ -266,7 +266,7 @@ export function DataClassifier() {
             <Grid3X3 className="w-3.5 h-3.5 text-azure" />
             <p className="text-[10px] font-semibold text-foreground">Dato estructurado</p>
           </div>
-          <div className="rounded-md bg-gray-900 p-2.5 font-mono text-[9px] text-cyan space-y-0.5">
+          <div className="rounded-md bg-gray-900 p-2.5 font-mono text-[9px] text-white space-y-0.5">
             <p>| nombre | matrícula | promedio |</p>
             <p>|--------|-----------|---------|</p>
             <p>| Ana    | 12345     | 9.2     |</p>
@@ -280,10 +280,10 @@ export function DataClassifier() {
             <p className="text-[10px] font-semibold text-foreground">Dato no estructurado</p>
           </div>
           <div className="rounded-md bg-gray-900 p-2.5 flex items-center gap-2">
-            <Image className="w-6 h-6 text-gray-500" />
-            <Video className="w-6 h-6 text-gray-500" />
-            <Music className="w-6 h-6 text-gray-500" />
-            <FileText className="w-6 h-6 text-gray-500" />
+            <Image className="w-6 h-6 text-white" />
+            <Video className="w-6 h-6 text-white" />
+            <Music className="w-6 h-6 text-white" />
+            <FileText className="w-6 h-6 text-white" />
           </div>
           <p className="text-[9px] text-text-secondary">Sin esquema tabular, contenido libre, requiere estrategias flexibles.</p>
         </div>

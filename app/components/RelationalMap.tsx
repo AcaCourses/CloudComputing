@@ -279,7 +279,7 @@ export function RelationalMap() {
             </div>
             <p className="text-[10px] text-text-secondary">{activeQuery.explanation}</p>
             <div className="rounded-md bg-gray-900 px-3 py-2">
-              <code className="text-[9px] font-mono text-cyan">{activeQuery.sql}</code>
+              <code className="text-[9px] font-mono text-cyan-500">{activeQuery.sql}</code>
             </div>
           </div>
         )}

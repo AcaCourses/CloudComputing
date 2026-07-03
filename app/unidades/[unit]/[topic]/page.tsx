@@ -34,8 +34,11 @@ import { ConsoleMockup } from "@/app/components/ConsoleMockup";
 import { AutomationTimeline } from "@/app/components/AutomationTimeline";
 import { ComputeOptions } from "@/app/components/ComputeOptions";
 import { VmBuilder } from "@/app/components/VmBuilder";
-import { RegionZoneExplorer } from "@/app/components/RegionZoneExplorer";
+import { RegionZoneMap } from "@/app/components/RegionZoneMap";
 import { ScalingSimulator } from "@/app/components/ScalingSimulator";
+import { ScalingComparison } from "@/app/components/ScalingComparison";
+import { ContainerVsVmVisual } from "@/app/components/ContainerVsVmVisual";
+import { ServerlessExplainer } from "@/app/components/ServerlessExplainer";
 import { ContainerBuilder } from "@/app/components/ContainerBuilder";
 import { ServerlessFlow } from "@/app/components/ServerlessFlow";
 import { EventMapper } from "@/app/components/EventMapper";
@@ -225,18 +228,26 @@ function SectionRenderer({ section }: { section: ContentSection }) {
 
     case "vmBuilder":
       return <VmBuilder />;
-
-    case "regionZoneExplorer":
-      return <RegionZoneExplorer />;
+    case "regionZoneMap":
+      return <RegionZoneMap />;
 
     case "scalingSimulator":
       return <ScalingSimulator />;
+
+    case "scalingComparison":
+      return <ScalingComparison />;
+
+    case "containerVsVmVisual":
+      return <ContainerVsVmVisual />;
 
     case "containerBuilder":
       return <ContainerBuilder />;
 
     case "serverlessFlow":
       return <ServerlessFlow />;
+
+    case "serverlessExplainer":
+      return <ServerlessExplainer />;
 
     case "eventMapper":
       return <EventMapper />;

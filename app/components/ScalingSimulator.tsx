@@ -30,6 +30,12 @@ export function ScalingSimulator() {
   const [cpuUsage, setCpuUsage] = useState(25);
   const [history, setHistory] = useState<{ traffic: number; instances: number; cpu: number }[]>([]);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const stateRef = useRef({ trafficLevel, currentInstances, cpuTarget, minInstances, maxInstances });
+
+  // Keep ref in sync
+  useEffect(() => {
+    stateRef.current = { trafficLevel, currentInstances, cpuTarget, minInstances, maxInstances };
+  }, [trafficLevel, currentInstances, cpuTarget, minInstances, maxInstances]);
 
   // Simulate autoscaling logic
   useEffect(() => {
@@ -39,28 +45,29 @@ export function ScalingSimulator() {
     }
 
     intervalRef.current = setInterval(() => {
-      setHistory((prev) => {
-        const newCpu = Math.min(95, Math.max(5, (trafficLevel / currentInstances) * 1.8 + Math.random() * 10 - 5));
-        setCpuUsage(newCpu);
+      const { trafficLevel: traffic, currentInstances: instances, cpuTarget: target, minInstances: min, maxInstances: max } = stateRef.current;
 
-        // Autoscaling decision
-        let newInstances = currentInstances;
-        if (newCpu > cpuTarget + 10 && currentInstances < maxInstances) {
-          newInstances = Math.min(maxInstances, currentInstances + 1);
-        } else if (newCpu < cpuTarget - 20 && currentInstances > minInstances) {
-          newInstances = Math.max(minInstances, currentInstances - 1);
-        }
-        setCurrentInstances(newInstances);
+      const newCpu = Math.min(95, Math.max(5, (traffic / instances) * 1.8 + Math.random() * 10 - 5));
+      setCpuUsage(newCpu);
 
-        const entry = { traffic: trafficLevel, instances: newInstances, cpu: newCpu };
-        return [...prev.slice(-29), entry];
-      });
+      // Autoscaling decision
+      let newInstances = instances;
+      if (newCpu > target + 10 && instances < max) {
+        newInstances = Math.min(max, instances + 1);
+      } else if (newCpu < target - 20 && instances > min) {
+        newInstances = Math.max(min, instances - 1);
+      }
+      setCurrentInstances(newInstances);
+      stateRef.current.currentInstances = newInstances;
+
+      const entry = { traffic, instances: newInstances, cpu: newCpu };
+      setHistory((prev) => [...prev.slice(-29), entry]);
     }, 1000);
 
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
-  }, [isRunning, trafficLevel, currentInstances, cpuTarget, minInstances, maxInstances]);
+  }, [isRunning]);
 
   const reset = () => {
     setIsRunning(false);
@@ -193,22 +200,33 @@ export function ScalingSimulator() {
                   </span>
                 </div>
               </div>
-              <div className="flex items-end gap-[2px] h-16">
-                {history.map((entry, i) => (
-                  <div key={i} className="flex-1 flex flex-col items-center gap-[1px]">
-                    <div
-                      className="w-full bg-cyan/60 rounded-t-sm transition-all"
-                      style={{ height: `${(entry.instances / maxInstances) * 100}%` }}
-                    />
-                  </div>
-                ))}
-              </div>
-              {/* CPU line overlay */}
-              <div className="relative h-0">
+              <div className="relative h-20">
+                {/* CPU target line */}
                 <div
-                  className="absolute bottom-0 left-0 right-0 border-t border-dashed border-orange/50"
-                  style={{ bottom: `${(cpuTarget / 100) * 64}px` }}
+                  className="absolute left-0 right-0 border-t border-dashed border-orange/50 z-10"
+                  style={{ bottom: `${(cpuTarget / 100) * 100}%` }}
                 />
+                <div className="absolute inset-0 flex items-end gap-[2px]">
+                  {history.map((entry, i) => (
+                    <div key={i} className="flex-1 flex items-end gap-[1px] h-full">
+                      {/* Instance bar */}
+                      <div
+                        className="flex-1 bg-cyan/70 rounded-t-sm transition-all duration-300"
+                        style={{ height: `${(entry.instances / maxInstances) * 100}%` }}
+                      />
+                      {/* CPU bar */}
+                      <div
+                        className="flex-1 bg-orange/50 rounded-t-sm transition-all duration-300"
+                        style={{ height: `${entry.cpu}%` }}
+                      />
+                    </div>
+                  ))}
+                </div>
+                {/* Y-axis labels */}
+                <div className="absolute -left-1 top-0 bottom-0 flex flex-col justify-between pointer-events-none">
+                  <span className="text-[8px] text-gray-500">{maxInstances}</span>
+                  <span className="text-[8px] text-gray-500">0</span>
+                </div>
               </div>
             </div>
           )}

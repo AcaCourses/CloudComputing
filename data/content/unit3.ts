@@ -142,6 +142,147 @@ export const unit3Content: TopicContent[] = [
     ],
   },
   {
+    slug: "regiones-zonas",
+    title: "Regiones y zonas de Google Cloud",
+    readingTime: "8 min",
+    objectives: [
+      "Entender qué es una región y qué es una zona en Google Cloud",
+      "Distinguir por qué no son lo mismo y cómo se relacionan entre sí",
+      "Relacionar su elección con disponibilidad, latencia y recuperación ante fallos",
+    ],
+    sections: [
+      {
+        type: "trigger",
+        question:
+          "Si una aplicación se cae en un lugar, ¿debería dejar de funcionar por completo o seguir operando desde otra parte?",
+      },
+      {
+        type: "concept",
+        title: "Concepto clave",
+        content:
+          "En Google Cloud, una región es una ubicación geográfica amplia (como us-central1). Una zona es una parte aislada dentro de esa región (como us-central1-a). Las zonas están pensadas para dar separación e independencia ante fallos, y las regiones para organizar recursos cerca de los usuarios.",
+      },
+      {
+        type: "text",
+        title: "Región vs. zona: la geografía de la nube",
+        content:
+          "La región es el lugar general donde se ubican los recursos. La zona es el sitio más específico donde realmente vive parte de esa infraestructura. Una región contiene varias zonas. Las zonas dentro de una misma región están conectadas con red de baja latencia y alto ancho de banda. Si una zona falla, las otras pueden seguir funcionando — por eso ayudan a mejorar la disponibilidad.",
+      },
+      {
+        type: "text",
+        content:
+          "Elegir región y zona no es solo un detalle técnico: afecta latencia (cercanía con usuarios), resiliencia (tolerancia a fallos) y en algunos casos regulación (dónde deben residir los datos). Para una app con usuarios en México, elegir una región cercana puede reducir significativamente el tiempo de respuesta.",
+      },
+      {
+        type: "text",
+        title: "Forma fácil de pensarlo",
+        content:
+          "Piensa en la región como una ciudad y en la zona como un barrio o distrito dentro de esa ciudad. Si un barrio tiene un problema, la ciudad no desaparece entera. Esa es la lógica de separación y tolerancia a fallos que Google Cloud aplica con zonas.",
+      },
+      {
+        type: "regionZoneMap",
+      },
+      {
+        type: "table",
+        title: "Componentes de la infraestructura geográfica",
+        headers: ["Componente", "Descripción", "Ejemplo"],
+        rows: [
+          ["Región", "Conjunto geográfico amplio", "us-central1 (Iowa), southamerica-east1 (São Paulo)"],
+          ["Zona", "Subdivisión aislada dentro de la región", "us-central1-a, us-central1-b, us-central1-c"],
+          ["Recursos zonales", "Viven en una sola zona", "Una VM específica, un disco persistente"],
+          ["Recursos regionales", "Abarcan varias zonas de una misma región", "IP estática regional, disco regional"],
+          ["Conectividad interna", "Enlaces rápidos y de baja latencia entre zonas", "Red privada de Google entre zonas de una región"],
+        ],
+      },
+      {
+        type: "tabs",
+        title: "Regiones y zonas en contexto",
+        tabs: [
+          {
+            id: "concepto",
+            label: "Concepto general",
+            badge: "Teoría",
+            content:
+              "La separación en zonas permite que un fallo en la infraestructura de un centro de datos no afecte a los demás dentro de la misma región. Distribuir recursos en múltiples zonas (multi-zonal) o regiones (multi-regional) mejora la disponibilidad del sistema. La elección de región impacta: latencia, costo, disponibilidad de servicios y cumplimiento regulatorio.",
+          },
+          {
+            id: "gcp",
+            label: "En Google Cloud",
+            badge: "GCP",
+            content:
+              "Google Cloud tiene 40+ regiones en 5 continentes, cada una con 3 o más zonas. Los recursos se crean en una zona específica (ej: gcloud compute instances create mi-vm --zone=us-central1-a). Para alta disponibilidad, se distribuyen réplicas en múltiples zonas o se usan servicios regionales.",
+          },
+          {
+            id: "aws",
+            label: "Comparación AWS",
+            badge: "AWS",
+            content:
+              "AWS usa el mismo modelo con Regions y Availability Zones (AZs). Cada región tiene 2-6 AZs. El concepto es idéntico: AZs son centros de datos aislados dentro de una región, y distribuir recursos entre AZs mejora la disponibilidad.",
+          },
+        ],
+      },
+      {
+        type: "scenario",
+        title: "Decisiones de región y zona",
+        scenarios: [
+          {
+            situation: "Tu aplicación tiene usuarios principalmente en América Latina y necesitas baja latencia.",
+            question: "¿Qué conviene más: una región en EE.UU. o una en Sudamérica?",
+            hint: "Una región cercana a los usuarios (southamerica-east1 en São Paulo) reducirá la latencia. Si no hay una región exacta en México, la más cercana geográficamente es la mejor opción.",
+          },
+          {
+            situation: "Tienes una app crítica que no puede detenerse si falla un centro de datos.",
+            question: "¿Una sola zona o varias zonas?",
+            hint: "Varias zonas (multi-zonal). Si una zona falla, las instancias en otras zonas siguen funcionando. Es la forma básica de alta disponibilidad en la nube.",
+          },
+          {
+            situation: "Despliegas una VM para un laboratorio de prueba temporal que no necesita alta disponibilidad.",
+            question: "¿Necesitas distribuir en múltiples zonas?",
+            hint: "No necesariamente. Para un entorno de prueba temporal, una sola zona es suficiente y más simple. La multi-zona se justifica para producción crítica.",
+          },
+        ],
+      },
+      {
+        type: "list",
+        title: "Resumen para exponer",
+        items: [
+          "Una región es un área geográfica amplia (ej: us-central1)",
+          "Una zona es una subdivisión aislada dentro de esa región (ej: us-central1-a)",
+          "Las zonas ayudan a evitar que una sola falla detenga todo",
+          "La elección impacta latencia, disponibilidad y resiliencia",
+          "Piensa en región como ciudad y zona como barrio",
+          "Juntas permiten diseñar sistemas más disponibles, rápidos y resistentes",
+        ],
+      },
+      {
+        type: "quiz",
+        question: "¿Qué pasa si una zona de Google Cloud experimenta una falla?",
+        options: [
+          {
+            label: "Todos los recursos de la región se caen automáticamente",
+            correct: false,
+            explanation: "Las zonas están aisladas entre sí. Una falla en una zona no afecta a las demás dentro de la misma región.",
+          },
+          {
+            label: "Los recursos en esa zona se ven afectados, pero los de otras zonas siguen funcionando",
+            correct: true,
+            explanation: "Correcto. Las zonas son independientes. Por eso distribuir recursos en múltiples zonas mejora la disponibilidad.",
+          },
+          {
+            label: "Google Cloud redirige todo a otra zona automáticamente sin configuración",
+            correct: false,
+            explanation: "La redirección automática requiere configuración previa (balanceadores, instancias en múltiples zonas). No ocurre por sí sola.",
+          },
+          {
+            label: "No pasa nada porque la nube nunca falla",
+            correct: false,
+            explanation: "Cualquier infraestructura puede fallar. Las zonas existen precisamente para mitigar el impacto de esas fallas.",
+          },
+        ],
+      },
+    ],
+  },
+  {
     slug: "maquinas-virtuales",
     title: "Máquinas virtuales",
     readingTime: "10 min",
@@ -281,148 +422,7 @@ export const unit3Content: TopicContent[] = [
       },
     ],
   },
-  {
-    slug: "regiones-zonas-maquinas",
-    title: "Regiones, zonas y tipos de máquina",
-    readingTime: "11 min",
-    objectives: [
-      "Comprender la infraestructura geográfica de Google Cloud: regiones y zonas",
-      "Identificar los factores que influyen en la elección de una región: latencia, costo, regulación y disponibilidad",
-      "Diferenciar familias de máquinas y saber seleccionar el tipo adecuado según la carga de trabajo",
-    ],
-    sections: [
-      {
-        type: "trigger",
-        question:
-          "Si la nube es 'global', ¿por qué importa en qué parte del mundo corre tu aplicación? ¿Y cómo decides cuántos recursos darle?",
-      },
-      {
-        type: "concept",
-        title: "Concepto clave",
-        content:
-          "La infraestructura de Google Cloud está organizada en regiones (ubicaciones geográficas como us-central1) y zonas (centros de datos aislados dentro de una región, como us-central1-a). Elegir dónde corren tus recursos afecta la latencia, la disponibilidad, el costo y el cumplimiento regulatorio.",
-      },
-      {
-        type: "text",
-        title: "Regiones y zonas: la geografía del cloud",
-        content:
-          "Una región es una localidad geográfica independiente que contiene tres o más zonas. Cada zona es un despliegue aislado de recursos dentro de esa región — con su propia energía, red y refrigeración. Si una zona falla, las otras siguen operando. Esto permite diseñar aplicaciones que sobrevivan a fallas parciales distribuyendo recursos en múltiples zonas (arquitectura multi-zonal) o múltiples regiones (multi-regional).",
-      },
-      {
-        type: "text",
-        content:
-          "Google Cloud tiene más de 40 regiones en 5 continentes. Elegir la región correcta depende de varios factores: cercanía a tus usuarios (baja latencia), regulación de datos (por ejemplo, datos de usuarios mexicanos que deben permanecer en América), disponibilidad de servicios (no todas las regiones tienen los mismos productos) y costo (los precios varían entre regiones).",
-      },
-      {
-        type: "text",
-        title: "Tipos de máquina: CPU, memoria y aceleradores",
-        content:
-          "Al crear una VM en Compute Engine, eliges un tipo de máquina que define cuántas vCPUs, cuánta RAM y opcionalmente qué aceleradores (GPUs/TPUs) tendrá la instancia. Google Cloud organiza los tipos de máquina en familias: General Purpose (E2, N2) para cargas balanceadas, Compute-Optimized (C2, C3) para procesamiento intensivo, Memory-Optimized (M2, M3) para bases de datos in-memory, y Accelerator-Optimized (A2, G2) para ML e IA.",
-      },
-      {
-        type: "regionZoneExplorer",
-      },
-      {
-        type: "tabs",
-        title: "Infraestructura geográfica y tipos de máquina",
-        tabs: [
-          {
-            id: "concepto",
-            label: "Concepto general",
-            badge: "Teoría",
-            content:
-              "La infraestructura global se divide en regiones y zonas para garantizar baja latencia, alta disponibilidad y cumplimiento regulatorio. Los tipos de máquina definen los recursos de cómputo (CPU, RAM, GPU) disponibles para cada instancia. Una buena arquitectura combina la selección geográfica correcta con el dimensionamiento adecuado del hardware.",
-          },
-          {
-            id: "gcp",
-            label: "En Google Cloud",
-            badge: "GCP",
-            content:
-              "Google Cloud ofrece 40+ regiones con 3+ zonas cada una. Las familias de máquinas incluyen: E2 (bajo costo, uso general), N2/N2D (equilibrio precio-rendimiento), C2/C3 (cómputo intensivo), M2/M3 (memoria optimizada), A2/G2 (GPU). También permite crear tipos custom eligiendo vCPUs y RAM de forma granular. Comando: gcloud compute machine-types list --zones=us-central1-a",
-          },
-          {
-            id: "aws",
-            label: "Comparación AWS",
-            badge: "AWS",
-            content:
-              "AWS organiza su infraestructura en Regions y Availability Zones (AZs). Las familias de instancias EC2 equivalentes son: t3/m5 (general), c5/c6i (compute), r5/r6i (memory), p4/g5 (GPU). AWS tiene 33+ regiones. La selección se hace vía console o aws ec2 describe-instance-types. No permite custom types como GCP.",
-          },
-        ],
-      },
-      {
-        type: "table",
-        title: "Familias de máquinas: GCP vs AWS",
-        headers: ["Propósito", "Google Cloud", "AWS EC2", "Caso de uso"],
-        rows: [
-          ["Uso general (económico)", "E2", "t3", "Dev/test, aplicaciones ligeras"],
-          ["Uso general (producción)", "N2 / N2D", "m5 / m6i", "Web servers, microservicios"],
-          ["Cómputo intensivo", "C2 / C3", "c5 / c6i", "HPC, batch processing, gaming"],
-          ["Memoria optimizada", "M2 / M3", "r5 / r6i / x2", "SAP HANA, Redis, Memcached"],
-          ["GPU / Acelerador", "A2 / G2", "p4 / g5", "ML training, rendering, inferencia"],
-          ["Custom", "Custom machine type", "No disponible", "Necesidades específicas de vCPU:RAM"],
-        ],
-      },
-      {
-        type: "scenario",
-        title: "Decide la región y el tipo de máquina",
-        scenarios: [
-          {
-            situation: "Startup en CDMX con usuarios en México y Colombia. Necesitan un web server con tráfico moderado.",
-            question: "¿Qué región y tipo de máquina elegirías?",
-            hint: "Piensa en latencia a LATAM y una máquina de uso general con buen costo.",
-          },
-          {
-            situation: "Empresa de genómica que necesita analizar secuencias de ADN con algoritmos de alto consumo de CPU por 6 horas al día.",
-            question: "¿Qué familia de máquina usarías y en qué tipo de instancia?",
-            hint: "Computo intensivo + posiblemente instancias preemptibles/spot para ahorrar.",
-          },
-          {
-            situation: "Banco que requiere base de datos SAP HANA en memoria. Los datos no pueden salir de América Latina por regulación.",
-            question: "¿Qué región y familia de máquina seleccionarías?",
-            hint: "Regulación → región en LATAM. SAP HANA → memoria optimizada (M2/M3).",
-          },
-        ],
-      },
-      {
-        type: "list",
-        title: "Puntos clave del tema",
-        items: [
-          "Una región es una localización geográfica; una zona es un centro de datos aislado dentro de una región",
-          "Google Cloud tiene 40+ regiones con mínimo 3 zonas cada una para alta disponibilidad",
-          "La elección de región depende de latencia, regulación, costo y disponibilidad de servicios",
-          "Las familias de máquinas van desde uso general (E2) hasta aceleradoras con GPU (A2/G2)",
-          "GCP permite tipos custom (elegir vCPUs y RAM específicos), algo que AWS no ofrece directamente",
-          "Distribuir recursos en múltiples zonas protege contra fallas de un solo punto",
-        ],
-      },
-      {
-        type: "quiz",
-        question: "¿Cuál es la principal ventaja de usar múltiples zonas dentro de una misma región?",
-        options: [
-          {
-            label: "Reducir costos de transferencia de datos",
-            correct: false,
-            explanation: "Aunque la transferencia intra-región es más barata que inter-región, esa no es la principal razón de usar múltiples zonas.",
-          },
-          {
-            label: "Sobrevivir a la falla de un centro de datos individual",
-            correct: true,
-            explanation: "Correcto. Cada zona es un centro de datos aislado. Si una zona falla, las instancias en otras zonas de la misma región siguen operando.",
-          },
-          {
-            label: "Acceder a más tipos de máquina",
-            correct: false,
-            explanation: "Los tipos de máquina suelen estar disponibles en todas las zonas de una región. La multi-zona es por disponibilidad, no por variedad de hardware.",
-          },
-          {
-            label: "Cumplir con regulaciones de distintos países",
-            correct: false,
-            explanation: "Para regulaciones de distintos países se usan múltiples regiones. Las zonas están dentro de una misma región (mismo país/localidad).",
-          },
-        ],
-      },
-    ],
-  },
+
   {
     slug: "escalamiento",
     title: "Escalamiento y aplicaciones elásticas",
@@ -445,10 +445,7 @@ export const unit3Content: TopicContent[] = [
           "El escalamiento es la capacidad de ajustar los recursos de cómputo según la demanda. Escalar verticalmente significa darle más poder a una máquina (más CPU/RAM). Escalar horizontalmente significa agregar más máquinas. Las aplicaciones elásticas combinan escalamiento horizontal automático con políticas que responden a métricas en tiempo real.",
       },
       {
-        type: "text",
-        title: "Vertical vs. Horizontal",
-        content:
-          "El escalamiento vertical ('scale up') consiste en cambiar una VM por una más grande: más CPUs, más RAM. Es simple pero tiene límites físicos y requiere reinicio. El escalamiento horizontal ('scale out') agrega más instancias idénticas detrás de un balanceador de carga. Es más complejo de implementar pero ofrece disponibilidad más alta y no tiene techo práctico. En la nube, el escalamiento horizontal con autoescalado es el patrón dominante.",
+        type: "scalingComparison",
       },
       {
         type: "text",
@@ -590,21 +587,7 @@ export const unit3Content: TopicContent[] = [
           "Un contenedor es un paquete ligero que incluye una aplicación y sus dependencias necesarias para ejecutarse de manera consistente en distintos entornos. A diferencia de una máquina virtual, no replica todo un sistema operativo completo, sino que aprovecha el sistema del host para ejecutar software de forma aislada y portable.",
       },
       {
-        type: "text",
-        title: "El problema que resuelven los contenedores",
-        content:
-          "Los contenedores responden a un problema clásico del desarrollo: la inconsistencia entre entornos. Un programa puede funcionar bien en la laptop del desarrollador, pero fallar en pruebas o producción por diferencias de librerías, runtimes o configuraciones. El contenedor reduce ese problema empaquetando la aplicación junto con todo lo que necesita para correr.",
-      },
-      {
-        type: "text",
-        title: "Contenedores vs. máquinas virtuales",
-        content:
-          "Las VMs virtualizan hardware completo y alojan un sistema operativo entero por instancia. Los contenedores virtualizan a nivel de sistema operativo: comparten el kernel del host y empaquetan solo la aplicación con sus dependencias. Resultado: los contenedores son más ligeros (MBs vs GBs), arrancan en segundos (vs minutos), y son más portables. Sin embargo, las VMs ofrecen aislamiento más fuerte al nivel de hardware.",
-      },
-      {
-        type: "text",
-        content:
-          "Google Cloud presenta los contenedores como una base importante para despliegue moderno. Con Docker como herramienta estándar para construir imágenes, y registries como Artifact Registry para almacenarlas, el flujo es: escribir Dockerfile → construir imagen → subir al registry → desplegar (en Cloud Run, GKE, o cualquier plataforma que ejecute contenedores). Este flujo es consistente y repetible.",
+        type: "containerVsVmVisual",
       },
       {
         type: "containerBuilder",
@@ -733,24 +716,7 @@ export const unit3Content: TopicContent[] = [
           "El modelo serverless permite ejecutar código sin aprovisionar ni administrar servidores directamente. En Google Cloud, Cloud Run functions ofrece una solución ligera para crear funciones de propósito único que responden a eventos o solicitudes sin gestionar la infraestructura subyacente.",
       },
       {
-        type: "text",
-        title: "Serverless no significa 'sin servidores'",
-        content:
-          "Serverless no significa que no existan servidores, sino que su administración queda completamente abstraída para el usuario. El desarrollador se enfoca en la lógica que debe ejecutarse, mientras la plataforma se encarga de aprovisionamiento, escalado (incluyendo escalar a cero) y toda la operación. Esta idea es especialmente útil para tareas pequeñas, backends ligeros, automatizaciones y procesamiento activado por eventos.",
-      },
-      {
-        type: "text",
-        title: "El modelo disparador + acción",
-        content:
-          "Las funciones cloud son uno de los ejemplos más claros del modelo serverless. Una función puede activarse cuando alguien sube un archivo, cuando llega un mensaje a una cola, cuando entra una solicitud HTTP o cuando se ejecuta un cron programado. El modelo mental es simple: algo ocurre (evento/trigger) → una función se ejecuta → produce un resultado. No hay servidor encendido esperando — la función solo existe mientras se ejecuta.",
-      },
-      {
-        type: "text",
-        content:
-          "Serverless no reemplaza todas las demás opciones de cómputo. No todas las aplicaciones encajan bien en funciones pequeñas y reactivas. Procesos de larga duración, aplicaciones con estado persistente o cargas con tráfico constante 24/7 pueden ser más eficientes en contenedores o VMs. Pero para tareas concretas y altamente desacopladas, el modelo serverless reduce fricción y acelera el desarrollo.",
-      },
-      {
-        type: "serverlessFlow",
+        type: "serverlessExplainer",
       },
       {
         type: "tabs",

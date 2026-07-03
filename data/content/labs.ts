@@ -7,6 +7,24 @@ export type LabTask = {
   participationQuestions: string[];
 };
 
+export type LabOverviewStep = {
+  step: number;
+  action: string;
+  detail: string;
+  icon?: string; // lucide icon name or "service:ServiceName" for GCP service SVGs
+};
+
+export type LabOverview = {
+  serviceIcon: string; // path to SVG in /assets/
+  serviceName: string;
+  duration: string;
+  level: string;
+  credits: number;
+  objectives: string[];
+  steps: LabOverviewStep[];
+  whatYouLearn: string[];
+};
+
 export type LabContent = {
   slug: string;
   labNumber: number;
@@ -18,6 +36,7 @@ export type LabContent = {
   participationRules: string[];
   tasks: LabTask[];
   labUrl?: string;
+  overview?: LabOverview;
 };
 
 export const labsContent: LabContent[] = [
@@ -27,6 +46,62 @@ export const labsContent: LabContent[] = [
     title: "Create a Virtual Machine",
     description:
       "Creación y configuración básica de una máquina virtual en Google Compute Engine explorando zonas y regiones.",
+    overview: {
+      serviceIcon: "/assets/Compute Engine.svg",
+      serviceName: "Compute Engine",
+      duration: "25 min",
+      level: "Introductory",
+      credits: 1,
+      objectives: [
+        "Crear una VM desde la consola de Google Cloud",
+        "Crear una VM con la herramienta de línea de comandos gcloud",
+        "Instalar y conectar un servidor web NGINX a tu VM",
+      ],
+      steps: [
+        {
+          step: 1,
+          action: "Configurar región y zona",
+          detail: "Establecer la ubicación geográfica donde vivirán tus recursos con gcloud config.",
+          icon: "globe",
+        },
+        {
+          step: 2,
+          action: "Crear VM desde la consola",
+          detail: "Usar la interfaz gráfica para configurar nombre, tipo de máquina (e2-medium), SO (Debian) y firewall HTTP.",
+          icon: "service:Compute Engine",
+        },
+        {
+          step: 3,
+          action: "Conectarse por SSH",
+          detail: "Acceder a la terminal de la VM directamente desde el navegador.",
+          icon: "terminal",
+        },
+        {
+          step: 4,
+          action: "Instalar NGINX",
+          detail: "Ejecutar apt-get install para levantar un servidor web y verificar con la IP externa.",
+          icon: "server",
+        },
+        {
+          step: 5,
+          action: "Crear VM con gcloud",
+          detail: "Reproducir la misma VM con un solo comando: gcloud compute instances create.",
+          icon: "code",
+        },
+        {
+          step: 6,
+          action: "Verificar resultado",
+          detail: "Confirmar ambas VMs en la lista de instancias y conectar por SSH con gcloud.",
+          icon: "check-circle",
+        },
+      ],
+      whatYouLearn: [
+        "Qué es una VM y cómo se relaciona con zonas y regiones",
+        "La diferencia entre crear recursos por consola vs. CLI",
+        "Cómo exponer un servicio web con reglas de firewall",
+        "La ventaja de gcloud para automatización y scripts",
+      ],
+    },
     introduction:
       "Este laboratorio es complementario al AB, porque no solo guía al estudiante a completar pasos técnicos, sino que agrega contexto conceptual, preguntas de reflexión y participación para reforzar el aprendizaje. El objetivo es que el estudiante no memorice comandos, sino que comprenda qué está haciendo al crear una VM, elegir una zona, abrir tráfico HTTP e instalar un servidor web. Compute Engine permite crear y administrar instancias desde la consola, la CLI de gcloud y otros mecanismos de gestión.\n\nTambién es importante que el estudiante reconozca que una VM no es solo \"una máquina encendida\", sino un recurso con configuración de región, zona, sistema operativo, disco y red. En Compute Engine, las instancias pertenecen a un proyecto, se crean en una zona específica y usan un sistema operativo e instancias de máquina definidos por el usuario.",
     concepts: [
@@ -124,6 +199,62 @@ export const labsContent: LabContent[] = [
     title: "App Engine: Qwik Start - Python",
     description:
       "Despliegue rápido de una aplicación web sencilla escrita en Python utilizando el entorno administrado App Engine.",
+    overview: {
+      serviceIcon: "/assets/App Engine.svg",
+      serviceName: "App Engine",
+      duration: "15 min",
+      level: "Introductory",
+      credits: 1,
+      objectives: [
+        "Desplegar una aplicación Python en App Engine",
+        "Probar y modificar la app localmente antes del deploy",
+        "Comprender el modelo serverless de App Engine",
+      ],
+      steps: [
+        {
+          step: 1,
+          action: "Habilitar API",
+          detail: "Activar App Engine Admin API desde la consola",
+          icon: "Shield",
+        },
+        {
+          step: 2,
+          action: "Clonar repositorio",
+          detail: "Descargar la app Hello World de Python desde GitHub",
+          icon: "Download",
+        },
+        {
+          step: 3,
+          action: "Configurar entorno",
+          detail: "Crear entorno virtual Python y activar dependencias",
+          icon: "Terminal",
+        },
+        {
+          step: 4,
+          action: "Probar localmente",
+          detail: "Ejecutar Flask en puerto 5000 y verificar respuesta",
+          icon: "Play",
+        },
+        {
+          step: 5,
+          action: "Modificar código",
+          detail: "Editar main.py para cambiar el mensaje de la app",
+          icon: "FileEdit",
+        },
+        {
+          step: 6,
+          action: "Desplegar a producción",
+          detail: "Ejecutar gcloud app deploy y acceder a la URL pública",
+          icon: "Upload",
+        },
+      ],
+      whatYouLearn: [
+        "Diferencia entre probar localmente y desplegar en la nube",
+        "Cómo App Engine abstrae servidores, OS y escalamiento",
+        "Flujo completo: clonar → editar → probar → deploy",
+        "Relación con Cloud Functions y Cloud Run como alternativas serverless",
+      ],
+    },
     introduction:
       "Este laboratorio es complementario al AB porque no se limita a seguir comandos: busca que el estudiante comprenda qué significa desplegar una aplicación en una plataforma administrada, qué parte controla el desarrollador y qué parte resuelve Google Cloud automáticamente. En App Engine standard, la aplicación corre sobre infraestructura administrada por Google con runtimes preconfigurados, lo que reduce la necesidad de gestionar servidores, sistema operativo y escalamiento manual.\n\nEn este lab, el valor formativo está en comparar tres momentos del trabajo real de desarrollo: probar localmente, modificar el código y desplegar a producción. Cloud Shell ofrece acceso autenticado al proyecto y permite ejecutar gcloud, editar archivos y desplegar desde un entorno listo para usar.\n\nAquí no solo se despliega una app en Python: también se analiza cómo App Engine permite concentrarse en el código mientras Google Cloud abstrae la infraestructura, el runtime administrado y buena parte de la operación del despliegue.",
     concepts: [
@@ -260,6 +391,56 @@ export const labsContent: LabContent[] = [
     title: "Cloud Run Functions: Qwik Start - Command Line",
     description:
       "Creación y despliegue de una función serverless orientada a eventos mediante la interfaz de comandos.",
+    overview: {
+      serviceIcon: "/assets/Cloud Run.svg",
+      serviceName: "Cloud Run Functions",
+      duration: "15 min",
+      level: "Introductory",
+      credits: 1,
+      objectives: [
+        "Crear una Cloud Run function activada por eventos Pub/Sub",
+        "Desplegar y probar la función desde la línea de comandos",
+        "Verificar la ejecución mediante logs en la nube",
+      ],
+      steps: [
+        {
+          step: 1,
+          action: "Crear directorio y código",
+          detail: "Escribir index.js con el handler helloPubSub y package.json",
+          icon: "FileCode",
+        },
+        {
+          step: 2,
+          action: "Instalar dependencias",
+          detail: "Ejecutar npm install para el Functions Framework",
+          icon: "Download",
+        },
+        {
+          step: 3,
+          action: "Desplegar función",
+          detail: "Usar gcloud functions deploy con trigger-topic Pub/Sub",
+          icon: "Upload",
+        },
+        {
+          step: 4,
+          action: "Publicar mensaje",
+          detail: "Enviar un mensaje al tema cf-demo con gcloud pubsub",
+          icon: "Send",
+        },
+        {
+          step: 5,
+          action: "Verificar logs",
+          detail: "Leer los logs de la función para confirmar la ejecución",
+          icon: "FileSearch",
+        },
+      ],
+      whatYouLearn: [
+        "Modelo event-driven: la función solo se ejecuta cuando ocurre un evento",
+        "Pub/Sub como sistema de mensajería asíncrona que desacopla emisor y receptor",
+        "Despliegue serverless sin administrar infraestructura",
+        "Observabilidad: verificar ejecución mediante gcloud functions logs",
+      ],
+    },
     introduction:
       "Este laboratorio es complementario al AB porque amplía la práctica técnica con explicaciones conceptuales sobre cómputo serverless, eventos, mensajería asíncrona y observabilidad mediante logs. En Cloud Run functions, el estudiante se concentra en escribir y desplegar código, mientras la plataforma administra la infraestructura subyacente y ejecuta la función cuando ocurre el evento configurado.\n\nA diferencia de una aplicación que permanece ejecutándose continuamente, aquí el código responde solo cuando algo sucede, por ejemplo la publicación de un mensaje en un tema de Pub/Sub. Pub/Sub es un servicio de mensajería asíncrona y administrada que desacopla productores y consumidores de mensajes.\n\nA lo largo de la actividad, el estudiante crea una función, la despliega, publica un mensaje en Pub/Sub y verifica mediante logs que el evento activó correctamente la ejecución del código. Cloud Run functions permite precisamente ese patrón: reaccionar a eventos sin administrar servidores de forma directa.",
     concepts: [
@@ -383,6 +564,62 @@ export const labsContent: LabContent[] = [
     title: "Google Kubernetes Engine: Qwik Start",
     description:
       "Despliegue y escalado de una aplicación contenedorizada dentro de un entorno gestionado con Kubernetes.",
+    overview: {
+      serviceIcon: "/assets/Google Kubernetes Engine.svg",
+      serviceName: "Google Kubernetes Engine",
+      duration: "25 min",
+      level: "Introductory",
+      credits: 1,
+      objectives: [
+        "Crear un clúster GKE con nodos Compute Engine",
+        "Desplegar una aplicación contenedorizada en el clúster",
+        "Exponer la app a Internet mediante un Service LoadBalancer",
+      ],
+      steps: [
+        {
+          step: 1,
+          action: "Configurar zona",
+          detail: "Establecer región y zona predeterminada con gcloud config",
+          icon: "MapPin",
+        },
+        {
+          step: 2,
+          action: "Crear clúster",
+          detail: "Crear un clúster GKE con máquinas e2-medium y 3 nodos",
+          icon: "Server",
+        },
+        {
+          step: 3,
+          action: "Obtener credenciales",
+          detail: "Autenticarse con get-credentials para interactuar vía kubectl",
+          icon: "Key",
+        },
+        {
+          step: 4,
+          action: "Desplegar aplicación",
+          detail: "Crear un Deployment con la imagen hello-app desde Container Registry",
+          icon: "Upload",
+        },
+        {
+          step: 5,
+          action: "Exponer servicio",
+          detail: "Crear un Service tipo LoadBalancer en puerto 8080",
+          icon: "Globe",
+        },
+        {
+          step: 6,
+          action: "Eliminar clúster",
+          detail: "Borrar el clúster para liberar recursos del proyecto",
+          icon: "Trash2",
+        },
+      ],
+      whatYouLearn: [
+        "Relación entre clúster, nodos, Deployments y Services en Kubernetes",
+        "Cómo GKE abstrae la gestión de infraestructura de contenedores",
+        "Exposición de cargas de trabajo a Internet con LoadBalancer",
+        "Ciclo completo: crear clúster → desplegar → exponer → eliminar",
+      ],
+    },
     introduction:
       "Este laboratorio es complementario al AB porque permite entender, paso a paso, cómo Kubernetes organiza el despliegue de aplicaciones en clústeres administrados por Google Cloud. En GKE, el estudiante no solo ejecuta comandos: también observa la relación entre clúster, nodos, Deployment y Service, que son piezas centrales de la arquitectura.\n\nAdemás, el laboratorio sirve para conectar contenedores con red y acceso externo. Un Deployment gestiona la aplicación, mientras que un Service de tipo LoadBalancer expone la carga de trabajo hacia Internet mediante balanceo de carga en Google Cloud.\n\nDurante la práctica, el estudiante configura la zona, crea un clúster, obtiene credenciales, despliega una aplicación, la expone mediante un Service y finalmente elimina el clúster. GKE proporciona la infraestructura administrada para ejecutar estos pasos dentro de un entorno de Kubernetes sobre Google Cloud.",
     concepts: [
@@ -508,6 +745,62 @@ export const labsContent: LabContent[] = [
     title: "Cloud Storage: Qwik Start - CLI/SDK",
     description:
       "Uso de la herramienta de línea de comandos gsutil para realizar tareas básicas de gestión de objetos en Cloud Storage.",
+    overview: {
+      serviceIcon: "/assets/Cloud Storage.svg",
+      serviceName: "Cloud Storage",
+      duration: "15 min",
+      level: "Introductory",
+      credits: 1,
+      objectives: [
+        "Crear un bucket de almacenamiento en la nube",
+        "Subir, descargar y organizar objetos en carpetas",
+        "Controlar permisos de acceso público con ACLs",
+      ],
+      steps: [
+        {
+          step: 1,
+          action: "Crear bucket",
+          detail: "Usar gcloud storage buckets create con nombre único global",
+          icon: "Database",
+        },
+        {
+          step: 2,
+          action: "Subir objeto",
+          detail: "Copiar un archivo local al bucket con gcloud storage cp",
+          icon: "Upload",
+        },
+        {
+          step: 3,
+          action: "Descargar objeto",
+          detail: "Descargar el archivo del bucket de vuelta a Cloud Shell",
+          icon: "Download",
+        },
+        {
+          step: 4,
+          action: "Organizar en carpetas",
+          detail: "Copiar objetos dentro de subcarpetas lógicas en el bucket",
+          icon: "FolderOpen",
+        },
+        {
+          step: 5,
+          action: "Hacer público",
+          detail: "Otorgar permiso de lectura a allUsers mediante ACL",
+          icon: "Globe",
+        },
+        {
+          step: 6,
+          action: "Revocar acceso y eliminar",
+          detail: "Remover acceso público y borrar objetos del bucket",
+          icon: "ShieldOff",
+        },
+      ],
+      whatYouLearn: [
+        "Buckets como contenedores globales de objetos en la nube",
+        "Flujo comando → efecto → verificación en consola",
+        "Control de acceso con ACLs (allUsers, READER)",
+        "Organización lógica de objetos con carpetas en Cloud Storage",
+      ],
+    },
     introduction:
       "Este laboratorio es complementario al AB porque no solo muestra cómo usar Cloud Storage desde la línea de comandos, sino que ayuda a entender qué significa almacenar datos en la nube, cómo se organizan en buckets y cómo se controlan los permisos de acceso. Cloud Storage usa buckets como contenedores básicos de objetos, y los nombres de bucket deben ser globalmente únicos y cumplir reglas estrictas de nomenclatura.\n\nAdemás, el lab introduce una práctica muy útil en contextos reales: verificar en la consola cada acción ejecutada desde Cloud Shell. Eso permite relacionar el comando con el cambio visible en la interfaz y reforzar el modelo mental de \"comando → efecto → verificación\".\n\nEste laboratorio complementa el AB porque introduce el uso de Cloud Storage desde la línea de comandos para crear buckets, subir y descargar objetos, organizarlos en carpetas lógicas y controlar permisos de acceso. Durante la práctica, el estudiante relaciona cada comando con un cambio visible en la consola y refuerza así el flujo de trabajo entre terminal e interfaz gráfica.",
     concepts: [
@@ -664,6 +957,62 @@ export const labsContent: LabContent[] = [
     title: "Cloud SQL for MySQL: Qwik Start",
     description:
       "Creación de una instancia administrada de MySQL en Cloud SQL y ejecución de operaciones SQL básicas.",
+    overview: {
+      serviceIcon: "/assets/Cloud SQL.svg",
+      serviceName: "Cloud SQL",
+      duration: "15 min",
+      level: "Introductory",
+      credits: 1,
+      objectives: [
+        "Crear una instancia administrada de MySQL en Cloud SQL",
+        "Conectarse a la instancia desde Cloud Shell con el cliente mysql",
+        "Crear una base de datos, tabla e insertar/consultar registros",
+      ],
+      steps: [
+        {
+          step: 1,
+          action: "Crear instancia",
+          detail: "Configurar Cloud SQL MySQL (Enterprise, Development preset, zona)",
+          icon: "Database",
+        },
+        {
+          step: 2,
+          action: "Conectarse con mysql",
+          detail: "Usar gcloud sql connect con usuario root desde Cloud Shell",
+          icon: "Terminal",
+        },
+        {
+          step: 3,
+          action: "Crear base de datos",
+          detail: "Ejecutar CREATE DATABASE guestbook en el prompt mysql",
+          icon: "Plus",
+        },
+        {
+          step: 4,
+          action: "Crear tabla",
+          detail: "Definir tabla entries con campos guestName, content, entryID",
+          icon: "Table",
+        },
+        {
+          step: 5,
+          action: "Insertar datos",
+          detail: "Agregar registros de ejemplo con INSERT INTO",
+          icon: "FileEdit",
+        },
+        {
+          step: 6,
+          action: "Consultar datos",
+          detail: "Verificar los registros con SELECT * FROM entries",
+          icon: "Search",
+        },
+      ],
+      whatYouLearn: [
+        "Cloud SQL como servicio de base de datos relacional totalmente administrado",
+        "Conexión segura desde Cloud Shell sin configurar IP ni firewall",
+        "Operaciones SQL básicas: CREATE, INSERT, SELECT",
+        "Diferencia entre administrar un servidor MySQL vs usar un servicio administrado",
+      ],
+    },
     introduction:
       "Este laboratorio es complementario al AB porque no solo enseña a crear una instancia de Cloud SQL, sino que ayuda a entender el flujo completo de trabajo con una base de datos administrada: configurar la instancia, conectarse con el cliente mysql, crear una base, cargar datos y consultarlos. Cloud SQL for MySQL está pensado para administrar bases relacionales en Google Cloud con menos carga operativa para el usuario.\n\nAdemás, este lab permite conectar la consola gráfica con la terminal, reforzando el hábito de verificar en la interfaz lo que se ejecuta por comando. Cloud SQL para MySQL es un servicio totalmente administrado para configurar, mantener y administrar bases MySQL en Google Cloud.\n\nDurante la práctica, el estudiante crea una instancia, se conecta desde Cloud Shell, crea una base de datos, define una tabla, inserta registros y consulta el contenido.",
     concepts: [
@@ -779,6 +1128,56 @@ export const labsContent: LabContent[] = [
     title: "Introduction to APIs in Google Cloud",
     description:
       "Exploración de la arquitectura de las APIs y ejecución práctica de métodos de la API de Cloud Storage desde Cloud Shell.",
+    overview: {
+      serviceIcon: "/assets/API.svg",
+      serviceName: "Cloud APIs",
+      duration: "15 min",
+      level: "Introductory",
+      credits: 1,
+      objectives: [
+        "Comprender la arquitectura REST: cliente, servidor, HTTP, endpoints y JSON",
+        "Autenticarse con OAuth 2.0 para consumir APIs de Google Cloud",
+        "Crear un bucket y subir archivos usando la Cloud Storage JSON API",
+      ],
+      steps: [
+        {
+          step: 1,
+          action: "Explorar API Library",
+          detail: "Buscar y habilitar la Fitness API desde la consola",
+          icon: "Search",
+        },
+        {
+          step: 2,
+          action: "Crear JSON de configuración",
+          detail: "Escribir values.json con nombre, ubicación y clase del bucket",
+          icon: "FileCode",
+        },
+        {
+          step: 3,
+          action: "Obtener token OAuth",
+          detail: "Generar un access token en el OAuth 2.0 Playground",
+          icon: "Key",
+        },
+        {
+          step: 4,
+          action: "Crear bucket vía API",
+          detail: "Enviar POST con curl al endpoint de Cloud Storage JSON API",
+          icon: "Send",
+        },
+        {
+          step: 5,
+          action: "Subir archivo vía API",
+          detail: "Hacer upload de una imagen con curl y el token OAuth",
+          icon: "Upload",
+        },
+      ],
+      whatYouLearn: [
+        "Arquitectura REST: métodos HTTP (GET, POST, PUT, DELETE) y endpoints",
+        "Diferencia entre API Keys, OAuth y Service Accounts",
+        "Cómo consumir una API directamente con curl desde la terminal",
+        "Flujo completo: autenticación → request → response en JSON",
+      ],
+    },
     introduction:
       "Este laboratorio es complementario al AB porque no solo muestra cómo ejecutar llamadas a una API, sino que ayuda a entender la arquitectura detrás de esas llamadas: cliente, servidor, métodos HTTP, endpoints, JSON y autenticación. Google Cloud APIs son interfaces programáticas que permiten automatizar tareas y trabajar con servicios de Google Cloud desde la terminal o desde código.\n\nAdemás, el lab permite conectar la teoría con una práctica real: crear un JSON con la configuración del bucket, obtener un token OAuth y enviar una solicitud curl a un endpoint REST. La Cloud Storage JSON API está diseñada como una interfaz basada en JSON para acceder y manipular recursos de Cloud Storage.\n\nDurante la práctica, el estudiante habilita una API, prepara un JSON de configuración, obtiene un token de acceso y realiza llamadas REST para crear y usar recursos de Cloud Storage.",
     concepts: [
@@ -915,6 +1314,56 @@ export const labsContent: LabContent[] = [
     title: "Pub/Sub: Qwik Start - Python",
     description:
       "Configuración de un sistema de mensajería asíncrona creando temas y suscripciones mediante scripts de Python.",
+    overview: {
+      serviceIcon: "/assets/PubSub.svg",
+      serviceName: "Pub/Sub",
+      duration: "10 min",
+      level: "Introductory",
+      credits: 1,
+      objectives: [
+        "Crear y listar temas (topics) y suscripciones en Pub/Sub",
+        "Publicar mensajes a un tema desde la línea de comandos",
+        "Consumir mensajes con un subscriber pull en Python",
+      ],
+      steps: [
+        {
+          step: 1,
+          action: "Configurar entorno",
+          detail: "Crear entorno virtual Python e instalar google-cloud-pubsub",
+          icon: "Terminal",
+        },
+        {
+          step: 2,
+          action: "Crear topic",
+          detail: "Ejecutar publisher.py para crear MyTopic en el proyecto",
+          icon: "Plus",
+        },
+        {
+          step: 3,
+          action: "Crear suscripción",
+          detail: "Ejecutar subscriber.py para crear MySub vinculado al topic",
+          icon: "Link",
+        },
+        {
+          step: 4,
+          action: "Publicar mensajes",
+          detail: "Enviar mensajes al topic con gcloud pubsub topics publish",
+          icon: "Send",
+        },
+        {
+          step: 5,
+          action: "Recibir mensajes",
+          detail: "Usar subscriber.py receive para consumir mensajes del topic",
+          icon: "Download",
+        },
+      ],
+      whatYouLearn: [
+        "Patrón publisher-subscriber para mensajería asíncrona desacoplada",
+        "Topics como canal compartido y subscriptions como mecanismo de entrega",
+        "Diferencia entre suscripciones pull y push",
+        "Uso de la librería cliente Python para interactuar con Pub/Sub",
+      ],
+    },
     introduction:
       "Este laboratorio es complementario al AB porque enseña, con práctica manual, cómo funciona un sistema de mensajería desacoplado entre productores y consumidores. El estudiante crea un tópico, crea una suscripción, publica mensajes y luego los consume, lo que permite visualizar claramente el patrón publisher-subscriber que define a Pub/Sub.\n\nAdemás, el lab ayuda a entender que una suscripción no es solo \"seguir\" un tema, sino establecer un mecanismo de entrega y confirmación de mensajes. Pub/Sub ofrece suscripciones de tipo pull y push, y en este laboratorio se trabaja con un subscriber pull para recuperar mensajes del tópico.\n\nDurante la práctica, el estudiante crea un entorno virtual, instala la librería cliente de Python, crea un topic, configura una suscripción, publica mensajes y finalmente recupera esos mensajes desde el subscriber. Pub/Sub permite desacoplar productores y consumidores mediante topics y subscriptions.",
     concepts: [
@@ -1048,6 +1497,62 @@ export const labsContent: LabContent[] = [
     title: "User Authentication: Identity-Aware Proxy",
     description:
       "Restricción de acceso a aplicaciones web y verificación de la identidad del usuario mediante Identity-Aware Proxy (IAP).",
+    overview: {
+      serviceIcon: "/assets/Identity-Aware Proxy.svg",
+      serviceName: "Identity-Aware Proxy",
+      duration: "30 min",
+      level: "Introductory",
+      credits: 1,
+      objectives: [
+        "Desplegar un servicio Cloud Run y protegerlo con IAP",
+        "Acceder a la identidad del usuario desde encabezados HTTP",
+        "Verificar criptográficamente la identidad con JWT firmado",
+      ],
+      steps: [
+        {
+          step: 1,
+          action: "Desplegar app Hello World",
+          detail: "Deploy de un servicio Flask en Cloud Run sin restricción",
+          icon: "Upload",
+        },
+        {
+          step: 2,
+          action: "Activar IAP",
+          detail: "Habilitar Identity-Aware Proxy y restringir acceso al servicio",
+          icon: "Shield",
+        },
+        {
+          step: 3,
+          action: "Autorizar usuario",
+          detail: "Agregar el rol IAP-Secured Web App User al estudiante",
+          icon: "UserCheck",
+        },
+        {
+          step: 4,
+          action: "Leer identidad",
+          detail: "Obtener email y ID del usuario desde headers X-Goog-Authenticated",
+          icon: "User",
+        },
+        {
+          step: 5,
+          action: "Demostrar spoofing",
+          detail: "Desactivar IAP y falsificar headers con curl para ver el riesgo",
+          icon: "AlertTriangle",
+        },
+        {
+          step: 6,
+          action: "Verificación criptográfica",
+          detail: "Validar JWT firmado (X-Goog-IAP-JWT-Assertion) con claves públicas",
+          icon: "Lock",
+        },
+      ],
+      whatYouLearn: [
+        "IAP como capa centralizada de autenticación sin modificar código de la app",
+        "Tres niveles de seguridad: acceso restringido, headers de identidad y JWT verificado",
+        "Riesgo de spoofing cuando IAP se desactiva y solo se confía en headers",
+        "Verificación criptográfica con firma ES256 y claves públicas de Google",
+      ],
+    },
     introduction:
       "Este laboratorio es complementario al AB porque va más allá de desplegar una aplicación: enseña cómo añadir una capa de autenticación y autorización centralizada con Identity-Aware Proxy. IAP intercepta las solicitudes, autentica al usuario y solo deja pasar las peticiones autorizadas; además, puede añadir información de identidad a los encabezados de la solicitud para que la app la use.\n\nLa parte más valiosa para el estudiante es que ve tres niveles de seguridad: acceso restringido por IAP, lectura de identidad desde encabezados y verificación criptográfica para evitar suplantación. Los encabezados con prefijo accounts.google.com: están disponibles por compatibilidad, pero no deben usarse como mecanismo de seguridad; para eso debe validarse el JWT firmado.\n\nDurante la práctica, el estudiante despliega un servicio en Cloud Run, restringe su acceso con IAP, lee los encabezados de usuario proporcionados por el proxy y finalmente valida criptográficamente la identidad mediante un JWT firmado.",
     concepts: [
@@ -1144,6 +1649,62 @@ export const labsContent: LabContent[] = [
     title: "Cloud IAM: Qwik Start",
     description:
       "Configuración y administración centralizada de políticas, roles y permisos de acceso con Cloud Identity and Access Management.",
+    overview: {
+      serviceIcon: "/assets/Identity And Access Management.svg",
+      serviceName: "Cloud IAM",
+      duration: "15 min",
+      level: "Introductory",
+      credits: 1,
+      objectives: [
+        "Comprender los roles básicos de IAM (Owner, Editor, Viewer, Browser)",
+        "Otorgar y revocar permisos a usuarios sobre un proyecto",
+        "Asignar roles granulares (Storage Object Viewer) a nivel de servicio",
+      ],
+      steps: [
+        {
+          step: 1,
+          action: "Explorar roles del proyecto",
+          detail: "Revisar los roles primitivos asignados a dos usuarios distintos",
+          icon: "Users",
+        },
+        {
+          step: 2,
+          action: "Crear bucket y subir archivo",
+          detail: "Preparar un bucket de Cloud Storage con un archivo de prueba",
+          icon: "Upload",
+        },
+        {
+          step: 3,
+          action: "Verificar acceso Viewer",
+          detail: "Confirmar que Username 2 puede ver el bucket con rol Viewer",
+          icon: "Eye",
+        },
+        {
+          step: 4,
+          action: "Revocar acceso",
+          detail: "Eliminar el rol Viewer de Username 2 y verificar pérdida de acceso",
+          icon: "UserMinus",
+        },
+        {
+          step: 5,
+          action: "Asignar rol granular",
+          detail: "Otorgar Storage Object Viewer a Username 2 para acceso específico",
+          icon: "ShieldCheck",
+        },
+        {
+          step: 6,
+          action: "Verificar acceso granular",
+          detail: "Confirmar acceso al bucket desde Cloud Shell con el rol específico",
+          icon: "Terminal",
+        },
+      ],
+      whatYouLearn: [
+        "Roles primitivos (Owner, Editor, Viewer) y su alcance a nivel de proyecto",
+        "Principio de mínimo privilegio: solo otorgar permisos necesarios",
+        "Diferencia entre acceso amplio (Project Viewer) y granular (Storage Object Viewer)",
+        "Cómo IAM unifica el control de acceso en un sistema consistente",
+      ],
+    },
     introduction:
       "Este laboratorio es complementario al AB porque permite ver de forma práctica cómo los roles de IAM cambian lo que un usuario puede o no puede hacer dentro de un proyecto. A través de dos identidades distintas, el estudiante observa cómo se otorgan, limitan y revocan permisos sobre recursos como Cloud Storage. IAM unifica el control de acceso de Google Cloud en un sistema consistente de operaciones y permisos.\n\nAdemás, este lab es útil para introducir la idea de mínimo privilegio: no todos los usuarios necesitan acceso total, y las acciones disponibles dependen directamente del rol asignado. Los roles básicos de IAM son amplios y afectan el comportamiento a nivel de proyecto, por lo que conviene usarlos con cuidado.\n\nDurante la práctica, el estudiante trabaja con dos identidades distintas para observar cómo cambian sus capacidades al asignar, revocar y restringir permisos sobre Cloud Storage y sobre el proyecto.",
     concepts: [

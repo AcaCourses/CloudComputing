@@ -214,13 +214,13 @@ export function ObjectExplorer() {
           {/* Metadata */}
           <div className="rounded-md bg-gray-900 p-3 space-y-1.5">
             <div className="flex items-center gap-1.5 mb-2">
-              <Tag className="w-3 h-3 text-cyan" />
-              <p className="text-[9px] font-semibold text-cyan">Metadatos del objeto</p>
+              <Tag className="w-3 h-3  text-cyan-500" />
+              <p className="text-[9px] font-semibold  text-cyan-500">Metadatos del objeto</p>
             </div>
             {activeObject.metadata.map((m, i) => (
               <div key={i} className="flex items-center gap-2 text-[10px]">
-                <span className="text-gray-500 font-mono w-24 shrink-0">{m.key}:</span>
-                <span className="text-cyan font-mono">{m.value}</span>
+                <span className="text-white font-mono w-24 shrink-0">{m.key}:</span>
+                <span className="text-cyan-500 font-mono">{m.value}</span>
               </div>
             ))}
           </div>
@@ -346,7 +346,7 @@ export function ObjectExplorer() {
         <div className="flex items-stretch gap-3">
           <div className="flex-1 rounded-md border border-cyan/30 bg-cyan/5 p-3 text-center">
             <HardDrive className="w-4 h-4 text-cyan mx-auto mb-1" />
-            <p className="text-[9px] font-semibold text-cyan">Contenido</p>
+            <p className="text-[9px] font-semibold text-white">Contenido</p>
             <p className="text-[8px] text-gray-400">Los bytes del archivo</p>
           </div>
           <div className="flex-1 rounded-md border border-azure/30 bg-azure/5 p-3 text-center">

@@ -22,8 +22,11 @@ export type ContentSection =
   | { type: "automationTimeline" }
   | { type: "computeOptions" }
   | { type: "vmBuilder" }
-  | { type: "regionZoneExplorer" }
+  | { type: "regionZoneMap" }
   | { type: "scalingSimulator" }
+  | { type: "scalingComparison" }
+  | { type: "containerVsVmVisual" }
+  | { type: "serverlessExplainer" }
   | { type: "containerBuilder" }
   | { type: "serverlessFlow" }
   | { type: "eventMapper" }
@@ -128,85 +131,6 @@ export const unit1Content: TopicContent[] = [
           { label: "Acceso amplio por red" },
           { label: "Propiedad del hardware por parte del usuario", correct: true },
           { label: "Elasticidad rápida" },
-        ],
-      },
-    ],
-  },
-  {
-    slug: "historia-evolucion-cloud",
-    title: "Historia y evolución del cloud",
-    readingTime: "7 min",
-    objectives: [
-      "Identificar las etapas históricas que dieron origen al cloud computing",
-      "Comprender la virtualización como tecnología habilitadora",
-      "Explicar por qué el cloud es resultado de necesidades de eficiencia y escalabilidad",
-    ],
-    sections: [
-      {
-        type: "trigger",
-        question: "¿Cómo crees que las empresas administraban sus sistemas antes de que existiera la nube?",
-      },
-      {
-        type: "concept",
-        title: "Concepto clave",
-        content:
-          "El cloud computing no apareció de forma repentina. Es el resultado de décadas de evolución: mainframes → cliente-servidor → virtualización → cloud. El cambio fundamental es pasar de \"tener la infraestructura\" a \"consumirla como servicio\".",
-      },
-      {
-        type: "timeline",
-        title: "Línea de tiempo del cloud",
-        events: [
-          { year: "1960s", title: "Mainframes y time-sharing", description: "Múltiples usuarios comparten un solo equipo centralizado" },
-          { year: "1970-80s", title: "Modelo cliente-servidor", description: "Recursos distribuidos entre servidores y estaciones de trabajo" },
-          { year: "1990s", title: "Virtualización y hosting", description: "Múltiples SO en un solo servidor físico" },
-          { year: "2006", title: "AWS lanza EC2", description: "Nace el cloud comercial: servidores por hora" },
-          { year: "2010s", title: "Expansión y madurez", description: "Azure, GCP, contenedores y serverless" },
-          { year: "2020s", title: "Multi-cloud, edge e IA", description: "Se combinan proveedores y se acerca el cómputo al usuario" },
-        ],
-      },
-      {
-        type: "tabs",
-        title: "El cambio de paradigma",
-        tabs: [
-          {
-            id: "antes",
-            label: "Antes del cloud",
-            badge: "CapEx",
-            content: "Las empresas compraban servidores, construían centros de datos, contrataban personal para mantenerlos. Gran inversión inicial (CapEx), capacidad fija, largo tiempo de aprovisionamiento.",
-          },
-          {
-            id: "despues",
-            label: "Con el cloud",
-            badge: "OpEx",
-            content: "Se renta capacidad por hora o segundo, se escala en minutos, no se mantiene hardware. Gasto operativo (OpEx) variable según consumo real.",
-          },
-        ],
-      },
-      {
-        type: "example",
-        title: "Ejemplo aplicado",
-        content:
-          "Una universidad que alojaba Moodle en servidores propios (con fallos frecuentes, sin respaldo automático) migra a la nube: ahora tiene disponibilidad 99.9%, respaldos automáticos y acceso desde cualquier sede sin mantener hardware.",
-      },
-      {
-        type: "scenario",
-        title: "Reflexión guiada",
-        scenarios: [
-          {
-            situation: "Una empresa tiene 5 servidores físicos que usan al 20% de su capacidad promedio.",
-            question: "¿Qué problema de eficiencia tiene? ¿Cómo lo resolvería la virtualización?",
-            hint: "La virtualización permite ejecutar múltiples servidores virtuales en una sola máquina física.",
-          },
-        ],
-      },
-      {
-        type: "quiz",
-        question: "¿Qué tecnología fue clave para habilitar el cloud computing moderno?",
-        options: [
-          { label: "La inteligencia artificial" },
-          { label: "La virtualización", correct: true },
-          { label: "Las redes sociales" },
-          { label: "Los dispositivos móviles" },
         ],
       },
     ],
@@ -386,83 +310,6 @@ export const unit1Content: TopicContent[] = [
           { label: "Nube privada", explanation: "La nube privada solo tiene recursos exclusivos, sin la parte compartida." },
           { label: "Nube híbrida", correct: true, explanation: "Correcto: la nube híbrida combina infraestructura privada (exclusiva) con servicios de nube pública (compartidos), eligiendo dónde va cada carga según sus requisitos." },
           { label: "Multi-cloud", explanation: "Multi-cloud significa usar múltiples proveedores públicos, no necesariamente combinar con privado." },
-        ],
-      },
-    ],
-  },
-  {
-    slug: "ventajas-consideraciones",
-    title: "Ventajas y consideraciones del cloud",
-    readingTime: "9 min",
-    objectives: [
-      "Identificar las principales ventajas del cloud computing",
-      "Reconocer riesgos y consideraciones que deben evaluarse",
-      "Desarrollar pensamiento crítico sobre la adopción de la nube",
-    ],
-    sections: [
-      {
-        type: "trigger",
-        question: "¿La nube es siempre la mejor opción? ¿Hay situaciones donde no convenga migrar?",
-      },
-      {
-        type: "concept",
-        title: "Concepto clave",
-        content:
-          "El cloud ofrece ventajas como escalabilidad, disponibilidad y pago por uso. Pero no es una solución perfecta: exige evaluar seguridad, costos ocultos, dependencia del proveedor y conectividad. Adoptar la nube requiere decisiones informadas, no solo entusiasmo.",
-      },
-      {
-        type: "tabs",
-        title: "Ventajas vs. Consideraciones",
-        tabs: [
-          {
-            id: "ventajas",
-            label: "Ventajas",
-            badge: "A favor",
-            content: "Escalabilidad en minutos • Alta disponibilidad (99.9%+) • Pago por uso sin inversión inicial • Despliegue global en múltiples regiones • Actualizaciones automáticas del proveedor • Respaldos y recuperación ante desastres integrados.",
-          },
-          {
-            id: "riesgos",
-            label: "Consideraciones",
-            badge: "Evaluar",
-            content: "Seguridad y privacidad de datos • Vendor lock-in (difícil cambiar de proveedor) • Sin internet no hay acceso • Costos pueden crecer sin control si no se monitorean • Cumplimiento regulatorio por ubicación de datos • Curva de aprendizaje para el equipo.",
-          },
-        ],
-      },
-      {
-        type: "scenario",
-        title: "Balanza de decisión",
-        scenarios: [
-          {
-            situation: "Una plataforma educativa espera 50,000 usuarios simultáneos durante inscripciones, pero solo 500 el resto del año.",
-            question: "¿Qué ventaja del cloud es más relevante aquí?",
-            hint: "Piensa en escalabilidad y pago por uso.",
-          },
-          {
-            situation: "Una empresa migró todo a un solo proveedor cloud. Ahora quiere cambiarse pero sus apps usan servicios propietarios.",
-            question: "¿Qué riesgo se materializó?",
-            hint: "Vendor lock-in: dependencia que dificulta migrar.",
-          },
-          {
-            situation: "Una organización rural tiene internet intermitente y quiere usar solo herramientas cloud.",
-            question: "¿Es viable? ¿Qué debería considerar?",
-            hint: "Sin conectividad confiable, el cloud puede ser inaccesible.",
-          },
-        ],
-      },
-      {
-        type: "example",
-        title: "Caso real",
-        content:
-          "Una plataforma educativa escala automáticamente en inscripciones para atender miles de usuarios. Pero sin alertas de costos configuradas, su factura se triplicó un mes. Lección: la nube da poder, pero requiere monitoreo activo.",
-      },
-      {
-        type: "quiz",
-        question: "¿Cuál de los siguientes NO es un riesgo asociado al cloud computing?",
-        options: [
-          { label: "Vendor lock-in" },
-          { label: "Costos mal gestionados" },
-          { label: "Escalabilidad automática", correct: true },
-          { label: "Dependencia de conectividad a internet" },
         ],
       },
     ],

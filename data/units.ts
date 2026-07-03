@@ -17,10 +17,8 @@ export const unitsData: Unit[] = [
     shortTitle: "Fundamentos Cloud",
     modules: [
       { title: "Introducción a la computación en la nube", slug: "introduccion-computacion-nube" },
-      { title: "Historia y evolución del cloud", slug: "historia-evolucion-cloud" },
       { title: "Modelos de servicio: IaaS, PaaS, SaaS", slug: "modelos-servicio" },
       { title: "Modelos de despliegue: público, privado, híbrido", slug: "modelos-despliegue" },
-      { title: "Ventajas y consideraciones del cloud", slug: "ventajas-consideraciones" },
       { title: "Proveedores principales: Azure, AWS, GCP", slug: "proveedores-principales" },
     ],
   },
@@ -42,10 +40,6 @@ export const unitsData: Unit[] = [
         slug: "facturacion-administracion"
       },
       {
-        title: "Consola, CLI y entornos de terminal",
-        slug: "consola-web"
-      },
-      {
         title: "SDK, APIs y automatización",
         slug: "sdk-automatizacion"
       },
@@ -61,13 +55,14 @@ export const unitsData: Unit[] = [
         slug: "opciones-computo"
       },
       {
+        title: "Regiones y zonas de Google Cloud",
+        slug: "regiones-zonas"
+      },
+      {
         title: "Máquinas virtuales",
         slug: "maquinas-virtuales"
       },
-      {
-        title: "Regiones, zonas y tipos de máquina",
-        slug: "regiones-zonas-maquinas"
-      },
+
       {
         title: "Escalamiento y plataformas administradas",
         slug: "escalamiento"
