@@ -39,7 +39,7 @@ export type ContentSection =
   | { type: "objectExplorer" }
   | { type: "relationalMap" }
   | { type: "managedSqlExplorer" }
-  | { type: "distributedDbMap" }
+  | { type: "globalDbExplainer" }
   | { type: "noSqlExplorer" };
 
 export type TopicContent = {

@@ -202,7 +202,7 @@ row: "sensor-002#2026-06-30"
           {/* Data visualization */}
           <div className="rounded-md bg-gray-900 p-3">
             <p className="text-[8px] text-gray-500 mb-1.5 uppercase tracking-wider">Cómo luce el dato:</p>
-            <pre className="text-[9px] font-mono text-cyan whitespace-pre-wrap">{activeModel.looksLike}</pre>
+            <pre className="text-[9px] font-mono text-cyan-500 whitespace-pre-wrap">{activeModel.looksLike}</pre>
           </div>
 
           <div className="rounded-md border border-border bg-panel/50 px-3 py-2">

@@ -15,6 +15,7 @@ import {
   Heart,
   Eye,
   Laptop,
+  Landmark,
   Clock,
   CheckCircle2,
   AlertTriangle,
@@ -32,63 +33,170 @@ import {
 /* ─── Data ──────────────────────────────────────────── */
 
 const ejes = [
-  {
-    id: 1,
-    title: "Género",
-    icon: Heart,
-    color: "text-pink-600",
-    bgColor: "bg-pink-50",
-    borderColor: "border-pink-200",
-    accentColor: "bg-pink-600",
-    description:
-      "Problemáticas relacionadas con la igualdad, la prevención de la violencia y el acceso equitativo a oportunidades.",
-    networking: [
-      "Plataformas para reportar violencia o acoso de forma segura",
-      "Resguardo de datos sensibles",
-      "Control de acceso a información confidencial",
-    ],
-    data: [
-      "Análisis de patrones de violencia",
-      "Detección de tendencias",
-      "Recomendaciones personalizadas de apoyo",
-      "Clasificación de casos",
-    ],
-    problemas: [
-      "Desigualdad en acceso a educación, empleo o liderazgo",
-      "Dificultad para reportar violencia o acoso de forma segura",
-      "Falta de información confiable sobre derechos, apoyo y rutas de atención",
-      "Escasa visibilidad de programas de acompañamiento para mujeres y diversidades",
-    ],
+{
+  id: 1,
+  title: "Género",
+  icon: Heart,
+  color: "text-pink-600",
+  bgColor: "bg-pink-50",
+  borderColor: "border-pink-200",
+  accentColor: "bg-pink-600",
+  description:
+    "Escenarios reales donde la tecnología en la nube puede contribuir a la igualdad, prevención de violencia y acceso equitativo.",
+  escenarios: [
+    {
+      titulo: "Canal seguro de denuncia anónima en una universidad",
+      contexto:
+        "En una universidad, muchas estudiantes no denuncian acoso porque temen represalias o que su identidad sea expuesta. El sistema actual no garantiza anonimato, seguimiento ni trazabilidad clara del caso, aunque las instituciones ya operan rutas formales de orientación y atención por violencia de género.",
+      networking: {
+        enfoque: "Garantizar anonimato real y protección de datos sensibles",
+        ideas: [
+          "Autenticación con IAP que permita verificar que la persona pertenece a la comunidad sin exponer su identidad al receptor inicial",
+          "Cifrado de extremo a extremo de reportes y evidencias almacenadas en Cloud Storage",
+          "VPC privada para aislar la base de datos de denuncias del resto de la infraestructura institucional",
+          "Cloud Armor y políticas de acceso para prevenir intentos de scraping, intrusión o exposición de expedientes",
+        ],
+      },
+      data: {
+        enfoque: "Detectar patrones de violencia y generar alertas tempranas",
+        ideas: [
+          "NLP con Vertex AI para clasificar automáticamente tipo de agresión, nivel de riesgo y urgencia del caso",
+          "BigQuery para analizar tendencias por plantel, horario, área académica o tipo de incidente",
+          "Modelo de ML que detecte repetición de agresores, escalamiento o concentración de reportes",
+          "Dashboard con Looker para defensorías o unidades de género con mapas de calor y seguimiento de casos",
+        ],
+      },
+    },
+    {
+      titulo: "Ruta inteligente de atención y refugio para mujeres en situación de violencia",
+      contexto:
+        "Muchas mujeres no saben a dónde acudir cuando enfrentan violencia familiar, amenazas o riesgo inmediato. Los servicios existen —líneas de atención, refugios, apoyo psicológico y jurídico— pero suelen estar dispersos, con poca visibilidad y sin una forma clara de canalizar a cada persona según su nivel de urgencia y ubicación.",
+      networking: {
+        enfoque: "Conectar servicios críticos sin exponer información personal ni ubicaciones sensibles",
+        ideas: [
+          "IAM con roles para separar acceso entre operadoras, psicólogas, abogadas y personal de refugio",
+          "Cloud SQL con cifrado y auditoría para expedientes de atención y canalización",
+          "Signed URLs y controles temporales de acceso para compartir documentos sensibles solo con personal autorizado",
+          "Cloud Logging para trazabilidad de consultas, derivaciones y accesos a casos de alto riesgo",
+        ],
+      },
+      data: {
+        enfoque: "Priorizar urgencia y recomendar el recurso adecuado",
+        ideas: [
+          "Modelo de clasificación en Vertex AI para determinar si un caso requiere línea de emergencia, refugio, atención legal o acompañamiento psicológico",
+          "BigQuery para mapear demanda por zona, tiempos de respuesta y saturación de servicios",
+          "Motor de recomendación que sugiera el punto de atención más cercano y adecuado según contexto y riesgo",
+          "Tablero operativo para visualizar disponibilidad de refugios, casos abiertos y tiempos de canalización",
+        ],
+      },
+    },
+    {
+      titulo: "Sistema de monitoreo de violencia digital y acoso en línea",
+      contexto:
+        "Muchas agresiones contra mujeres ocurren en espacios digitales: difusión de contenido íntimo, amenazas, hostigamiento y acoso persistente. Las víctimas suelen tener evidencia dispersa en capturas, mensajes y enlaces, pero no existe una plataforma estructurada para resguardar pruebas, clasificar incidentes y escalar los casos oportunamente.",
+      networking: {
+        enfoque: "Resguardar evidencia digital y controlar acceso a casos sensibles",
+        ideas: [
+          "Cloud Storage con buckets privados para capturas, enlaces, audios y archivos probatorios",
+          "VPC Service Controls para limitar extracción no autorizada de información sensible",
+          "Autenticación multifactor para personal que revisa evidencia o acompaña denuncias",
+          "Políticas de retención y borrado seguro conforme a normativas de protección de datos",
+        ],
+      },
+      data: {
+        enfoque: "Clasificar agresiones digitales y acelerar la respuesta",
+        ideas: [
+          "NLP para identificar amenazas, chantaje, acoso reiterado o difusión no consentida en texto y mensajes",
+          "Vision API para extraer texto de capturas y organizar evidencia automáticamente",
+          "Modelo de priorización que detecte casos con riesgo de escalamiento a violencia física o extorsión",
+          "Dashboard analítico para identificar patrones, plataformas más reportadas y tiempos de respuesta institucional",
+        ],
+      },
+    },
+  ],
   },
   {
-    id: 2,
-    title: "Educación",
-    icon: BookOpen,
-    color: "text-blue-600",
-    bgColor: "bg-blue-50",
-    borderColor: "border-blue-200",
-    accentColor: "bg-blue-600",
-    description:
-      "Resolver problemas vinculados con el acceso, seguimiento y mejora del aprendizaje.",
-    networking: [
-      "Protección de datos escolares",
-      "Acceso seguro para estudiantes y docentes",
-      "Resguardo de expedientes",
-    ],
-    data: [
-      "Análisis de desempeño",
-      "Predicción de riesgo de deserción",
-      "Personalización del aprendizaje",
-      "Recomendaciones inteligentes",
-    ],
-    problemas: [
-      "Deserción escolar",
-      "Falta de recursos educativos digitales",
-      "Dificultades para el seguimiento del desempeño académico",
-      "Baja comunicación entre estudiantes, docentes y familias",
-      "Necesidad de materiales personalizados o de apoyo fuera del aula",
-    ],
-  },
+  id: 2,
+  title: "Servicios Públicos",
+  icon: Landmark,
+  color: "text-amber-600",
+  bgColor: "bg-amber-50",
+  borderColor: "border-amber-200",
+  accentColor: "bg-amber-600",
+  description:
+    "Escenarios donde la nube puede fortalecer la transparencia, reducir discrecionalidad y mejorar el acceso equitativo a servicios públicos.",
+  escenarios: [
+    {
+      titulo: "Sistema de trazabilidad de trámites y atención ciudadana",
+      contexto:
+        "En una dependencia pública, los ciudadanos enfrentan trámites lentos, respuestas inconsistentes y poca claridad sobre el estado de sus solicitudes. La falta de trazabilidad permite discrecionalidad, retrasos injustificados y posibles actos de corrupción sin que exista evidencia clara para auditoría.",
+      networking: {
+        enfoque: "Proteger expedientes ciudadanos y controlar acceso por rol",
+        ideas: [
+          "IAM con roles: ciudadanos ven solo sus trámites, operadores solo los casos asignados, supervisores y auditores acceden a vistas consolidadas",
+          "Cloud SQL con encriptación y backups automáticos para almacenar expedientes y cambios de estado",
+          "IAP para que el acceso de funcionarios a paneles internos requiera verificación adicional",
+          "VPC para aislar la base de datos y sistemas de gestión del resto de servicios públicos expuestos",
+        ],
+      },
+      data: {
+        enfoque: "Detectar retrasos anómalos y posibles irregularidades",
+        ideas: [
+          "BigQuery para analizar tiempos de respuesta, tasas de rechazo y diferencias por oficina, región o tipo de trámite",
+          "Modelo de ML con Vertex AI para detectar anomalías en patrones de atención o resoluciones inusuales",
+          "Alertas automáticas vía Pub/Sub cuando un trámite excede tiempos esperados o presenta cambios sospechosos",
+          "Dashboard para órganos internos de control con indicadores de rezago, cuellos de botella y variaciones injustificadas",
+        ],
+      },
+    },
+    {
+      titulo: "Portal transparente de apoyos y subsidios sociales",
+      contexto:
+        "Programas de apoyo social se asignan con poca claridad para la ciudadanía. Las personas no saben por qué fueron rechazadas, cuánto tarda el proceso o si existen patrones de favoritismo en la distribución de recursos públicos.",
+      networking: {
+        enfoque: "Garantizar acceso seguro y trazable a información de beneficiarios y funcionarios",
+        ideas: [
+          "IAM con separación de permisos entre capturistas, validadores, supervisores y auditores",
+          "Cloud Storage para resguardar documentos comprobatorios con acceso restringido",
+          "Signed URLs para compartir expedientes de revisión sin exponer repositorios completos",
+          "Cloud Logging para auditar consultas, modificaciones y aprobaciones dentro del sistema",
+        ],
+      },
+      data: {
+        enfoque: "Analizar equidad en asignación y detectar favoritismo",
+        ideas: [
+          "BigQuery para cruzar solicitudes, aprobaciones, tiempos de resolución y distribución geográfica de apoyos",
+          "Modelos analíticos para detectar concentraciones atípicas de beneficios en ciertas zonas o perfiles",
+          "Clasificación automática de solicitudes incompletas o inconsistentes para acelerar revisión",
+          "Dashboard público con métricas agregadas de cobertura, tiempos y criterios de asignación",
+        ],
+      },
+    },
+    {
+      titulo: "Monitoreo inteligente de acceso desigual a servicios públicos",
+      contexto:
+        "Colonias o comunidades enteras reciben atención irregular en servicios como agua, salud, alumbrado o recolección, pero las instituciones no integran los reportes ciudadanos con datos operativos. Esto dificulta identificar si el problema es capacidad limitada, mala gestión o trato desigual.",
+      networking: {
+        enfoque: "Integrar reportes ciudadanos y datos institucionales de forma segura",
+        ideas: [
+          "APIs protegidas con autenticación para conectar plataformas de reporte ciudadano con sistemas operativos internos",
+          "VPC para segmentar servicios críticos y proteger bases de datos de infraestructura pública",
+          "Firewall rules y rate limiting para evitar abuso del sistema de reportes",
+          "Cloud Interconnect o VPN para compartir información entre dependencias municipales o estatales",
+        ],
+      },
+      data: {
+        enfoque: "Medir brechas territoriales y priorizar intervención",
+        ideas: [
+          "BigQuery para correlacionar reportes ciudadanos, tiempos de atención y frecuencia de fallas por zona",
+          "Modelos geoespaciales para identificar áreas con acceso sistemáticamente menor a servicios",
+          "NLP para clasificar quejas ciudadanas y agruparlas por tipo de afectación",
+          "Dashboard geográfico para autoridades con mapas de calor, brechas de cobertura y prioridades de intervención",
+        ],
+      },
+    },
+  ],
+},
   {
     id: 3,
     title: "Inclusión y accesibilidad",
@@ -98,24 +206,77 @@ const ejes = [
     borderColor: "border-green-200",
     accentColor: "bg-green-600",
     description:
-      "Eliminar barreras para que todas las personas puedan usar servicios, plataformas y recursos en igualdad de condiciones.",
-    networking: [
-      "Acceso seguro a plataformas inclusivas",
-      "Protección de datos personales",
-      "Autenticación para perfiles sensibles",
-    ],
-    data: [
-      "Traducción automática",
-      "Lectura en voz alta",
-      "Reconocimiento de imágenes",
-      "Subtitulado y asistentes inteligentes",
-    ],
-    problemas: [
-      "Dificultades de acceso para personas con discapacidad visual, auditiva o motriz",
-      "Barreras de navegación en sitios web o aplicaciones",
-      "Falta de contenidos en lenguaje claro, audio o subtítulos",
-      "Escasa adaptación de servicios digitales para personas mayores o con baja alfabetización digital",
-      "Problemas de comunicación en contextos multilingües",
+      "Escenarios donde la nube elimina barreras para que todas las personas accedan a servicios en igualdad de condiciones.",
+    escenarios: [
+      {
+        titulo: "Portal municipal accesible para personas con discapacidad visual",
+        contexto:
+          "El sitio web de un municipio tiene trámites en línea (pago de predial, solicitud de constancias, reportes ciudadanos) pero es completamente inaccesible para personas con discapacidad visual: imágenes sin descripción, formularios sin etiquetas, PDFs escaneados como imagen.",
+        networking: {
+          enfoque: "Infraestructura robusta y acceso seguro para todos los perfiles de usuario",
+          ideas: [
+            "Cloud Load Balancer con HTTPS para disponibilidad y seguridad en cualquier dispositivo/lector de pantalla",
+            "IAP con autenticación simplificada (evitar CAPTCHAs visuales, usar verificación por correo)",
+            "Cloud CDN para que el sitio cargue rápido incluso con conexiones lentas o asistivas",
+            "Monitoreo con Cloud Operations para detectar errores 4xx/5xx que bloqueen flujos accesibles",
+          ],
+        },
+        data: {
+          enfoque: "Convertir contenido visual en formatos accesibles automáticamente",
+          ideas: [
+            "Vision API para generar descripciones alt-text automáticas de todas las imágenes",
+            "Document AI para extraer texto de PDFs escaneados y convertirlos en HTML accesible",
+            "Text-to-Speech para ofrecer lectura en voz alta de cualquier sección del portal",
+            "NLP para simplificar lenguaje burocrático a versiones en lenguaje claro",
+          ],
+        },
+      },
+      {
+        titulo: "App de transporte público con navegación para personas con movilidad reducida",
+        contexto:
+          "Las apps de transporte muestran rutas, pero no indican si las estaciones tienen elevador, rampa o si el camión tiene plataforma accesible. Una persona en silla de ruedas no puede planificar un traslado confiable porque la información de accesibilidad no existe o está desactualizada.",
+        networking: {
+          enfoque: "Infraestructura en la nube para datos en tiempo real de accesibilidad",
+          ideas: [
+            "Cloud Run para microservicios que consulten y actualicen el estado de infraestructura accesible",
+            "Pub/Sub para recibir reportes en tiempo real de usuarios sobre elevadores fuera de servicio",
+            "Cloud Storage para imágenes de evidencia subidas por la comunidad",
+            "IAM para diferenciar reportes verificados (operadores) vs. comunitarios (ciudadanos)",
+          ],
+        },
+        data: {
+          enfoque: "Ruta inteligente que priorice accesibilidad sobre rapidez",
+          ideas: [
+            "Modelo de ML que calcule la ruta óptima considerando accesibilidad como variable principal (no solo tiempo)",
+            "Clasificación de imágenes con Vision API para verificar reportes comunitarios (¿el elevador realmente está fuera de servicio?)",
+            "BigQuery para analizar patrones: estaciones con fallas recurrentes, horarios con mayor demanda accesible",
+            "Speech-to-Text para que personas con discapacidad motriz dicten su destino en lugar de escribirlo",
+          ],
+        },
+      },
+      {
+        titulo: "Plataforma educativa multilingüe para comunidades indígenas",
+        contexto:
+          "Contenido educativo oficial (SEP) está disponible solo en español. Comunidades hablantes de náhuatl, mixteco o maya no tienen materiales en su lengua. Docentes rurales crean contenido improvisado pero no tienen forma de compartirlo ni distribuirlo a otras comunidades.",
+        networking: {
+          enfoque: "Distribución de contenido en zonas con baja conectividad",
+          ideas: [
+            "Cloud CDN con caché agresivo para que el contenido cargue incluso con conexiones 2G",
+            "Cloud Storage con versionado para que docentes suban y actualicen materiales",
+            "Acceso offline-first: la app descarga contenido cuando hay señal y funciona sin internet",
+            "IAM para verificar docentes autorizados a subir contenido vs. comunidad que solo consume",
+          ],
+        },
+        data: {
+          enfoque: "Traducción y generación de contenido en lenguas indígenas",
+          ideas: [
+            "Translation API + modelos custom de Vertex AI entrenados con corpus de lenguas indígenas",
+            "Text-to-Speech personalizado para generar audio en lenguas que no tienen versión escrita estándar",
+            "NLP para adaptar nivel de dificultad según el grado escolar del estudiante",
+            "Análisis de uso en BigQuery para saber qué contenidos necesitan más lenguas o formatos",
+          ],
+        },
+      },
     ],
   },
   {
@@ -127,23 +288,77 @@ const ejes = [
     borderColor: "border-purple-200",
     accentColor: "bg-purple-600",
     description:
-      "Mejorar la relación de las personas con la tecnología y apoyar su equilibrio emocional.",
-    networking: [
-      "Protección de datos personales y privados",
-      "Entornos seguros de orientación o acompañamiento",
-    ],
-    data: [
-      "Análisis de hábitos digitales",
-      "Detección de patrones de uso",
-      "Asistentes conversacionales",
-      "Recomendaciones de autocuidado",
-    ],
-    problemas: [
-      "Uso excesivo de pantallas",
-      "Estrés, ansiedad o fatiga digital",
-      "Falta de herramientas para organizar hábitos saludables",
-      "Dificultad para detectar señales de sobrecarga emocional",
-      "Necesidad de espacios seguros de orientación, apoyo o autocuidado",
+      "Escenarios donde la nube puede mejorar la relación de las personas con la tecnología y apoyar su equilibrio emocional.",
+    escenarios: [
+      {
+        titulo: "Diario emocional con alertas para redes de apoyo",
+        contexto:
+          "Estudiantes universitarios experimentan ansiedad y estrés pero no buscan ayuda hasta que la situación es crítica. No existe un sistema que les permita registrar cómo se sienten y que, de forma confidencial, alerte a alguien de confianza si detecta un patrón preocupante.",
+        networking: {
+          enfoque: "Privacidad absoluta de registros emocionales y control del usuario",
+          ideas: [
+            "Encriptación at-rest y in-transit de todos los registros emocionales",
+            "IAM con control total del usuario: solo ellos deciden quién puede ver alertas",
+            "VPC privada para aislar la base de datos de registros del resto de servicios de la universidad",
+            "Políticas de borrado automático configurable (el usuario decide cuánto tiempo se retienen sus datos)",
+          ],
+        },
+        data: {
+          enfoque: "Detectar patrones de deterioro emocional y sugerir intervención",
+          ideas: [
+            "Análisis de sentimiento con NLP sobre los textos del diario para medir tendencia emocional",
+            "Modelo de ML con Vertex AI que detecte patrones de deterioro sostenido (no alertar por un mal día, sino por tendencia)",
+            "Recomendaciones personalizadas: ejercicios de respiración, contacto con psicólogo, actividades según preferencias",
+            "BigQuery para análisis agregado (anónimo) que ayude a la universidad a mejorar programas de bienestar",
+          ],
+        },
+      },
+      {
+        titulo: "Monitor de hábitos digitales para familias",
+        contexto:
+          "Padres preocupados por el tiempo de pantalla de sus hijos no tienen herramientas que les muestren datos claros ni les ayuden a establecer límites de forma educativa (no punitiva). Las soluciones actuales solo bloquean, no enseñan autorregulación.",
+        networking: {
+          enfoque: "Control parental con privacidad y seguridad del menor",
+          ideas: [
+            "IAM con roles: padres configuran reglas, hijos ven su propio dashboard, datos no salen de la familia",
+            "Pub/Sub para notificaciones en tiempo real cuando se acerca un límite (sin bloqueo abrupto)",
+            "Firewall de la infraestructura para que terceros no accedan a datos de uso del menor",
+            "Cloud Logging para auditoría familiar (transparencia sobre qué datos se recolectan)",
+          ],
+        },
+        data: {
+          enfoque: "Análisis de patrones y recomendaciones de autorregulación",
+          ideas: [
+            "ML para clasificar tiempo de pantalla en categorías: educativo, social, entretenimiento, creativo",
+            "Modelo de recomendación que sugiera actividades offline basadas en intereses del menor",
+            "NLP para generar reportes semanales en lenguaje amigable para el menor (\"esta semana usaste 2h más en videos\")",
+            "BigQuery para correlacionar hábitos digitales con desempeño escolar (datos familiares, no institucionales)",
+          ],
+        },
+      },
+      {
+        titulo: "Espacio seguro de orientación emocional con chatbot",
+        contexto:
+          "Los servicios psicológicos de una universidad tienen semanas de espera. Muchos estudiantes necesitan orientación inmediata (no terapia, sino escucha y guía básica). Un chatbot podría ofrecer primer contacto 24/7, pero debe ser seguro, empático y saber cuándo referir a un profesional.",
+        networking: {
+          enfoque: "Entorno confidencial y seguro para conversaciones sensibles",
+          ideas: [
+            "Cloud Run con HTTPS y certificados gestionados para disponibilidad 24/7",
+            "Datos de conversación encriptados y con retención limitada (borrado automático a los 30 días)",
+            "IAP para verificar que el usuario sea parte de la comunidad universitaria sin revelar su identidad al terapeuta",
+            "Alertas seguras vía canal cifrado cuando el chatbot detecta riesgo y necesita referir a profesional",
+          ],
+        },
+        data: {
+          enfoque: "Chatbot empático con detección de riesgo y derivación inteligente",
+          ideas: [
+            "Dialogflow CX para conversaciones naturales con flujos de contención emocional",
+            "Análisis de sentimiento en tiempo real para ajustar el tono de las respuestas",
+            "Modelo de clasificación de riesgo: bajo (guía) / medio (seguimiento) / alto (derivación inmediata a profesional)",
+            "Speech-to-Text para que el estudiante pueda hablar en lugar de escribir en momentos de crisis",
+          ],
+        },
+      },
     ],
   },
   {
@@ -155,24 +370,77 @@ const ejes = [
     borderColor: "border-amber-200",
     accentColor: "bg-amber-600",
     description:
-      "Facilitar que las personas encuentren, entiendan y usen información pública o institucional.",
-    networking: [
-      "Acceso seguro a portales",
-      "Autenticación de usuarios",
-      "Protección de documentos y registros",
-    ],
-    data: [
-      "Análisis de datos públicos",
-      "Buscadores inteligentes",
-      "Clasificación de documentos",
-      "Asistentes que expliquen información compleja",
-    ],
-    problemas: [
-      "Dificultad para localizar información oficial",
-      "Trámites confusos o poco claros",
-      "Falta de seguimiento ciudadano a procesos o reportes",
-      "Baja claridad sobre presupuestos, servicios o decisiones públicas",
-      "Necesidad de centralizar datos abiertos o documentos relevantes",
+      "Escenarios donde la nube facilita que las personas encuentren, entiendan y usen información pública o institucional.",
+    escenarios: [
+      {
+        titulo: "Buscador inteligente de trámites gubernamentales",
+        contexto:
+          "Un ciudadano necesita sacar su acta de nacimiento, renovar su INE y tramitar una beca. Cada trámite está en un portal diferente, con requisitos distintos y lenguaje burocrático incomprensible. No existe un lugar único donde buscar \"qué necesito para X\" y recibir una respuesta clara.",
+        networking: {
+          enfoque: "Portal unificado seguro con autenticación ciudadana",
+          ideas: [
+            "Cloud Load Balancer para un punto de entrada único que agregue información de múltiples portales",
+            "IAP con autenticación ciudadana (CURP + correo) para personalizar trámites según perfil",
+            "Cloud Armor contra ataques DDoS que podrían tumbar un servicio público crítico",
+            "API Gateway para conectar con APIs de distintas dependencias sin exponer backends individuales",
+          ],
+        },
+        data: {
+          enfoque: "Búsqueda semántica y asistente que explique en lenguaje simple",
+          ideas: [
+            "Vertex AI Search para búsqueda semántica: el ciudadano escribe en lenguaje natural y encuentra el trámite correcto",
+            "NLP para convertir requisitos burocráticos en pasos claros y sencillos",
+            "Chatbot con Dialogflow que guíe paso a paso según la situación particular del usuario",
+            "Document AI para extraer y estructurar información de PDFs oficiales dispersos en múltiples sitios",
+          ],
+        },
+      },
+      {
+        titulo: "Monitor ciudadano de obra pública",
+        contexto:
+          "El gobierno anuncia obras públicas (puentes, escuelas, hospitales) con presupuesto y fecha de entrega. Pero no hay forma ciudadana de verificar avances, detectar retrasos o comparar presupuesto ejercido vs. planeado. La información existe pero está enterrada en informes PDF de 200 páginas.",
+        networking: {
+          enfoque: "Publicación segura de datos abiertos con integridad garantizada",
+          ideas: [
+            "Cloud Storage con versionado inmutable para que los informes publicados no puedan ser alterados retroactivamente",
+            "Firmas digitales en documentos para verificar autenticidad",
+            "API pública con rate limiting para que desarrolladores consulten datos sin sobrecargar el sistema",
+            "Cloud Logging para transparencia: registrar quién accedió, cuándo y a qué datos",
+          ],
+        },
+        data: {
+          enfoque: "Extraer, analizar y visualizar datos de avance automáticamente",
+          ideas: [
+            "Document AI para extraer datos estructurados de informes PDF (montos, fechas, porcentajes)",
+            "BigQuery para cruzar presupuesto planeado vs. ejercido y detectar desviaciones",
+            "Modelo de ML que prediga probabilidad de retraso basado en patrones históricos de obras similares",
+            "Dashboard público con Looker que cualquier ciudadano pueda consultar sin conocimientos técnicos",
+          ],
+        },
+      },
+      {
+        titulo: "Sistema de seguimiento de reportes ciudadanos",
+        contexto:
+          "Los ciudadanos reportan baches, fugas de agua, luminarias fundidas a través de llamadas telefónicas o ventanillas. No reciben número de seguimiento, no saben si alguien atendió su reporte, y al llamar de nuevo les piden repetir toda la información. No hay rendición de cuentas.",
+        networking: {
+          enfoque: "Plataforma confiable con autenticación y trazabilidad",
+          ideas: [
+            "Cloud Run para una app escalable que reciba miles de reportes simultáneos",
+            "Pub/Sub para enrutar cada reporte al departamento correcto automáticamente",
+            "IAM con roles: ciudadano (reporta/consulta), operador (actualiza estatus), auditor (ve todo)",
+            "Cloud SQL con historial inmutable: cada cambio de estatus queda registrado y es auditable",
+          ],
+        },
+        data: {
+          enfoque: "Clasificación automática, priorización y análisis de patrones",
+          ideas: [
+            "Vision API para que el ciudadano suba foto del problema y el sistema clasifique automáticamente (bache/fuga/luminaria)",
+            "NLP para extraer ubicación y tipo de problema de reportes escritos en lenguaje natural",
+            "Modelo de priorización: urgencia × impacto × antigüedad para ordenar atención",
+            "BigQuery para detectar zonas con problemas recurrentes y planificar mantenimiento preventivo",
+          ],
+        },
+      },
     ],
   },
 ];
@@ -615,11 +883,11 @@ export default function ProyectoPage() {
           <div className="text-center mb-8">
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-warning/10 border border-warning/20 text-xs font-medium text-warning mb-3">
               <Lightbulb className="w-3.5 h-3.5" />
-              5 ejes disponibles
+              5 ejes · 15 escenarios reales
             </div>
             <h2 className="text-xl sm:text-2xl font-bold text-foreground">Ejes Temáticos</h2>
             <p className="mt-2 text-sm text-text-secondary max-w-lg mx-auto">
-              Cada equipo debe vincular su propuesta con uno de los siguientes ejes. Haz clic para explorar cada uno.
+              Cada eje tiene 3 escenarios con problema concreto y dos enfoques de solución. Elige uno y desarróllalo con tu equipo.
             </p>
           </div>
 
@@ -659,59 +927,65 @@ export default function ProyectoPage() {
                   {/* Accordion content */}
                   {isOpen && (
                     <div className="p-4 sm:p-5 border-t border-border/50 bg-white space-y-5">
-                      {/* Specialization relationship */}
-                      <div className="grid sm:grid-cols-2 gap-4">
-                        <div className="p-4 rounded-xl bg-azure/5 border border-azure/10">
-                          <div className="flex items-center gap-1.5 mb-3">
-                            <Shield className="w-4 h-4 text-azure" />
-                            <span className="text-[10px] font-bold text-azure uppercase tracking-wider">
-                              Networking & Security
-                            </span>
-                          </div>
-                          <ul className="space-y-2">
-                            {eje.networking.map((item, i) => (
-                              <li key={i} className="text-sm text-text-secondary flex items-start gap-2">
-                                <span className="w-1.5 h-1.5 rounded-full bg-azure shrink-0 mt-1.5" />
-                                {item}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                        <div className="p-4 rounded-xl bg-green/5 border border-green/10">
-                          <div className="flex items-center gap-1.5 mb-3">
-                            <Brain className="w-4 h-4 text-green" />
-                            <span className="text-[10px] font-bold text-green uppercase tracking-wider">
-                              Data, ML & AI
-                            </span>
-                          </div>
-                          <ul className="space-y-2">
-                            {eje.data.map((item, i) => (
-                              <li key={i} className="text-sm text-text-secondary flex items-start gap-2">
-                                <span className="w-1.5 h-1.5 rounded-full bg-green shrink-0 mt-1.5" />
-                                {item}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      </div>
+                      <p className="text-[10px] font-bold text-text-secondary uppercase tracking-wider">
+                        Elige uno de los siguientes escenarios y desarróllalo con el enfoque que prefieras
+                      </p>
 
-                      {/* Problems */}
-                      <div>
-                        <p className="text-[10px] font-bold text-text-secondary uppercase tracking-wider mb-3">
-                          Problemas que puede atender
-                        </p>
-                        <div className="grid sm:grid-cols-2 gap-2">
-                          {eje.problemas.map((prob, i) => (
-                            <div
-                              key={i}
-                              className="flex items-start gap-2 p-2.5 rounded-lg bg-gray-50 border border-gray-100"
-                            >
-                              <CheckCircle2 className={`w-3.5 h-3.5 ${eje.color} shrink-0 mt-0.5`} />
-                              <span className="text-xs text-text-secondary leading-relaxed">{prob}</span>
+                      {eje.escenarios.map((esc, idx) => (
+                        <div key={idx} className="rounded-xl border border-border overflow-hidden">
+                          {/* Scenario header */}
+                          <div className={`p-4 ${eje.bgColor} border-b border-border/50`}>
+                            <div className="flex items-start gap-2">
+                              <span className={`text-sm font-bold ${eje.color}`}>{idx + 1}.</span>
+                              <div>
+                                <h4 className="text-sm font-bold text-foreground">{esc.titulo}</h4>
+                                <p className="text-xs text-text-secondary mt-1.5 leading-relaxed">{esc.contexto}</p>
+                              </div>
                             </div>
-                          ))}
+                          </div>
+
+                          {/* Two approaches */}
+                          <div className="grid sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-border">
+                            {/* Networking & Security approach */}
+                            <div className="p-4 space-y-2.5">
+                              <div className="flex items-center gap-1.5">
+                                <Shield className="w-3.5 h-3.5 text-azure" />
+                                <span className="text-[10px] font-bold text-azure uppercase tracking-wider">
+                                  Enfoque: Networking & Security
+                                </span>
+                              </div>
+                              <p className="text-xs font-medium text-foreground">{esc.networking.enfoque}</p>
+                              <ul className="space-y-1.5">
+                                {esc.networking.ideas.map((idea, i) => (
+                                  <li key={i} className="text-[11px] text-text-secondary flex items-start gap-1.5">
+                                    <span className="w-1 h-1 rounded-full bg-azure shrink-0 mt-1.5" />
+                                    {idea}
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+
+                            {/* Data, ML & AI approach */}
+                            <div className="p-4 space-y-2.5">
+                              <div className="flex items-center gap-1.5">
+                                <Brain className="w-3.5 h-3.5 text-green" />
+                                <span className="text-[10px] font-bold text-green uppercase tracking-wider">
+                                  Enfoque: Data, ML & AI
+                                </span>
+                              </div>
+                              <p className="text-xs font-medium text-foreground">{esc.data.enfoque}</p>
+                              <ul className="space-y-1.5">
+                                {esc.data.ideas.map((idea, i) => (
+                                  <li key={i} className="text-[11px] text-text-secondary flex items-start gap-1.5">
+                                    <span className="w-1 h-1 rounded-full bg-green shrink-0 mt-1.5" />
+                                    {idea}
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          </div>
                         </div>
-                      </div>
+                      ))}
                     </div>
                   )}
                 </div>
@@ -837,7 +1111,7 @@ export default function ProyectoPage() {
               </div>
               <div>
                 <h2 className="text-xl font-bold text-foreground">
-                  Uso de IA — Permitido y Promovido
+                  Uso de IA
                 </h2>
                 <p className="mt-2 text-sm text-text-secondary leading-relaxed max-w-2xl">
                   Google Cloud ofrece APIs de IA para tareas como texto, voz, traducción e imágenes. 

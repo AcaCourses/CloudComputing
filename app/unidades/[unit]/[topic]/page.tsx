@@ -51,7 +51,7 @@ import { StorageArchitecture } from "@/app/components/StorageArchitecture";
 import { ObjectExplorer } from "@/app/components/ObjectExplorer";
 import { RelationalMap } from "@/app/components/RelationalMap";
 import { ManagedSqlExplorer } from "@/app/components/ManagedSqlExplorer";
-import { DistributedDbMap } from "@/app/components/DistributedDbMap";
+import { GlobalDbExplainer } from "@/app/components/GlobalDbExplainer";
 import { NoSqlExplorer } from "@/app/components/NoSqlExplorer";
 
 type Params = {
@@ -279,8 +279,8 @@ function SectionRenderer({ section }: { section: ContentSection }) {
     case "managedSqlExplorer":
       return <ManagedSqlExplorer />;
 
-    case "distributedDbMap":
-      return <DistributedDbMap />;
+    case "globalDbExplainer":
+      return <GlobalDbExplainer />;
 
     case "noSqlExplorer":
       return <NoSqlExplorer />;

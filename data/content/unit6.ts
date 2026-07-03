@@ -295,26 +295,10 @@ export const unit6Content: TopicContent[] = [
         type: "concept",
         title: "Concepto clave",
         content:
-          "Una base de datos distribuida y global es aquella que almacena y sincroniza datos en varias ubicaciones para ofrecer disponibilidad, escalabilidad y consistencia a gran escala. En Google Cloud, Cloud Spanner es el ejemplo más claro de este enfoque, porque combina semántica relacional con distribución global y consistencia transaccional.",
+          "Una base de datos distribuida y global es aquella que almacena y sincroniza datos en varias ubicaciones para ofrecer disponibilidad, escalabilidad y consistencia a gran escala. En Google Cloud, Cloud Spanner es el ejemplo más claro de este enfoque: una base relacional, distribuida globalmente y con consistencia transaccional fuerte.",
       },
       {
-        type: "text",
-        title: "El siguiente nivel después del SQL administrado",
-        content:
-          "Aquí ya no solo importa que la base sea relacional, sino que además pueda operar de forma confiable en varias regiones y soportar crecimiento horizontal. Eso es valioso para aplicaciones críticas, globales o con muchos usuarios simultáneos. La base no piensa en un solo servidor o una sola ciudad, sino en un sistema coordinado.",
-      },
-      {
-        type: "text",
-        content:
-          "Cloud Spanner ofrece consistencia transaccional fuerte mediante TrueTime y replicación sincronizada. Eso significa que una escritura en una región se refleja de forma confiable en todas las demás — no eventualmente, sino de forma garantizada. Esa propiedad rompe la intuición tradicional de que una base relacional solo vive en un lugar.",
-      },
-      {
-        type: "text",
-        content:
-          "La utilidad de una base global no está en cualquier proyecto. Si la aplicación es pequeña o local, probablemente no se necesita este nivel de complejidad. Pero si se trata de un sistema crítico, distribuido o de alcance internacional, el valor de esta arquitectura es enorme. Este tema debe entenderse como una decisión de arquitectura, no como una moda tecnológica.",
-      },
-      {
-        type: "distributedDbMap",
+        type: "globalDbExplainer",
       },
       {
         type: "tabs",
