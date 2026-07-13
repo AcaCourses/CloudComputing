@@ -56,6 +56,7 @@ import { ManagedSqlExplorer } from "@/app/components/ManagedSqlExplorer";
 import { GlobalDbExplainer } from "@/app/components/GlobalDbExplainer";
 import { NoSqlExplorer } from "@/app/components/NoSqlExplorer";
 import { StarService } from "@/app/components/StarService";
+import { UseCaseCards } from "@/app/components/UseCaseCards";
 
 type Params = {
   unit: string;
@@ -290,6 +291,9 @@ function SectionRenderer({ section }: { section: ContentSection }) {
 
     case "starService":
       return <StarService serviceName={section.serviceName} icon={section.icon} description={section.description} features={section.features} commands={section.commands} />;
+
+    case "useCaseCards":
+      return <UseCaseCards serviceName={section.serviceName} cases={section.cases} />;
 
     case "quiz":
       return <QuizSection section={section} />;

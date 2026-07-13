@@ -107,6 +107,90 @@ export const unit6Content: TopicContent[] = [
         ],
       },
       {
+        type: "useCaseCards",
+        serviceName: "Cloud SQL",
+        cases: [
+          {
+            title: "Sistema de calificaciones de la universidad con integridad relacional",
+            icons: ["database", "graduation", "chart"],
+            explanation:
+              "Tablas: Estudiantes (matricula, nombre, email), Materias (id, código, nombre), Inscripciones (estudiante_id, materia_id, semestre), Calificaciones (id, inscripción_id, parcial1, parcial2, final). Cloud SQL garantiza que no pueda haber calificación de un estudiante que no exista, ni de una materia no registrada. Foreign keys mantienen consistencia automáticamente.",
+            subjects: [
+              "Bases de Datos",
+              "Administración de Base de Datos",
+              "Administración y Sistemas de Contabilidad",
+              "Análisis de Algoritmos",
+            ],
+            tag: "base administrada",
+          },
+          {
+            title: "Portal de e-learning: cursos, lecciones, videos, progreso de estudiantes",
+            icons: ["book", "graduation", "video"],
+            explanation:
+              "Base relacional con tablas: Usuarios, Cursos (id, nombre, descripción), Lecciones (id, curso_id, orden, contenido), Enrolments (usuario_id, curso_id, fecha_inicio), Progreso (usuario_id, leccion_id, completada, fecha). Cloud SQL escala a miles de estudiantes, MySQL/PostgreSQL manejan transacciones, backups diarios automáticos protected your data.",
+            subjects: [
+              "Bases de Datos",
+              "Desarrollo Web",
+              "Administración de Base de Datos",
+              "Educación",
+            ],
+            tag: "PaaS",
+          },
+          {
+            title: "Sistema de gestión de inventario y compras",
+            icons: ["database", "shopping", "chart"],
+            explanation:
+              "Tablas: Productos (id, nombre, cantidad, precio), Proveedores (id, nombre, contacto), Órdenes_Compra (id, proveedor_id, fecha, estado), Detalles_Orden (id, orden_id, producto_id, cantidad, precio_unitario). Relaciones aseguran: no compras producto inexistente, proveedor con órdenes no se borra sin cascada. Cloud SQL con réplicas geográficas garantiza 4-9s uptime.",
+            subjects: [
+              "Bases de Datos",
+              "Administración de Base de Datos",
+              "Administración y Sistemas de Contabilidad",
+              "Optimización II",
+            ],
+            tag: "escalado automático",
+          },
+          {
+            title: "Aplicación móvil/web que necesita datos en múltiples ubicaciones",
+            icons: ["database", "globe", "mobile"],
+            explanation:
+              "App universitaria se usa en campus México, campus remoto y desde casas. Cloud SQL con réplicas de lectura en northamerica-northeast1 (Ciudad) y replica-standby para failover automático. Latencia baja, alta disponibilidad, y si la instancia principal falla, Google promueve la réplica automáticamente sin downtime.",
+            subjects: [
+              "Bases de Datos",
+              "Administración de Redes",
+              "Sistemas Operativos",
+              "Administración de Base de Datos",
+            ],
+            tag: "escalado automático",
+          },
+          {
+            title: "Análisis de datos históricos: investigación sobre parones académicos",
+            icons: ["database", "chart", "research"],
+            explanation:
+              "Años de históricos: estudiantes, inscripciones, calificaciones, egreso. Cloud SQL almacena datos estructurados, replicas de lectura sin impacto en producción, conexión directa a BigQuery para análisis masivo. Queries: 'Tasa de retención por programa', 'Promedio por cohorte', 'Correlación entre matemática y desempeño'. Sin mover datos, SQL sobre source.",
+            subjects: [
+              "Bases de Datos",
+              "Estadística II",
+              "Análisis de Decisiones y Teoría de Juegos",
+              "Pronósticos",
+            ],
+            tag: "base administrada",
+          },
+          {
+            title: "Migración de aplicación legacy desde servidor local a la nube",
+            icons: ["database", "cloud", "server"],
+            explanation:
+              "Aplicación monolítica que corre MySQL 5.7 en un servidor on-premise necesita moverse a cloud. Cloud SQL soporta MySQL 5.7 → 8.0, Google ofrece Database Migration Service (DMS) que replica datos en vivo con zero downtime. Cortas DNS cuando listo, aplicación habla a los mismos driver/queries pero DB está en GCP. Backups automáticos day 1.",
+            subjects: [
+              "Bases de Datos",
+              "Administración de Base de Datos",
+              "Sistemas Operativos",
+              "Proyectos de Tecnología de Información",
+            ],
+            tag: "control total",
+          },
+        ],
+      },
+      {
         type: "scenario",
         title: "¿Relacional o no?",
         scenarios: [
@@ -418,6 +502,91 @@ export const unit6Content: TopicContent[] = [
         ],
       },
       {
+        type: "useCaseCards",
+        serviceName: "Cloud Spanner & AlloyDB",
+        cases: [
+          {
+            title: "Análisis de grandes volúmenes: proyectos de investigación masivos",
+            icons: ["database", "chart", "cpu"],
+            explanation:
+              "Investigador tiene 10 años de datos de experimentos: millones de registros, terabytes totales. AlloyDB con columnar engine ejecuta agregaciones 100x más rápido que PostgreSQL estándar. SELECT COUNT(*), AVG(valor) GROUP BY tipo corre en segundos en vez de minutos. Sigue siendo PostgreSQL (mismo SQL, librerías), pero con arquitectura GPU-optimizada para analítica.",
+            subjects: [
+              "Investigación en Matem. Aplicad. y Comput.",
+              "Estadística II",
+              "Minería de Datos",
+              "Procesos Estocásticos",
+              "Métodos Numéricos II",
+            ],
+            tag: "escalado automático",
+          },
+          {
+            title: "Sistema global de pagos: transacciones en 50 países simultáneamente",
+            icons: ["database", "globe", "shield"],
+            explanation:
+              "E-commerce vende en 50 países en 6 continentes. Cada transacción DEBE ser ACID incluso si cliente está en NYC, servidor en Singapur, y fulfillment en Frankfurt. Cloud Spanner con TrueTime garantiza: dinero jamás se duplica, inventario no oversells, consistencia fuerte entre continentes. SLA 99.999% (5 nueves) es requirement no-negociable.",
+            subjects: [
+              "Bases de Datos",
+              "Administración de Base de Datos",
+              "Administración y Sistemas de Contabilidad",
+              "Seguridad Computacional",
+            ],
+            tag: "orquestación",
+          },
+          {
+            title: "OLTP de alta carga: miles de transacciones por segundo sin parar",
+            icons: ["database", "zap", "server"],
+            explanation:
+              "Plataforma de reservas de vuelos procesa 100,000 bookings/hora. AlloyDB escala horizontalmente: si crecen transacciones, agrega más replicas de lectura (read pools), no cuello de botella. PostgreSQL compatible permite migración directo, same código, 4x más rápido. Para OLTP puro (inserts/updates frecuentes), AlloyDB antes que Spanner.",
+            subjects: [
+              "Bases de Datos",
+              "Administración de Base de Datos",
+              "Administración de Redes",
+              "Análisis de Algoritmos",
+            ],
+            tag: "escalado automático",
+          },
+          {
+            title: "Red social global: usuarios distribuidos en todos los continentes",
+            icons: ["database", "globe", "network"],
+            explanation:
+              "Red social con usuarios en Tokyo, Londres, Sao Paulo, Lagos. Cuando usuario en Tokyo escribe post, ese dato debe estar visible en Londres en milisegundos (consistencia fuerte, no eventual). Cloud Spanner replica automáticamente entre regiones, TrueTime ordena eventos globalmente. Para baja latencia local, queries leen desde la región más cercana.",
+            subjects: [
+              "Bases de Datos",
+              "Bases de Datos Distribuida",
+              "Administración de Redes",
+              "Sistemas Operativos",
+            ],
+            tag: "orquestación",
+          },
+          {
+            title: "Migrración grande de PostgreSQL desde datacenter a cloud",
+            icons: ["database", "cloud", "server"],
+            explanation:
+              "Universidad tiene PostgreSQL 12 con 500 GB corriendo on-premise. AlloyDB es 100% compatible PostgreSQL: mismo SQL, mismos drivers, mismas herramientas. Database Migration Service (DMS) replica en vivo sin downtime, cutover en minutos. Luego de migración, aprovechas beneficio: consultas analytics 100x más rápido sin cambiar queries.",
+            subjects: [
+              "Bases de Datos",
+              "Administración de Base de Datos",
+              "Sistemas Operativos",
+              "Proyectos de Tecnología de Información",
+            ],
+            tag: "control total",
+          },
+          {
+            title: "Finanzas: multi-moneda, multi-país, auditoría regulatoria estricta",
+            icons: ["database", "globe", "shield"],
+            explanation:
+              "Sistema de divisas para banco: USD, EUR, MXN, JPY. Transacción de USD→MXN ejecuta en New York y debe reflejarse en México en <100ms, con auditoría completa. Cloud Spanner: distributed ACID, punto de partida para cumplir PCI-DSS/ISO. Ledger completo inmutable, hash verification, point-in-time recovery. Requiere máximo rigor.",
+            subjects: [
+              "Elementos de Finanzas e Inversión",
+              "Administración y Sistemas de Contabilidad",
+              "Bases de Datos",
+              "Seguridad Computacional",
+            ],
+            tag: "orquestación",
+          },
+        ],
+      },
+      {
         type: "scenario",
         title: "¿Necesitas una base global?",
         scenarios: [
@@ -605,6 +774,90 @@ export const unit6Content: TopicContent[] = [
           { command: "cbt read my-table", description: "Leer todas las filas de la tabla" },
           { command: "gcloud bigtable instances create my-instance --display-name=MyInstance --cluster-config=id=my-cluster,zone=us-central1-a,nodes=1", description: "Crear una instancia Bigtable con un clúster de 1 nodo" },
           { command: "gcloud bigtable instances list", description: "Listar todas las instancias Bigtable del proyecto" },
+        ],
+      },
+      {
+        type: "useCaseCards",
+        serviceName: "Firestore & Cloud Bigtable",
+        cases: [
+          {
+            title: "App móvil con sincronización en tiempo real y modo offline",
+            icons: ["mobile", "sync", "database"],
+            explanation:
+              "Estudiante descarga notas del curso en su celular, cuando vuelve a casa sin wifi sigue editándolas en la app (offline-first). Firestore mantiene estado en local y sync cuando hay internet. Cambios hechos by profesor se replican en tiempo real a todos los alumnos activos. Listeners automáticos disparan UI updates sin polling. Perfect para collaborative apps.",
+            subjects: [
+              "Bases de Datos",
+              "Desarrollo Web",
+              "Programación Multimedia",
+              "Administración de Redes",
+            ],
+            tag: "serverless",
+          },
+          {
+            title: "Sistema IoT: sensores en campus enviando 100K medidas por segundo",
+            icons: ["sensor", "database", "zap"],
+            explanation:
+              "Estaciones meteorológicas, medidores de consumo, sensores de ocupación en aulas envían temperaturas/humedad/CO2 cada segundo. 10,000 sensores = 10K ops/seg. Cloud Bigtable absorbe sin latency (16ms max incluso a petabyte scale). Series temporales compactadas, TTL automático elimina datos viejos. Datos fluyen directo a BigQuery para análisis.",
+            subjects: [
+              "Sistemas Operativos",
+              "Administración de Redes",
+              "Análisis de Algoritmos",
+              "Procesamiento de Señales",
+            ],
+            tag: "escalado automático",
+          },
+          {
+            title: "Aplicación colaborativa: documento compartido editado por múltiples usuarios",
+            icons: ["document", "users", "sync"],
+            explanation:
+              "Proyecto final de equipo — 5 estudiantes editan simultaneamente un documento en la web (como Google Docs). Firestore guarda cambios como eventos (Operation Transformation). Cada usuario ve updates en <100ms sin refresh. Historial completo de cambios auditable. Firestore transactions garantizan que solo se aplica conflicting changes. Serverless, escala automático.",
+            subjects: [
+              "Bases de Datos",
+              "Desarrollo Web",
+              "Programación Concurrente",
+              "Sistemas Operativos",
+            ],
+            tag: "serverless",
+          },
+          {
+            title: "Analytics de tiempo real: tabla de líderes (leaderboard) en app de gamificación",
+            icons: ["chart", "trophy", "zap"],
+            explanation:
+              "App universitaria gamificada: estudiantes ganan puntos, leaderboard global se actualiza en vivo. Bigtable por row: user_id como key, columnas: score, timestamp, achievements. Sorted scans devuelven top 100 en milisegundos. Bigtable HyperLogLog para estimar conteos únicos sin recorrer terabytes. 1M updates/segundo sin problema.",
+            subjects: [
+              "Bases de Datos",
+              "Análisis de Algoritmos",
+              "Sistemas Inteligentes",
+              "Administración de Redes",
+            ],
+            tag: "escalado automático",
+          },
+          {
+            title: "Chat en vivo de clases: guardar mensajes con timestamp + presencia de usuarios",
+            icons: ["chat", "users", "clock"],
+            explanation:
+              "Clase virtual: 300 estudiantes en chat simultáneo. Firestore collection 'messages' con documentos por mensaje, indexed por timestamp. Query 'messages WHERE classroom_id==X ORDER BY timestamp DESC LIMIT 50' trae últimos 50 msgs en <50ms. Listeners notifican nuevos msgs. Field 'is_typing' para presencia (user A está escribiendo). Fácil de escalar a 10K usuarios.",
+            subjects: [
+              "Bases de Datos",
+              "Desarrollo Web",
+              "Administración de Redes",
+              "Telecomunicaciones",
+            ],
+            tag: "serverless",
+          },
+          {
+            title: "Ad-tech: logs de clicks/impressions para publicidad en campus digital",
+            icons: ["chart", "click", "advertising"],
+            explanation:
+              "Sistema de ads en portal universitario: cada click logged a Bigtable (row: ad_id-timestamp, columns: user, campaign, cost). 50K events/sec. Bigtable con compresión guarda eficientemente, garbage collection auto elimina data >90 days. Integración con Dataflow para procesar logs, feed a BigQuery para reportes. Mismo motor que Google Ads usa internamente.",
+            subjects: [
+              "Bases de Datos",
+              "Minería de Datos",
+              "Análisis de Decisiones y Teoría de Juegos",
+              "Administración y Sistemas de Contabilidad",
+            ],
+            tag: "escalado automático",
+          },
         ],
       },
       {

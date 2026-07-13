@@ -392,6 +392,58 @@ export const unit3Content: TopicContent[] = [
         ],
       },
       {
+        type: "useCaseCards",
+        serviceName: "Compute Engine",
+        cases: [
+          {
+            title: "Necesito una computadora para simulación numérica pesada",
+            icons: ["cpu", "flask", "chart"],
+            explanation:
+              "Las simulaciones numéricas (elementos finitos, dinámica de fluidos, Monte Carlo) requieren control total del SO, acceso a GPU y grandes cantidades de RAM. Una VM permite configurar exactamente los recursos que la simulación necesita, instalar librerías científicas específicas (CUDA, OpenMPI) y ejecutar jobs de larga duración sin interrupciones.",
+            subjects: [
+              "Simulación Estocástica",
+              "Métodos Numéricos",
+            ],
+            tag: "GPU/HPC",
+          },
+          {
+            title: "Montar un servidor de base de datos con configuración avanzada",
+            icons: ["database", "lock", "disk"],
+            explanation:
+              "Cuando necesitas un motor de base de datos con tuning avanzado (buffer pool, WAL, replication custom), o un DBMS no soportado como servicio administrado, una VM te da acceso directo al filesystem, configuración de disco (SSD/HDD) y parámetros del SO que un servicio managed no permite modificar.",
+            subjects: [
+              "Base de Datos",
+              "Admin. de Base de Datos",
+              "Seguridad Computacional",
+            ],
+            tag: "control total",
+          },
+          {
+            title: "Entrenar un modelo de IA/ML con GPU dedicada",
+            icons: ["brain", "cpu", "chart"],
+            explanation:
+              "El entrenamiento de modelos de machine learning y deep learning requiere GPUs (NVIDIA T4, V100, A100) con drivers CUDA instalados. Compute Engine permite adjuntar GPUs a una VM, instalar frameworks como TensorFlow o PyTorch, y ejecutar entrenamiento durante horas o días. VMs spot con GPU reducen costos hasta 91%.",
+            subjects: [
+              "Sistemas Inteligentes",
+              "Minería de Datos",
+              "Pronósticos",
+            ],
+            tag: "GPU/HPC",
+          },
+          {
+            title: "Correr un servidor de graficación o renderizado 3D",
+            icons: ["monitor", "cpu", "cog"],
+            explanation:
+              "Aplicaciones de graficación por computadora y renderizado 3D necesitan GPUs potentes y configuraciones específicas de OpenGL/Vulkan. Una VM con GPU dedicada permite instalar drivers gráficos, ejecutar renders pesados de forma remota y usar herramientas como Blender, VTK o frameworks custom sin depender de hardware local.",
+            subjects: [
+              "Graficación por Computadora",
+              "Programación Multimedia",
+            ],
+            tag: "GPU/HPC",
+          },
+        ],
+      },
+      {
         type: "scenario",
         title: "¿VM o servicio administrado?",
         scenarios: [
@@ -557,6 +609,56 @@ export const unit3Content: TopicContent[] = [
           { command: "gcloud app services set-traffic --splits v2=1", description: "Enviar 100% del tráfico a la versión v2" },
           { command: "gcloud app logs tail -s default", description: "Ver los logs en tiempo real del servicio default" },
           { command: "gcloud app versions delete v1 v2", description: "Eliminar versiones antiguas para liberar recursos" },
+        ],
+      },
+      {
+        type: "useCaseCards",
+        serviceName: "App Engine",
+        cases: [
+          {
+            title: "Validar un MVP rápidamente con presupuesto mínimo",
+            icons: ["code", "zap", "chart"],
+            explanation:
+              "Startups y equipos de innovación necesitan validar ideas rápido sin gastar en infraestructura. App Engine Standard con escalado a cero permite desplegar con un comando (gcloud app deploy), servir usuarios reales y pagar $0 si no hay tráfico. Rollback instantáneo si algo falla. Costo mínimo para validación.",
+            subjects: [
+              "Desarrollo Web",
+              "Temas Selectos de Computación I",
+            ],
+            tag: "escalado automático",
+          },
+          {
+            title: "API REST en Node.js/Python/Go sin pensar en servidores",
+            icons: ["code", "server", "cog"],
+            explanation:
+              "Una API REST simple en Flask, Express o Go que no tiene requisitos especiales (no necesita WebSockets, no modifica estado en disco, no executa procesos background largo). App Engine Standard es perfecta: despliega el código, la plataforma cuida de TODO (SSL, load balancing, actualizaciones, health checks). Cero configuración de infraestructura.",
+            subjects: [
+              "Desarrollo Web",
+              "Análisis de Algoritmos",
+            ],
+            tag: "PaaS",
+          },
+          {
+            title: "Panel de control para reportes con tráfico predecible",
+            icons: ["monitor", "chart", "database"],
+            explanation:
+              "Dashboard o portal de reportes que se usa 8am-6pm (horario laboral), con tráfico más o menos predecible. App Engine Flexible permite runtime custom, acceso a disco local para cache, y puede mantener 1-2 instancias siempre activas (cost-effective para tráfico consistente). Puedes usar PaaS sin pagar factura de Kubernetes.",
+            subjects: [
+              "Desarrollo Web",
+              "Base de Datos",
+            ],
+            tag: "base administrada",
+          },
+          {
+            title: "Sitio web informativo con contenido estático + API simple",
+            icons: ["globe", "code", "network"],
+            explanation:
+              "Sitio web universitario con información estática + pequeña API backend (consultar eventos, enviar contacto). App Engine sirve HTML/CSS/JS estático rápido, y la API backend escala con demanda. No necesitas nginx/Apache separados ni configuración de DNS; Google Cloud maneja todo incluyendo HTTPS gratis.",
+            subjects: [
+              "Desarrollo Web",
+              "Programación Multimedia",
+            ],
+            tag: "escalado automático",
+          },
         ],
       },
       {
@@ -906,6 +1008,91 @@ export const unit3Content: TopicContent[] = [
         ],
       },
       {
+        type: "useCaseCards",
+        serviceName: "Google Kubernetes Engine (GKE)",
+        cases: [
+          {
+            title: "Arquitectura de microservicios con múltiples equipos independientes",
+            icons: ["boxes", "network", "code"],
+            explanation:
+              "Cuando una aplicación se divide en 5-10 microservicios desarrollados por equipos diferentes (auth, pagos, inventario, notificaciones, reporting), cada equipo necesita deployar independientemente sin afectar a otros. Kubernetes permite definir servicios, políticas de red (NetworkPolicies) y auto-scaling por servicio. Cada equipo controla su propio deployment.yaml sin tocar infra compartida.",
+            subjects: [
+              "Programación Paralela y Concurrente",
+              "Análisis de Algoritmos",
+              "Sistemas Inteligentes",
+              "Administración de Redes",
+            ],
+            tag: "orquestación",
+          },
+          {
+            title: "Servicio crítico que debe tener 99.99% uptime con failover automático",
+            icons: ["shield", "globe", "zap"],
+            explanation:
+              "Un servicio mission-critical (pagos, autenticación) no puede caer. GKE permite definir pods en múltiples zonas, health checks automáticos que reinician pods fallidos, y rolling updates sin downtime. Si un nodo falla, los pods se reschedule instantáneamente en otros nodos. Service mesh (Istio) agrega circuit breakers y retry logic.",
+            subjects: [
+              "Seguridad Computacional",
+              "Administración de Redes",
+              "Administración de Base de Datos",
+              "Calidad y Confiabilidad de Sistemas",
+            ],
+            tag: "orquestación",
+          },
+          {
+            title: "Procesar eventos/streams con workers escalables dinámicamente",
+            icons: ["workflow", "cpu", "chart"],
+            explanation:
+              "Sistema que procesa eventos: servidor Kafka produce eventos, workers consumen y procesan en paralelo. Con GKE puedes usar Horizontal Pod Autoscaler (HPA): cuando la cola crece, automáticamente escala a 100 workers; cuando se vacía, reduce a 5. Cada worker es un pod idéntico. No necesitas configurar MIGs manualmente ni predecir la carga.",
+            subjects: [
+              "Programación Paralela y Concurrente",
+              "Procesos Estocásticos",
+              "Minería de Datos",
+              "Sistemas Operativos",
+            ],
+            tag: "escalado automático",
+          },
+          {
+            title: "Machine Learning: entrenar modelo + servir predicciones en producción",
+            icons: ["brain", "cpu", "chart"],
+            explanation:
+              "Pipeline típico: training job en GPU que corre 4 horas (genera modelo.pkl), después swapping a serving: 200 instancias de un servidor que predice. Con Kubernetes describes ambas workloads en YAML, luego kubectl apply. Canary deployment: prueba modelo nuevo con 5% tráfico, si metrics bien, sube a 100%.",
+            subjects: [
+              "Sistemas Inteligentes",
+              "Minería de Datos",
+              "Estadística II",
+              "Procesos Estocásticos",
+            ],
+            tag: "orquestación",
+          },
+          {
+            title: "Desplegar la misma app en múltiples clouds (AWS, GCP, Azure) con Kubernetes",
+            icons: ["cloud", "container", "globe"],
+            explanation:
+              "Dockerizas tu app, describes deployment en Kubernetes YAML. Ese YAML funciona en GKE, EKS, AKS sin cambios. Cambias solo configuración (namespaces, storage class, ingress). Esto elimina vendor lock-in: si precios de GCP suben, migras el YAML a EKS sin reescribir aplicación.",
+            subjects: [
+              "Sistemas Operativos",
+              "Programación Paralela y Concurrente",
+              "Administración de Redes",
+              "Seguridad Computacional",
+            ],
+            tag: "contenedores",
+          },
+          {
+            title: "Cientíﬁco de datos: ejecutar 50 experimentos en paralelo con Kubernetes Jobs",
+            icons: ["flask", "cpu", "chart"],
+            explanation:
+              "Necesitas entrenar 50 modelos con distintos hyperparámetros (learning_rate, batch_size, etc.). Generas 50 Job specs en Kubernetes, Kube crea 50 pods en paralelo usando capacidad del clúster. Algunos terminan rápido, otros tardan más. Sin Kubernetes, harías esto manualmente o con scripts frágiles. Con K8s: kubectl apply -f 50-jobs.yaml y listo.",
+            subjects: [
+              "Minería de Datos",
+              "Estadística II",
+              "Procesos Estocásticos",
+              "Pronósticos",
+              "Optimización II",
+            ],
+            tag: "orquestación",
+          },
+        ],
+      },
+      {
         type: "scenario",
         title: "Detecta el mejor enfoque",
         scenarios: [
@@ -1056,6 +1243,88 @@ export const unit3Content: TopicContent[] = [
           { command: "gcloud run services update my-app --min-instances=1", description: "Configurar mínimo 1 instancia para evitar cold starts" },
           { command: "gcloud run revisions list --service=my-app", description: "Ver todas las revisiones (versiones) de un servicio" },
           { command: "gcloud run services update-traffic my-app --to-revisions=v2=50,v1=50", description: "Dividir tráfico 50/50 entre dos revisiones (canary)" },
+        ],
+      },
+      {
+        type: "useCaseCards",
+        serviceName: "Cloud Run / Cloud Functions",
+        cases: [
+          {
+            title: "Procesar imagen cuando se sube a Cloud Storage (thumbnail automático)",
+            icons: ["image", "workflow", "cpu"],
+            explanation:
+              "Estudiante sube una foto de tarea a un bucket. Cloud Storage trigger dispara automáticamente una Cloud Function que: descarga la imagen, la redimensiona a 800px, crea thumbnail, y guarda ambas. La función ejecuta solo los segundos necesarios (ej: 2 seg), luego termina. Pagas por esos 2 segundos × GB-RAM usado, no por tiempo de servidor ocioso.",
+            subjects: [
+              "Desarrollo Web",
+              "Procesamiento de Imágenes",
+              "Programación Multimedia",
+              "Graficación por Computadora",
+            ],
+            tag: "evento",
+          },
+          {
+            title: "Webhook que notifica a Slack cuando hay un push a GitHub main",
+            icons: ["code", "workflow", "zap"],
+            explanation:
+              "GitHub dispara un webhook HTTP a tu endpoint. Cloud Functions recibe el JSON, extrae info (autor, commit message), construye un mensaje bonito, y llama el API de Slack para notificar. Código simple (10-20 líneas), ejecuta en milisegundos. Perfect fit: código breve + evento externo + sin estado persistente.",
+            subjects: [
+              "Desarrollo Web",
+              "Administración de Redes",
+              "Proyectos de Tecnología de Información",
+            ],
+            tag: "evento",
+          },
+          {
+            title: "API REST rápida con escalado automático a cero",
+            icons: ["server", "globe", "zap"],
+            explanation:
+              "Necesitas un micro-API: recibe JSON, valida datos, consulta BD, devuelve respuesta. Cloud Run despliega un contenedor con tu app (Express, FastAPI, Go), escala a 0 cuando sin tráfico, instancia se crea en <1 segundo cuando llega request. Pagas por 100ms de cada invocación, no por servidor 24/7. Ideal para MVP o carga baja.",
+            subjects: [
+              "Desarrollo Web",
+              "Análisis de Algoritmos",
+              "Administración de Redes",
+            ],
+            tag: "serverless",
+          },
+          {
+            title: "Tarea programada: generar reporte cada medianoche",
+            icons: ["clock", "workflow", "chart"],
+            explanation:
+              "Cada noche a las 12am, Cloud Scheduler dispara una Cloud Function que: lee logs del día, genera estadísticas, crea PDF, lo guarda en Storage y envía email. Sin costo si no ejecuta, paga solo cuando corre (30 seg aprox). Si lo hicieras en un servidor 24/7, pagarías 30 veces más.",
+            subjects: [
+              "Desarrollo Web",
+              "Base de Datos",
+              "Admin. y Sistemas de Contabilidad",
+              "Análisis de Decisiones y Teoría de Juegos",
+            ],
+            tag: "evento",
+          },
+          {
+            title: "Transcribir audio/video cuando se carga a Cloud Storage",
+            icons: ["fileaudio", "brain", "workflow"],
+            explanation:
+              "Laboratorio sube video de una conferencia a un bucket. Cloud Storage trigger dispara función que: descarga video, llama Speech-to-Text API de Google, guarda transcripción en base datos. Función escala sola: si 5 videos suben simultáneamente, 5 instancias ejecutan en paralelo automáticamente. Pagás solo por lo que usaste.",
+            subjects: [
+              "Programación Multimedia",
+              "Sistemas Inteligentes",
+              "Minería de Datos",
+              "Análisis de Fourier",
+            ],
+            tag: "evento",
+          },
+          {
+            title: "API de predicción: modelo ML que responde en <100ms",
+            icons: ["brain", "zap", "server"],
+            explanation:
+              "Cargas un modelo entrenado (.pkl) a Cloud Run. Cada request: deserializa modelo (cached en memory), corre predicción, devuelve JSON. Cloud Run mantiene contenedor caliente, promedia <100ms por request. Escala a 100 instancias si llegan muchos requests. Alternativa: Cloud Functions si quieres escalar a cero (pero cold start de 0-5 seg).",
+            subjects: [
+              "Sistemas Inteligentes",
+              "Minería de Datos",
+              "Estadística II",
+              "Pronósticos",
+            ],
+            tag: "serverless",
+          },
         ],
       },
       {

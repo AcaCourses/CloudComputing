@@ -41,7 +41,8 @@ export type ContentSection =
   | { type: "managedSqlExplorer" }
   | { type: "globalDbExplainer" }
   | { type: "noSqlExplorer" }
-  | { type: "starService"; serviceName: string; icon: string; description: string; features: string[]; commands: { command: string; description: string }[] };
+  | { type: "starService"; serviceName: string; icon: string; description: string; features: string[]; commands: { command: string; description: string }[] }
+  | { type: "useCaseCards"; serviceName: string; cases: { title: string; icons: string[]; explanation: string; subjects: string[]; tag: string }[] };
 
 export type TopicContent = {
   slug: string;

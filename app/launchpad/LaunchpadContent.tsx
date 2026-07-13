@@ -120,6 +120,29 @@ const skillBadges = [
   { name: "Prepare Data for ML APIs", category: "Machine Learning", level: "INTERMEDIATE" },
 ];
 
+const completionBadges = [
+  {
+    name: "Google Cloud Computing Foundations: Cloud Computing Fundamentals",
+    image: "/assets/Foundamentals.png",
+    href: "https://www.skills.google/paths/36/course_templates/153",
+  },
+  {
+    name: "Google Cloud Computing Foundations: Infrastructure in Google Cloud",
+    image: "/assets/Infra.png",
+    href: "https://www.skills.google/paths/36/course_templates/154",
+  },
+  {
+    name: "Google Cloud Computing Foundations: Networking and Security in Google Cloud",
+    image: "/assets/sEC.png",
+    href: "https://www.skills.google/paths/36/course_templates/155",
+  },
+  {
+    name: "Google Cloud Computing Foundations: Data, ML, and AI in Google Cloud",
+    image: "/assets/ml.png",
+    href: "https://www.skills.google/paths/36/course_templates/156",
+  },
+];
+
 const serviceCategories = [
   {
     category: "Compute & Serverless",
@@ -630,6 +653,20 @@ export default function LaunchpadContent() {
             badgesAnim.isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
           }`}
         >
+          <div
+            className="mb-10 sm:mb-12"
+            style={{
+              opacity: badgesAnim.isInView ? 1 : 0,
+              transform: badgesAnim.isInView ? "translateY(0)" : "translateY(16px)",
+              transition: "all 0.6s ease 200ms",
+            }}
+          >
+            <p className="max-w-4xl mx-auto text-center text-base sm:text-lg text-foreground leading-relaxed font-medium">
+              Estás a un paso de egresar: demuestra lo que sabes con credenciales reales de Google Cloud.
+Completa los Skill Badges y gana Completion Badges del Career Launchpad para destacar en tu CV, validar tus habilidades prácticas y llegar mejor preparado a entrevistas técnicas.
+            </p>
+          </div>
+
           {/* Asymmetric header */}
           <div className="grid lg:grid-cols-[1fr_auto] gap-8 items-end mb-14">
             <div>
@@ -671,6 +708,46 @@ export default function LaunchpadContent() {
                 />
               </div>
             ))}
+          </div>
+
+          <div
+            className="mt-12"
+            style={{
+              opacity: badgesAnim.isInView ? 1 : 0,
+              transform: badgesAnim.isInView ? "translateY(0)" : "translateY(16px)",
+              transition: "all 0.6s ease 350ms",
+            }}
+          >
+            <div className="grid lg:grid-cols-[1fr_auto] gap-8 items-end mb-10">
+              <div>
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="h-1 w-10 bg-blue rounded-full" />
+                  <span className="text-xs font-semibold text-blue uppercase tracking-wider">Credenciales Foundations</span>
+                </div>
+                <h2 className="text-4xl sm:text-5xl font-extrabold text-foreground leading-tight">
+                  Completion <span className="text-blue">Badges</span>
+                </h2>
+                <p className="mt-4 text-base text-text-secondary max-w-lg">
+                  Cada badge se obtiene completando labs progresivos en entornos reales de Google Cloud.
+                  No son simulaciones: configuras servicios reales.
+                </p>
+              </div>
+              <div className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-blue-light border border-blue/20">
+                <BadgeCheck className="w-4 h-4 text-blue" />
+                <span className="text-xs font-bold text-blue">4 completion badges</span>
+              </div>
+            </div>
+
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+              {completionBadges.map((badge) => (
+                <img
+                  key={badge.name}
+                  src={badge.image}
+                  alt={badge.name}
+                  className="w-full h-auto object-contain"
+                />
+              ))}
+            </div>
           </div>
         </div>
 

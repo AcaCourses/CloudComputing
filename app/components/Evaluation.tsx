@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import {
   Scale,
   MessageSquare,
@@ -29,8 +30,8 @@ const evaluationItems = [
   {
     icon: FlaskConical,
     label: "Google Career Launch Pad",
-    value: "60%",
-    numValue: 60,
+    value: "50%",
+    numValue: 50,
     description: "Completar todas las actividades del programa.",
     color: "text-blue",
     barColor: "bg-blue",
@@ -41,7 +42,7 @@ const evaluationItems = [
     label: "Exámenes",
     value: "20%",
     numValue: 20,
-    description: "2 exámenes parciales. Es requisito aprobar ambos.",
+    description: "2 exámenes parciales.",
     color: "text-red",
     barColor: "bg-red",
     hasDetails: "examen" as string | null,
@@ -49,9 +50,9 @@ const evaluationItems = [
   {
     icon: MessageSquare,
     label: "Proyecto final",
-    value: "20%",
-    numValue: 20,
-    description: "Exposición por equipos con propuesta cloud.",
+    value: "30%",
+    numValue: 30,
+    description: "Exposición por equipos con propuesta cloud. Es requisito para aprobar el curso.",
     color: "text-green",
     barColor: "bg-green",
     hasDetails: "proyecto" as string | null,
@@ -75,8 +76,7 @@ const eventoRules = [
 
 const examenRules = [
   { icon: FileCheck, text: "Solo habrá 2 exámenes durante el semestre." },
-  { icon: AlertCircle, text: "Es requisito aprobar ambos exámenes para acreditar la materia." },
-  { icon: Clock, text: "Si reprueban uno o ambos exámenes, van a examen final." },
+  { icon: Clock, text: "Si reprueban uno o ambos exámenes, pueden reponerlos en el examen final." },
   { icon: BookOpen, text: "El examen final es la reposición del examen o exámenes reprobados." },
 ];
 
@@ -113,6 +113,7 @@ export default function Evaluation() {
   const [showCursoModal, setShowCursoModal] = useState(false);
   const [showEventoModal, setShowEventoModal] = useState(false);
   const [showExamenModal, setShowExamenModal] = useState(false);
+  const [showLaunchpadRulesModal, setShowLaunchpadRulesModal] = useState(false);
   const { ref: extrasRef, visibleItems: extrasVisible } = useStaggeredInView(extras.length, 200);
 
   // Animated progress fill & counting
@@ -211,13 +212,14 @@ export default function Evaluation() {
                 <div
                   key={item.label}
                   onClick={
-                    item.hasDetails === "launchpad" ? () => router.push("/launchpad")
-                    : item.hasDetails === "examen" ? () => setShowExamenModal(true)
+                    item.hasDetails === "examen" ? () => setShowExamenModal(true)
                     : item.hasDetails === "proyecto" ? () => router.push("/proyecto")
                     : undefined
                   }
                   className={`flex flex-col gap-3 p-4 rounded-lg border transition-all duration-300 ${
-                    item.hasDetails ? "cursor-pointer" : "cursor-default"
+                    item.hasDetails === "examen" || item.hasDetails === "proyecto"
+                      ? "cursor-pointer"
+                      : "cursor-default"
                   } ${
                     hoveredBar === i
                       ? "border-blue/30 bg-blue-light/30 shadow-sm scale-[1.02]"
@@ -253,14 +255,39 @@ export default function Evaluation() {
                       {item.description}
                     </p>
                   </div>
-                  {item.hasDetails && (
+                  {item.hasDetails === "launchpad" ? (
+                    <div className="flex items-center gap-2 mt-auto">
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          router.push("/launchpad");
+                        }}
+                        className="inline-flex items-center gap-1 text-[10px] font-medium text-blue px-2.5 py-1 rounded-md bg-blue-light/40 hover:bg-blue-light/70 transition-colors"
+                      >
+                        <Info className="w-3.5 h-3.5" />
+                        Ver programa
+                      </button>
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setShowLaunchpadRulesModal(true);
+                        }}
+                        className="inline-flex items-center gap-1 text-[10px] font-medium text-blue-dark px-2.5 py-1 rounded-md border border-blue/25 hover:bg-blue-light/40 transition-colors"
+                      >
+                        <FileText className="w-3.5 h-3.5" />
+                        Ver reglas
+                      </button>
+                    </div>
+                  ) : item.hasDetails ? (
                     <div className={`flex items-center gap-1 mt-auto ${item.hasDetails === "launchpad" ? "text-blue" : item.hasDetails === "proyecto" ? "text-green" : "text-red"}`}>
                       <Info className="w-3.5 h-3.5" />
                       <span className="text-[10px] font-medium">
                         {item.hasDetails === "launchpad" ? "Ver programa" : item.hasDetails === "proyecto" ? "Ver lineamientos" : "Ver reglas"}
                       </span>
                     </div>
-                  )}
+                  ) : null}
                 </div>
               ))}
             </div>
@@ -355,6 +382,185 @@ export default function Evaluation() {
         </div>
       </div>
     </section>
+
+    {/* Modal: Reglas Google Career Launch Pad */}
+    {showLaunchpadRulesModal && (
+      <div
+        className="fixed inset-0 z-50 flex items-center justify-center p-4"
+        onClick={() => setShowLaunchpadRulesModal(false)}
+      >
+        <div className="absolute inset-0 bg-black/40 backdrop-blur-sm animate-fade-in-up" />
+        <div
+          className="relative bg-white rounded-2xl border border-border shadow-2xl max-w-4xl w-full p-6 md:p-7 max-h-[90vh] overflow-y-auto animate-fade-in-up"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <button
+            onClick={() => setShowLaunchpadRulesModal(false)}
+            className="absolute top-4 right-4 p-1.5 rounded-lg hover:bg-grey-light transition-colors"
+          >
+            <X className="w-4 h-4 text-text-secondary" />
+          </button>
+
+          <div className="flex items-center gap-3 mb-5 pr-8">
+            <div className="p-3 rounded-xl bg-blue-light">
+              <FlaskConical className="w-6 h-6 text-blue" />
+            </div>
+            <div>
+              <h3 className="text-base md:text-lg font-bold text-foreground">
+                Google Career Launch Pad - Reglas
+              </h3>
+              <p className="text-xs text-text-secondary mt-0.5">
+                Criterios para el 50% de Launch Pad y puntos extra
+              </p>
+            </div>
+          </div>
+
+          <div className="space-y-6">
+            <div className="rounded-xl border border-blue/20 bg-blue-light/20 p-4 md:p-5">
+              <h4 className="text-sm font-semibold text-blue-dark mb-3">
+                1) Requisito principal - 30% de la calificacion
+              </h4>
+              <p className="text-sm text-foreground mb-4">
+                Terminar y obtener credencial en ambos modulos Foundations. Es obligatorio completar los 2 para ser acreedores al 30%.
+              </p>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <a
+                  href="https://www.skills.google/paths/36/course_templates/153"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="group rounded-xl border border-border bg-white p-3 hover:border-blue/35 hover:shadow-sm transition-all"
+                >
+                  <div className="aspect-[16/10] relative rounded-lg overflow-hidden ">
+                    <Image
+                      src="/assets/Foundamentals.png"
+                      alt="Google Cloud Computing Foundations: Cloud Computing Fundamentals"
+                      fill
+                      className="object-contain"
+                    />
+                  </div>
+                  <p className="mt-2 text-xs font-medium text-foreground group-hover:text-blue transition-colors">
+                    Cloud Computing Fundamentals
+                  </p>
+                </a>
+
+                <a
+                  href="https://www.skills.google/paths/36/course_templates/154"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="group rounded-xl border border-border bg-white p-3 hover:border-blue/35 hover:shadow-sm transition-all"
+                >
+                  <div className="aspect-[16/10] relative rounded-lg overflow-hidden ">
+                    <Image
+                      src="/assets/Infra.png"
+                      alt="Google Cloud Computing Foundations: Infrastructure in Google Cloud"
+                      fill
+                      className="object-contain"
+                    />
+                  </div>
+                  <p className="mt-2 text-xs font-medium text-foreground group-hover:text-blue transition-colors">
+                    Infrastructure in Google Cloud
+                  </p>
+                </a>
+              </div>
+            </div>
+
+            <div className="rounded-xl border border-green/20 bg-green-light/30 p-4 md:p-5">
+              <h4 className="text-sm font-semibold text-green-dark mb-3">
+                2) Skill Badges - 20%
+              </h4>
+              <p className="text-sm text-foreground mb-3">
+                Cada uno corresponde al 10% por badge.
+              </p>
+              <div className="space-y-2">
+                <a
+                  href="https://www.skills.google/paths/36/course_templates/648"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="block text-sm text-blue hover:text-blue-dark hover:underline"
+                >
+                  1. Implementing Cloud Load Balancing for Compute Engine
+                </a>
+                <a
+                  href="https://www.skills.google/paths/36/course_templates/637"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="block text-sm text-blue hover:text-blue-dark hover:underline"
+                >
+                  2. Set Up an App Dev Environment on Google Cloud
+                </a>
+              </div>
+            </div>
+
+            <div className="rounded-xl border border-orange/20 bg-orange/5 p-4 md:p-5">
+              <h4 className="text-sm font-semibold text-orange mb-3">
+                3) Modulos opcionales con puntos extra
+              </h4>
+              <p className="text-sm text-foreground mb-3">
+                Los opcionales dan puntos extra solo si se completan en pareja.
+              </p>
+
+              <div className="space-y-4">
+                <div className="rounded-lg border border-border/60 bg-white p-3">
+                  <p className="text-xs font-semibold text-foreground mb-2">Pareja opcional A (+0.6 pts)</p>
+                  <a
+                    href="https://www.skills.google/paths/36/course_templates/155"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="block text-sm text-blue hover:text-blue-dark hover:underline"
+                  >
+                    Google Cloud Computing Foundations: Networking and Security in Google Cloud
+                  </a>
+                  <a
+                    href="https://www.skills.google/paths/36/course_templates/654"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="block text-sm text-blue hover:text-blue-dark hover:underline mt-1"
+                  >
+                    Build a Secure Google Cloud Network
+                  </a>
+                  <p className="text-xs text-text-secondary mt-2">Deben completarse juntos para sumar +0.6 sobre la calificacion final.</p>
+                </div>
+
+                <div className="rounded-lg border border-border/60 bg-white p-3">
+                  <p className="text-xs font-semibold text-foreground mb-2">Pareja opcional B (+0.6 pts)</p>
+                  <a
+                    href="https://www.skills.google/paths/36/course_templates/156"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="block text-sm text-blue hover:text-blue-dark hover:underline"
+                  >
+                    Google Cloud Computing Foundations: Data, ML, and AI in Google Cloud
+                  </a>
+                  <a
+                    href="https://www.skills.google/paths/36/course_templates/631"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="block text-sm text-blue hover:text-blue-dark hover:underline mt-1"
+                  >
+                    Prepare Data for ML APIs on Google Cloud
+                  </a>
+                  <p className="text-xs text-text-secondary mt-2">Deben completarse juntos para sumar +0.6 sobre la calificacion final.</p>
+                </div>
+              </div>
+
+              <p className="mt-4 text-sm font-semibold text-foreground">
+                Total maximo de extra: +1.2 puntos sobre la calificacion final.
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-6 pt-4 border-t border-border/50 flex justify-end">
+            <button
+              onClick={() => setShowLaunchpadRulesModal(false)}
+              className="px-4 py-2 rounded-lg bg-blue text-white text-xs font-medium hover:bg-blue-dark transition-colors shadow-sm"
+            >
+              Entendido
+            </button>
+          </div>
+        </div>
+      </div>
+    )}
 
     {/* Modal: Reglas de exámenes */}
     {showExamenModal && (

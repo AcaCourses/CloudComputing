@@ -535,6 +535,89 @@ export const unit5Content: TopicContent[] = [
         ],
       },
       {
+        type: "useCaseCards",
+        serviceName: "Cloud Storage",
+        cases: [
+          {
+            title: "Evidencia fotográfica de laboratorios: miles de imágenes cada semestre",
+            icons: ["image", "globe", "database"],
+            explanation:
+              "Estudiantes suben fotos de prácticas de física, química, biología. Cloud Storage escala a millones de objetos sin problema, permite acceso por URL directa, y puedes organizar por carpeta virtual (ej: 2026/lab-fisica/práctica1/). Las imágenes se almacenan en Standard, transicionan a Nearline después de 30 días (acceso puntual) y después a Archive (retención histórica).",
+            subjects: [
+              "Desarrollo Web",
+              "Graficación por Computadora",
+              "Programación Multimedia",
+              "Bases de Datos",
+            ],
+            tag: "contenedores",
+          },
+          {
+            title: "Respaldo nocturnos completa de base de datos y archivos del servidor",
+            icons: ["disk", "shield", "clock"],
+            explanation:
+              "Cada noche a las 2 AM, un script genera un dump de la BD y comprime los archivos del servidor, guarda todo en un bucket de Cloud Storage Class Archive. Costo mínimo porque acceso es casi nulo. Si algo falla, recuperas desde allí. Lifecycle rules automáticamente eliminan respaldos después de 2 años cumpliendo regulaciones de retención.",
+            subjects: [
+              "Administración de Base de Datos",
+              "Seguridad Computacional",
+              "Sistemas Operativos",
+              "Administración de Redes",
+            ],
+            tag: "control total",
+          },
+          {
+            title: "Almacén de entregas de estudiantes: trabajos, proyectos, reportes",
+            icons: ["filecode", "network", "globe"],
+            explanation:
+              "Plataforma donde estudiantes suben trabajos finales en PDF, ZIP, Word. Cloud Storage con permisos IAM garantiza que cada estudiante solo vea sus carpetas. Géneras URLs firmadas (signed URLs) que expiran en 24h para compartir con profesor. Objetos se versionan automáticamente, así puedes auditar cambios o recuperar entregas antiguas.",
+            subjects: [
+              "Desarrollo Web",
+              "Proyectos de Tecnología de Información",
+              "Educación Web",
+            ],
+            tag: "escalado automático",
+          },
+          {
+            title: "Logs de aplicación y trazas de sistema para auditoría y debugging",
+            icons: ["code", "chart", "search"],
+            explanation:
+              "Tu app escribe logs a Cloud Storage: cada día 500 MB en Standard, cada mes 50 GB. Transitions automáticas: 7 días → Nearline, 30 días → Coldline. Con BigQuery Integration, puedes hacer querys SQL sobre los logs directamente: SELECT * FROM gs://logs-bucket/* WHERE error='500'. Guardas 1 año de auditoría con mínimo costo.",
+            subjects: [
+              "Sistemas Operativos",
+              "Administración de Redes",
+              "Seguridad Computacional",
+              "Análisis de Algoritmos",
+            ],
+            tag: "evento",
+          },
+          {
+            title: "Datos abiertos del campus: datasets para investigación y transparencia",
+            icons: ["database", "globe", "chart"],
+            explanation:
+              "Instituto publica datasets públicos: matrículas, graduaciones, estadísticas, datos ambientales del campus. Cloud Storage con acceso público permite descarga directa sin autenticación, reduciendo carga de tu servidor. Datos son Standard, versionados, y puedes generar reportes desde BigQuery. Cualquiera en el mundo puede acceder sin pedir permiso.",
+            subjects: [
+              "Análisis de Decisiones y Teoría de Juegos",
+              "Estadística II",
+              "Pronósticos",
+              "Análisis de Algoritmos",
+            ],
+            tag: "contenedores",
+          },
+          {
+            title: "Dataset masivo de imágenes /video para machine learning",
+            icons: ["image", "brain", "cpu"],
+            explanation:
+              "Tienes 100 GB de imágenes anotadas para entrenar modelos de visión (clasificación, detección). Cloud Storage alojar el dataset, Vertex AI o Cloud ML puede consumirlo directamente sin copiar. Durante entrenamiento activo: Standard. Después: Nearline/Coldline. El ciclo de vida automatiza transiciones: pays $0.004/GB/mes en Archive vs $0.02/GB/mes en Standard después de 90 días sin acceso.",
+            subjects: [
+              "Sistemas Inteligentes",
+              "Minería de Datos",
+              "Programación Paralela y Concurrente",
+              "Métodos Numéricos II",
+            ],
+            tag: "evento",
+          },
+        ],
+      },
+      {
         type: "scenario",
         title: "¿Lo guardarías como objeto?",
         scenarios: [

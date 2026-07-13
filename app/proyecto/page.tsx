@@ -20,6 +20,7 @@ import {
   CheckCircle2,
   AlertTriangle,
   Sparkles,
+  FileText,
   Layout,
   Monitor,
   Code,
@@ -457,6 +458,40 @@ const entregables = [
   "Posibles herramientas de IA o APIs que podrían integrarse",
   "Beneficio social, educativo o institucional de la solución",
   "Maqueta digital tipo MVP creada con apoyo de IA o herramientas web, que represente visualmente la solución al problema elegido",
+  "Link público de la maqueta digital (MVP) para revisión del docente",
+];
+
+const rubricaProyecto = [
+  {
+    criterio: "Presentación del problema y propuesta",
+    detalle: "El equipo explica con claridad el problema, su contexto, público objetivo y el valor de la solución.",
+    puntos: 5,
+  },
+  {
+    criterio: "MVP presentado en exposición",
+    detalle: "La presentación incluye una maqueta digital tipo MVP navegable y coherente con la propuesta.",
+    puntos: 7,
+  },
+  {
+    criterio: "Servicios de nube propuestos",
+    detalle: "Se exponen al menos 5 servicios de Google Cloud aplicables al proyecto y su función dentro de la arquitectura.",
+    puntos: 7,
+  },
+  {
+    criterio: "Alineación con especialización",
+    detalle: "La propuesta se conecta claramente con uno de los caminos: Networking & Security o Data, ML and AI.",
+    puntos: 4,
+  },
+  {
+    criterio: "Viabilidad e impacto",
+    detalle: "La solución muestra factibilidad conceptual y beneficio social, educativo o institucional realista.",
+    puntos: 4,
+  },
+  {
+    criterio: "Claridad de exposición y respuestas",
+    detalle: "Exposición ordenada, uso efectivo del tiempo y respuestas claras a preguntas del docente.",
+    puntos: 3,
+  },
 ];
 
 const serviciosCloud = [
@@ -747,7 +782,7 @@ export default function ProyectoPage() {
           <div className="text-center max-w-3xl mx-auto">
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-azure/10 border border-azure/20 text-xs font-medium text-azure mb-6">
               <Presentation className="w-3.5 h-3.5" />
-              20% de la calificación final
+              30% de la calificación final
             </div>
 
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground leading-tight">
@@ -1193,6 +1228,20 @@ export default function ProyectoPage() {
 
         {/* ═══ ENTREGABLES ═══ */}
         <section>
+          <div className="mb-8 rounded-2xl border border-azure/25 bg-azure/5 p-5 sm:p-6">
+            <div className="flex items-start gap-3">
+              <div className="p-2 rounded-lg bg-azure/15 shrink-0">
+                <FileText className="w-5 h-5 text-azure" />
+              </div>
+              <div>
+                <h2 className="text-xl font-bold text-foreground">Entregable</h2>
+                <p className="mt-1 text-sm text-text-secondary leading-relaxed">
+                  Entregar en el SEA un documento con la propuesta completa del proyecto y el link de la maqueta digital tipo MVP.
+                </p>
+              </div>
+            </div>
+          </div>
+
           <div className="flex items-center gap-3 mb-6">
             <div className="p-2 rounded-lg bg-green/10">
               <CheckCircle2 className="w-5 h-5 text-green" />
@@ -1228,33 +1277,43 @@ export default function ProyectoPage() {
           </div>
         </section>
 
-        {/* ═══ SERVICIOS CLOUD ═══ */}
+        {/* ═══ RÚBRICA ═══ */}
         <section>
           <div className="flex items-center gap-3 mb-6">
             <div className="p-2 rounded-lg bg-azure/10">
-              <Cloud className="w-5 h-5 text-azure" />
+              <Target className="w-5 h-5 text-azure" />
             </div>
             <div>
-              <h2 className="text-xl font-bold text-foreground">Servicios Cloud Sugeridos</h2>
-              <p className="text-xs text-text-secondary">Pueden mencionarse de forma conceptual en la propuesta</p>
+              <h2 className="text-xl font-bold text-foreground">Rúbrica de evaluación del proyecto (30%)</h2>
+              <p className="text-xs text-text-secondary">Así se calificará su Proyecto Final durante la exposición</p>
             </div>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            {serviciosCloud.map((srv, i) => (
-              <div
-                key={i}
-                className="group flex items-start gap-3 p-4 rounded-xl border border-border bg-white hover:border-azure/30 hover:shadow-sm transition-all duration-200"
-              >
-                <div className="p-2 rounded-lg bg-azure/10 shrink-0 group-hover:scale-110 transition-transform">
-                  <srv.icon className="w-4 h-4 text-azure" />
+          <div className="space-y-3">
+            {rubricaProyecto.map((item, i) => (
+              <div key={item.criterio} className="rounded-xl border border-border bg-white p-4 sm:p-5">
+                <div className="flex items-center justify-between gap-3 mb-2">
+                  <div className="flex items-center gap-2">
+                    <div className="w-6 h-6 rounded-full bg-azure/15 text-azure text-[10px] font-bold flex items-center justify-center">
+                      {i + 1}
+                    </div>
+                    <h3 className="text-sm sm:text-base font-semibold text-foreground">{item.criterio}</h3>
+                  </div>
+                  <span className="text-xs font-bold text-azure bg-azure/10 px-2 py-1 rounded-full">
+                    {item.puntos} pts
+                  </span>
                 </div>
-                <div>
-                  <span className="text-sm font-medium text-foreground">{srv.name}</span>
-                  <p className="text-xs text-text-secondary mt-0.5">{srv.desc}</p>
-                </div>
+                <p className="text-sm text-text-secondary leading-relaxed pl-8">
+                  {item.detalle}
+                </p>
               </div>
             ))}
+          </div>
+
+          <div className="mt-4 rounded-xl border border-azure/25 bg-azure/5 p-4">
+            <p className="text-sm text-foreground font-medium">
+              Puntaje total de la rúbrica: 30 puntos (equivale al 30% de la calificación final).
+            </p>
           </div>
         </section>
 

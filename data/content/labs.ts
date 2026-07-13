@@ -127,24 +127,39 @@ export const labsContent: LabContent[] = [
           "Define CPU y memoria, por ejemplo e2-medium.",
       },
       {
+        term: "HTTP (Hyper Text Transfer Protocol)",
+        definition:
+          "Protocolo de comunicación que usan los navegadores web para pedir páginas a un servidor web. Funciona en el puerto 80 (o 443 para HTTPS cifrado). Cuando escribes una URL en el navegador, estás usando HTTP para hablar con el servidor.",
+      },
+      {
+        term: "Servidor web",
+        definition:
+          "Es una máquina (en este caso, tu VM) que corre un programa capaz de recibir pedidos HTTP (preguntas) de navegadores y responder con páginas web. NGINX es un servidor web — está a la escucha esperando que alguien desde el navegador le pida un archivo.",
+      },
+      {
         term: "SSH (Secure Shell)",
         definition:
-          "Protocolo de red que permite conectarse de forma segura a una máquina remota mediante terminal cifrada. En Google Cloud, puedes abrir una sesión SSH directamente desde el navegador sin configurar llaves manualmente.",
+          "Protocolo de red seguro que te permite conectarte por terminal a una máquina remota como si estuvieras sentado frente a ella. La conexión está cifrada (encriptada) para que nadie pueda ver lo que escribes. En Google Cloud, puedes abrir una sesión SSH directamente desde el navegador sin necesidad de herramientas adicionales.",
+      },
+      {
+        term: "Firewall",
+        definition:
+          "Regla de seguridad que controla qué tráfico de red entra y sale de una máquina. Es como un guardia que decide: 'este tráfico entra, aquel no'. Sin una regla de firewall que permita el puerto 80, aunque tu servidor web esté corriendo, nadie podrá conectarse desde el navegador.",
+      },
+      {
+        term: "Puerto",
+        definition:
+          "Un número que identifica un servicio en la máquina. El puerto 80 es para HTTP (navegador web), el puerto 22 es para SSH (terminal remota), el puerto 443 es para HTTPS (web seguro). Es como las puertas de un edificio — cada puerta lleva a un servicio diferente.",
       },
       {
         term: "NGINX",
         definition:
-          "Servidor web ligero y de alto rendimiento. En este lab se instala dentro de la VM para servir páginas web; al acceder a la IP externa de la VM por HTTP, NGINX responde con su página por defecto.",
-      },
-      {
-        term: "Firewall HTTP",
-        definition:
-          "Regla de red que permite el tráfico entrante en el puerto 80. Sin esta regla, aunque NGINX esté corriendo, nadie podría acceder desde el navegador.",
+          "Servidor web ligero y muy rápido. Cuando lo instalas en tu VM con 'apt-get install nginx', el programa se pone a escuchar en el puerto 80. Cuando visitas http://IP-externa-de-tu-VM desde el navegador, NGINX recibe la solicitud HTTP y responde con su página por defecto.",
       },
       {
         term: "Cloud Shell",
         definition:
-          "Es un entorno con herramientas ya listas, incluyendo gcloud, para administrar recursos de Google Cloud.",
+          "Es un entorno de terminal (terminal significa línea de comandos) que Google proporciona en la consola web. Ya viene con herramientas instaladas como gcloud, kubectl y otras. No necesitas instalar nada en tu computadora — todo está listo para usar.",
       },
     ],
     interactionPattern: [
@@ -276,29 +291,64 @@ export const labsContent: LabContent[] = [
       "Este laboratorio es complementario al AB porque no se limita a seguir comandos: busca que el estudiante comprenda qué significa desplegar una aplicación en una plataforma administrada, qué parte controla el desarrollador y qué parte resuelve Google Cloud automáticamente. En App Engine standard, la aplicación corre sobre infraestructura administrada por Google con runtimes preconfigurados, lo que reduce la necesidad de gestionar servidores, sistema operativo y escalamiento manual.\n\nEn este lab, el valor formativo está en comparar tres momentos del trabajo real de desarrollo: probar localmente, modificar el código y desplegar a producción. Cloud Shell ofrece acceso autenticado al proyecto y permite ejecutar gcloud, editar archivos y desplegar desde un entorno listo para usar.\n\nAquí no solo se despliega una app en Python: también se analiza cómo App Engine permite concentrarse en el código mientras Google Cloud abstrae la infraestructura, el runtime administrado y buena parte de la operación del despliegue.",
     concepts: [
       {
+        term: "API (Application Programming Interface)",
+        definition:
+          "Interfaz que permite que un programa se comunique con otro por HTTP. Es como un contrato: 'si me envías una solicitud HTTP a esta URL, yo te respondo con esta información'. Tu app Flask crea una API: cuando el navegador pide http://localhost:5000/hello, Flask responde con 'Hello World'.",
+      },
+      {
+        term: "Flask",
+        definition:
+          "Framework (herramienta) de Python para crear aplicaciones web. Es ligero y fácil — con pocas líneas de código puedes crear una API que responde a solicitudes HTTP. En este lab usas Flask; otros frameworks similares son Django (Python), Express (Node.js), FastAPI (Python).",
+      },
+      {
+        term: "Ambiente virtual (Virtual Environment)",
+        definition:
+          "Carpeta aislada de Python en tu máquina donde instalar solo las librerías que tu proyecto necesita, sin afectar el Python global del sistema operativo. Es como una 'burbuja' donde puedes instalar Flask 2.0, otra app puede tener Flask 1.5, y no se interfieren. Se crea con 'python -m venv venv' y se activa antes de trabajar.",
+      },
+      {
+        term: "Puerto",
+        definition:
+          "Número que identifica un servicio de red en una máquina. Puerto 80 es para HTTP (web normal), puerto 443 es para HTTPS (web seguro), puerto 5000 es un puerto común para desarrollo web en localhost. Es como decirle a Flask: 'escucha en puerto 5000', y cuando escribes http://localhost:5000 en el navegador, estás conectando al puerto 5000 de tu máquina.",
+      },
+      {
+        term: "Localhost / 127.0.0.1",
+        definition:
+          "Dirección especial que significa 'tu propia máquina'. http://localhost:5000 es lo mismo que http://127.0.0.1:5000. Cuando ejecutas una app localmente (en tu máquina), escuchas en localhost. Es interno — solo tú puedes acceder desde tu navegador.",
+      },
+      {
+        term: "Ejecutar localmente",
+        definition:
+          "Correr la app en tu máquina (no en la nube) para probarla antes de despliegarla. Ejemplo: 'python main.py' inicia Flask en localhost:5000. Ves los cambios al instante, debuggeas fácil, y nadie más puede acceder porque está en localhost. Es la etapa de desarrollo/testing antes del deploy.",
+      },
+      {
+        term: "Deployment / Deploy",
+        definition:
+          "Publicar la app desde tu máquina local a un servidor público en la nube para que cualquiera pueda acceder. 'gcloud app deploy' sube tu código a App Engine, Google configura todo, y tu app queda en una URL pública (como miapp.appspot.com). El deploy es el paso de 'solo yo puedo verla' a 'el mundo puede verla'.",
+      },
+      {
         term: "App Engine",
         definition:
-          "Plataforma para alojar aplicaciones sin administrar directamente servidores o VMs.",
+          "Plataforma de Google Cloud para alojar aplicaciones web sin que tengas que gestionar servidores. Subes tu código (Python, Node.js, Go, etc.), App Engine crea el entorno, lo escala automáticamente, y tu app está lista. No configuras os, ni nginx, ni nada — solo tu código.",
       },
       {
         term: "Entorno estándar",
         definition:
-          "Usa runtimes preconfigurados y está pensado para despliegue administrado y escalable.",
+          "Tipo de App Engine que usa runtimes preconfigurados (Python 3.9, Node.js 16, etc.). Es más simple que Flexible: Google ya tiene todo armado, solo desplegas tu código. Escala a cero si nadie usa tu app (no pagas).",
       },
       {
         term: "Cloud Shell",
         definition:
-          "Entorno de línea de comandos con herramientas de desarrollo y acceso al proyecto de Google Cloud.",
+          "Terminal web que Google te ofrece en la consola. Ya tiene gcloud instalado, Python, git, y acceso a tu proyecto. No necesitas instalar nada en tu computadora — abres Cloud Shell en el navegador y listo.",
       },
       {
-        term: "Prueba local",
+        term: "Repositorio / Repository",
         definition:
-          "Ejecutar la app antes del despliegue permite validar comportamiento y cambios en una vista previa.",
+          "Carpeta en GitHub (o similar) donde está el código de un proyecto. Cuando haces 'git clone', descargas el código completo a tu máquina. En este lab clonas el repo con el código de Hello World en Python.",
       },
       {
-        term: "Deploy",
+        term: "main.py",
         definition:
-          "Publicar la aplicación en App Engine para obtener una URL accesible desde navegador.",
+          "Archivo Python que contiene tu aplicación Flask. Es el 'punto de entrada' — cuando ejecutas 'python main.py', Flask comienza a escuchar en puerto 5000 y tu app está lista para recibir solicitudes HTTP.",
       },
     ],
     interactionPattern: [
@@ -463,29 +513,64 @@ export const labsContent: LabContent[] = [
       "Este laboratorio es complementario al AB porque amplía la práctica técnica con explicaciones conceptuales sobre cómputo serverless, eventos, mensajería asíncrona y observabilidad mediante logs. En Cloud Run functions, el estudiante se concentra en escribir y desplegar código, mientras la plataforma administra la infraestructura subyacente y ejecuta la función cuando ocurre el evento configurado.\n\nA diferencia de una aplicación que permanece ejecutándose continuamente, aquí el código responde solo cuando algo sucede, por ejemplo la publicación de un mensaje en un tema de Pub/Sub. Pub/Sub es un servicio de mensajería asíncrona y administrada que desacopla productores y consumidores de mensajes.\n\nA lo largo de la actividad, el estudiante crea una función, la despliega, publica un mensaje en Pub/Sub y verifica mediante logs que el evento activó correctamente la ejecución del código. Cloud Run functions permite precisamente ese patrón: reaccionar a eventos sin administrar servidores de forma directa.",
     concepts: [
       {
-        term: "Serverless",
-        definition:
-          "Modelo donde el proveedor administra infraestructura y escalamiento, mientras el desarrollador se enfoca en el código.",
-      },
-      {
-        term: "Cloud Run functions",
-        definition:
-          "Funciones ligeras que se ejecutan en respuesta a eventos o invocaciones HTTP.",
-      },
-      {
         term: "Evento",
         definition:
-          "Suceso que activa la ejecución, como un mensaje publicado en Pub/Sub.",
+          "Un suceso que ocurre en un sistema y desencadena una acción. Ejemplos: un usuario sube un archivo, llega un mensaje a una cola, se cumple una hora programada. En este lab, el evento es 'un mensaje fue publicado en Pub/Sub' — cuando eso ocurre, la función se ejecuta automáticamente.",
       },
       {
-        term: "Pub/Sub",
+        term: "Tópico (Topic)",
         definition:
-          "Servicio de mensajería asíncrona entre productores y consumidores desacoplados.",
+          "Canal de comunicación en Pub/Sub donde los productores publican mensajes. Es como un buzón — los productores ponen mensajes adentro, los consumidores (funciones) los leen. En el lab creas un tópico 'cf-demo' y publicas mensajes allí.",
+      },
+      {
+        term: "Mensaje",
+        definition:
+          "Datos que un productor envía a un tópico en Pub/Sub. Es el contenido que se transmite. En el lab publicas un mensaje con un nombre (ej: 'World') en el tópico 'cf-demo', y la función lo recibe y responde.",
+      },
+      {
+        term: "Pub/Sub (Publish/Subscribe)",
+        definition:
+          "Servicio de mensajería asíncrona de Google Cloud que desacopla productores y consumidores. Productores publican mensajes en tópicos, consumidores se suscriben y reciben. Es asíncrono porque el productor no espera a que el consumidor procese — solo publica y sigue. Ideal para procesamiento event-driven.",
+      },
+      {
+        term: "Trigger",
+        definition:
+          "Lo que causa que una función se ejecute. En el lab, el trigger es Pub/Sub — la función se ejecuta cada vez que hay un mensaje en el tópico. Otros triggers posibles: HTTP (alguien hace request), Cloud Storage (archivo subido), Cloud Scheduler (hora programada).",
+      },
+      {
+        term: "Node.js",
+        definition:
+          "Entorno de ejecución de JavaScript fuera del navegador. Permite escribir backend y scripts en JavaScript. En el lab escribes la función en JavaScript/Node.js ( index.js). Node.js es popular para APIs y funciones serverless porque es ligero y rápido.",
+      },
+      {
+        term: "Runtime",
+        definition:
+          "Entorno que ejecuta tu código. Ejemplos: Python 3.9, Node.js 16, Go 1.16. El runtime incluye el intérprete (programa que convierte tu código en instrucciones) y librerías base. Cuando desplegas, especificas el runtime. Google Cloud ya lo tiene configurado — solo instalas tus dependencias.",
+      },
+      {
+        term: "Entry Point",
+        definition:
+          "Función específica que Google Cloud llama cuando se ejecuta tu código. En Node.js es el nombre de la función exportada. En el lab el entry point es 'helloPubSub' — es el nombre de la función que recibe el mensaje de Pub/Sub. Google Cloud busca esa función y la ejecuta cuando llega el evento.",
+      },
+      {
+        term: "Deployment / Despliegue",
+        definition:
+          "Proceso de publicar tu código en la nube para que se ejecute allá. 'gcloud functions deploy' toma tu código local, lo sube, configura el trigger (Pub/Sub), y la función queda lista. A diferencia del despliegue web (que sigue corriendo), Cloud Functions solo se ejecuta cuando ocurre el evento.",
+      },
+      {
+        term: "Cloud Shell",
+        definition:
+          "Terminal web integrada en Google Cloud con herramientas preinstaladas (gcloud, node, npm, etc.). No necesitas configurar nada en tu computadora — abres Cloud Shell y ejecutas comandos directamente.",
+      },
+      {
+        term: "package.json",
+        definition:
+          "Archivo JavaScript que lista dependencias del proyecto y metadatos. Define qué librerías necesita tu código (ej: '@google-cloud/functions-framework'). Cuando ejecutas 'npm install', lee este archivo e instala todo.",
       },
       {
         term: "Logs",
         definition:
-          "Registros de ejecución que permiten verificar si la función respondió correctamente al evento. Google Cloud integra observabilidad para revisar la actividad de los servicios desplegados.",
+          "Registros de lo que pasó cuando la función se ejecutó. Google Cloud guarda automáticamente logs: qué entrada recibió, qué salida produjó, cuánto tardó, si hubo error. Con 'gcloud functions logs read' ves ese histórico — así verificas que la función respondió al evento.",
       },
     ],
     interactionPattern: [
@@ -643,29 +728,79 @@ export const labsContent: LabContent[] = [
       "Este laboratorio es complementario al AB porque permite entender, paso a paso, cómo Kubernetes organiza el despliegue de aplicaciones en clústeres administrados por Google Cloud. En GKE, el estudiante no solo ejecuta comandos: también observa la relación entre clúster, nodos, Deployment y Service, que son piezas centrales de la arquitectura.\n\nAdemás, el laboratorio sirve para conectar contenedores con red y acceso externo. Un Deployment gestiona la aplicación, mientras que un Service de tipo LoadBalancer expone la carga de trabajo hacia Internet mediante balanceo de carga en Google Cloud.\n\nDurante la práctica, el estudiante configura la zona, crea un clúster, obtiene credenciales, despliega una aplicación, la expone mediante un Service y finalmente elimina el clúster. GKE proporciona la infraestructura administrada para ejecutar estos pasos dentro de un entorno de Kubernetes sobre Google Cloud.",
     concepts: [
       {
-        term: "Cluster",
+        term: "Contenedor",
         definition:
-          "Conjunto de control plane y nodos donde se ejecutan las cargas de trabajo.",
+          "Paquete pequeño que contiene tu aplicación + todas sus dependencias (librerías, runtime, configuración). Es como una caja sellada — funciona igual en tu máquina, en GCP, en AWS. Docker es la herramienta más común para crear contenedores. La imagen de contenedor (ej: hello-app) es el plano; el contenedor en ejecución es la instancia.",
       },
       {
-        term: "Node",
+        term: "Imagen (Container Image)",
         definition:
-          "Instancia de Compute Engine que corre los procesos de Kubernetes.",
+          "Plantilla de lectura-única que define qué va dentro del contenedor. Incluye SO base, app, dependencias, archivos. En el lab reciben la imagen 'hello-app' desde Container Registry. Cuando ejecutas un contenedor a partir de una imagen, se crea una copia con estado mutable.",
+      },
+      {
+        term: "Pod",
+        definition:
+          "Unidad más pequeña en Kubernetes. Un pod contiene uno o más contenedores (generalmente uno). Los contenedores en un pod comparten red — tienen la misma IP y puerto local. Si tu app necesita múltiples procesos, podrías tenerlos en diferentes contenedores dentro del mismo pod, pero es raro. En el lab, cada pod contiene un contenedor de hello-app.",
+      },
+      {
+        term: "Cluster (Clúster de Kubernetes)",
+        definition:
+          "Grupo de máquinas (nodos) que trabajan juntas para ejecutar tus aplicaciones. Está formado por: Control Plane (cerebro que toma decisiones — dónde ejecutar pods, cuándo hacer scaling) y Nodos (máquinas que ejecutan los pods). En el lab creas un clúster GKE con 3 nodos (VMs de e2-medium).",
+      },
+      {
+        term: "Control Plane",
+        definition:
+          "Componente del clúster que administra todo: recibe tus instrucciones (kubectl), decide dónde correr los pods, expone servicios, maneja updates. En GKE, Google administra el Control Plane — tú solo cuidas los nodos de trabajo.",
+      },
+      {
+        term: "Node (Nodo)",
+        definition:
+          "Máquina dentro del clúster que ejecuta los pods. En GCP, un nodo es una instancia de Compute Engine (ej: e2-medium). En el lab creas un clúster con 3 nodos — eso significa 3 VMs donde Kubernetes distribuirá los pods de tu app.",
       },
       {
         term: "Deployment",
         definition:
-          "Objeto de Kubernetes para desplegar y mantener aplicaciones sin estado.",
+          "Objeto de Kubernetes que dice 'quiero que mi aplicación corra X replicas (copias) de este pod'. El Deployment gestiona automáticamente: si un pod falla, lo reinicia; si escalas a 5 replicas, crea 5 pods idénticos; si haces rollout de nueva versión, actualiza de forma gradual sin downtime. En el lab creas un Deployment con la imagen hello-app.",
       },
       {
-        term: "Service",
+        term: "ReplicaSet",
         definition:
-          "Objeto que define acceso, red y balanceo hacia la aplicación.",
+          "Lo que crea el Deployment bajo el capó. Asegura que siempre corra el número de replicas deseado. Si especificas 3 replicas y uno falla, ReplicaSet crea uno nuevo. Usualmente no hablas directamente con ReplicaSet — hablas con Deployment que lo maneja.",
+      },
+      {
+        term: "Service (Servicio de Kubernetes)",
+        definition:
+          "Abstracción para exponer tus pods dentro del clúster o hacia el exterior. Porque los pods son efímeros (nacen y mueren), necesitas un punto de acceso estable. Un Service consigue una IP interna y puede exponerse nuevamente. En el lab creas un Service tipo LoadBalancer que expone la app externamente.",
       },
       {
         term: "LoadBalancer",
         definition:
-          "Tipo de Service que crea un balanceador para exponer la app externamente.",
+          "Tipo de Service que crea un balanceador de carga en Google Cloud (IP pública) que distribuye tráfico entre tus pods. Sin balanceador, si alguien llama directamente a un pod y ese pod muere, se pierde la conexión. Con LoadBalancer, el tráfico entra por la IP pública, se balancea entre pods vivos — si un pod falla, el resto sigue sirviendo.",
+      },
+      {
+        term: "kubectl (Kubernetes Command-Line Tool)",
+        definition:
+          "Herramienta de línea de comandos para controlar Kubernetes. Es tu interfaz para hablar con el clúster: crear deployments, ver pods, ver logs, escalar. Ejemplos: 'kubectl create deployment', 'kubectl get pods', 'kubectl logs POD-NAME'. En el lab usas kubectl para desplegar y gestionar la app.",
+      },
+      {
+        term: "kubectl get-credentials",
+        definition:
+          "Comando que autentica tu kubectl con un clúster GKE específico. Sin esto, kubectl no sabe a qué clúster conectarse. Después de ejecutar este comando, kubectl puede comunicarse con el Control Plane del clúster para recibir tus instrucciones.",
+      },
+      {
+        term: "Container Registry (GCR)",
+        definition:
+          "Servicio de Google Cloud que almacena imágenes de contenedor. Es como GitHub pero para imágenes en lugar de código. En el lab, la imagen 'hello-app' viene del Container Registry. Cuando despliegas, le dices a Kubernetes 'usa esta imagen de Registry' y él la descarga a los nodos.",
+      },
+      {
+        term: "GKE (Google Kubernetes Engine)",
+        definition:
+          "Versión administrada de Kubernetes en Google Cloud. Google gestiona el Control Plane, actualizaciones, seguridad. Tú solo mantienes los nodos (VMs). Es más simple que instalar/administrar Kubernetes manualmente. En el lab usas GKE para crear un clúster listo para producción en minutos.",
+      },
+      {
+        term: "Scaling / Escalamiento",
+        definition:
+          "Aumentar o disminuir replicas de un Deployment. 'kubectl scale deployment hello-app --replicas=5' crea 5 copias de tu app. Si tráfico sube, escalas horizontalmente (más replicas). Si tráfico baja, reduces replicas (ahorras dinero). Kubernetes distribuye automáticamente entre los nodos disponibles.",
       },
     ],
     interactionPattern: [
@@ -762,6 +897,7 @@ export const labsContent: LabContent[] = [
     slug: "cloud-storage-qwik-start-cli-sdk",
     labNumber: 7,
     title: "Cloud Storage: Qwik Start - CLI/SDK",
+    labUrl:"https://www.skills.google/paths/36/course_templates/154/labs/631644",
     description:
       "Uso de la herramienta de línea de comandos gsutil para realizar tareas básicas de gestión de objetos en Cloud Storage.",
     overview: {
@@ -826,27 +962,77 @@ export const labsContent: LabContent[] = [
       {
         term: "Bucket",
         definition:
-          "Contenedor básico donde se guardan los objetos.",
+          "Contenedor base de Cloud Storage donde se almacenan todos los objetos. Los nombres de bucket son globalmente únicos en todo Google Cloud — nadie más en el mundo puede tener un bucket con tu mismo nombre. Es como reservar un nombre de dominio, pero para almacenamiento. En el lab creas un bucket para guardar imágenes.",
+      },
+      {
+        term: "Nomenclatura de Bucket",
+        definition:
+          "Reglas estrictas para nombres: solo minúsculas, números, guiones; entre 3-63 caracteres; no comenzar ni terminar con guión; no usar espacios ni caracteres especiales. Esto es porque los buckets tienen URLs públicas potenciales (ej: storage.googleapis.com/tu-bucket-name) y deben cumplir con estándares DNS.",
       },
       {
         term: "Objeto",
         definition:
-          "Archivo o dato almacenado dentro del bucket.",
+          "Archivo o dato almacenado dentro de un bucket en Cloud Storage. Cada objeto tiene: contenido (bytes del archivo), nombre (path), metadatos (tamaño, tipo, fecha). A diferencia de un servidor de archivos tradicional, los objetos en Cloud Storage no se modifican 'in place' — si necesitas cambiar contenido, reemplazas el objeto completo.",
       },
       {
-        term: "ACL",
+        term: "gs:// URI",
         definition:
-          "Lista de control de acceso usada para definir quién puede acceder a buckets u objetos.",
+          "Formato de dirección para objetos en Cloud Storage. 'gs://' significa 'Google Storage'. Ejemplo: 'gs://mi-bucket/archivo.txt' referencia el archivo 'archivo.txt' dentro de 'mi-bucket'. Es similar a cómo 'https://' y 's3://' funcionan para web y AWS S3 respectivamente. En el lab usas comandos como 'gcloud storage cp archivo.txt gs://mi-bucket'.",
+      },
+      {
+        term: "gsutil",
+        definition:
+          "Herramienta de línea de comandos (CLI) para interactuar con Cloud Storage (legacy, siendo reemplazada). Permite subir, descargar, listar, eliminar objetos. Comandos: 'gsutil cp', 'gsutil ls', 'gsutil rm'. En versiones nuevas, Google recomienda usar 'gcloud storage' en su lugar.",
+      },
+      {
+        term: "gcloud storage",
+        definition:
+          "Conjunto de comandos CLI modernos de Google Cloud para gestionar Cloud Storage. Más rápido y limpio que gsutil. Ejemplos: 'gcloud storage buckets create', 'gcloud storage cp archivo.txt gs://bucket/', 'gcloud storage objects list'. En el lab usas estos comandos para crear bucket, subir, descargar y organizar objetos.",
+      },
+      {
+        term: "Prefijo / Carpeta Lógica",
+        definition:
+          "Cloud Storage no tiene carpetas reales (no es un sistema de archivos jerárquico). En su lugar, usa 'prefijos' — una convención de nomenclatura. Ejemplo: 'gs://mi-bucket/imagenes/foto.jpg' y 'gs://mi-bucket/documentos/resumen.pdf' — aquí 'imagenes/' y 'documentos/' son prefijos, no carpetas físicas. La consola web muestra esto como carpetas para comodidad, pero internamente son solo nombres con barras. En el lab copias un objeto a 'image-folder/', creando así un prefijo.",
+      },
+      {
+        term: "Metadatos de Objeto",
+        definition:
+          "Información sobre un objeto almacenado: tamaño en bytes, tipo MIME (image/jpeg, text/plain, etc.), fecha de creación, fecha de última modificación, versión, etiquetas. Los metadatos se ven con comandos como 'gcloud storage objects describe gs://bucket/objeto'. Son útiles para organizar, auditar y entender qué contiene cada objeto sin necesidad de descargarlo.",
+      },
+      {
+        term: "ACL (Access Control List)",
+        definition:
+          "Lista que define quién puede hacer qué con un bucket u objeto. En Cloud Storage hay dos niveles: ACLs de bucket (quién accede al contenedor) y ACLs de objeto (quién accede a archivos específicos). Ejemplos de identidades: tu cuenta (user-id@gmail.com), grupos (group-name@example.com), 'allUsers' (cualquiera en internet). En el lab usas ACLs para hacer público un objeto.",
+      },
+      {
+        term: "allUsers",
+        definition:
+          "Identidad especial en ACLs que representa a cualquier persona en internet — autenticada o no. Si das permiso READER a 'allUsers' en un objeto, cualquiera que tenga la URL puede descargarlo sin entrar a su cuenta de Google. Es peligroso si el objeto contiene datos sensibles. En el lab deliberadamente haces público un objeto con allUsers, luego lo revocas para practicar el ciclo completo.",
+      },
+      {
+        term: "READER (Rol de Lectura)",
+        definition:
+          "Permiso específico en ACLs que permite leer/descargar un objeto. No permite modificar, eliminar ni cambiar permisos. Para hacer público un objeto, asignas rol READER a 'allUsers'. Otros roles: OWNER (control total), WRITER (modificar).",
       },
       {
         term: "Cloud Shell",
         definition:
-          "Terminal administrada para ejecutar comandos de Google Cloud.",
+          "Terminal administrada y sin costo que Google Cloud proporciona en la consola web. Incluye gcloud, gsutil, kubectl y otras herramientas preinstaladas. No necesitas instalar nada en tu máquina. Cada sesión tiene 1 GB de almacenamiento persistente y timeout de inactividad. En el lab usas Cloud Shell para ejecutar todos los comandos de gcloud storage.",
       },
       {
-        term: "Public access",
+        term: "Public Access / Acceso Público",
         definition:
-          "Permiso que permite consultar un objeto sin autenticación.",
+          "Estado de un objeto que permite cualquiera leer/descargar sin autenticación. Se logra asignando READER a 'allUsers' en las ACLs. La URL pública se ve en la consola (ej: https://storage.googleapis.com/bucket/objeto o una URL con 'storage.googleapis.com'). Útil para recursos públicos (imágenes de marketing, datasets abiertos). Riesgoso si el objeto contiene datos privados.",
+      },
+      {
+        term: "Revocar Acceso",
+        definition:
+          "Eliminar o restringir permisos de un usuario o de 'allUsers'. Si hiciste público un objeto pero después quieres privarlo, revocas el permiso READER a 'allUsers' mediante ACLs. En el lab lo practicas: haces público un objeto, luego lo revocas, demostrando que el control es reversible.",
+      },
+      {
+        term: "Signed URL",
+        definition:
+          "URL con firma criptográfica que permite compartir acceso temporal a un objeto sin hacer público todo el bucket/objeto. La URL contiene credenciales encriptadas y fecha de expiración. Es más seguro que hacer público porque es temporal y específico. Útil para sistemas donde necesitas compartir archivos con usuarios específicos sin darles acceso permanente.",
       },
     ],
     interactionPattern: [
@@ -974,6 +1160,7 @@ export const labsContent: LabContent[] = [
     slug: "cloud-sql-for-mysql-qwik-start",
     labNumber: 8,
     title: "Cloud SQL for MySQL: Qwik Start",
+    labUrl:"https://www.skills.google/paths/36/course_templates/154/labs/631648",
     description:
       "Creación de una instancia administrada de MySQL en Cloud SQL y ejecución de operaciones SQL básicas.",
     overview: {
@@ -1038,32 +1225,82 @@ export const labsContent: LabContent[] = [
       {
         term: "Instancia Cloud SQL",
         definition:
-          "Servidor administrado donde vive la base de datos.",
+          "Servidor de base de datos administrado por Google Cloud. Google maneja hardware, parches de seguridad, backups, mantenimiento — tú solo usas la BD. Cada instancia ejecuta un motor (MySQL, PostgreSQL, SQL Server) y contiene múltiples bases de datos. En el lab creas una instancia con motor MySQL, preset Development y contraseña root.",
       },
       {
         term: "Instance ID",
         definition:
-          "Identificador único de la instancia dentro del proyecto.",
+          "Nombre único de tu instancia dentro del proyecto de Google Cloud. Identifica la instancia para conexiones, backups y en la facturación. Debe tener 1-63 caracteres, solo letras, números, guiones. No puede cambiar después de crear la instancia. En el lab usas un Instance ID como 'myinstance' o similar.",
       },
       {
-        term: "Base de datos",
+        term: "Motor de Base de Datos",
         definition:
-          "Contenedor lógico dentro de la instancia para organizar tablas y datos.",
+          "Sistema que ejecuta tus bases de datos. Cloud SQL soporta: MySQL (versiones 5.7, 8.0 — código abierto, ampliamente usado), PostgreSQL (código abierto, potente), SQL Server (propietario de Microsoft). Cada motor tiene SQL ligeramente diferente y características específicas. En el lab eliges MySQL como motor.",
       },
       {
-        term: "Tabla",
+        term: "Preset de Configuración",
         definition:
-          "Estructura para guardar registros con columnas definidas.",
+          "Template predefinido que ajusta automáticamente CPU, memoria, almacenamiento. Cloud SQL ofrece: 'Development' (recursos mínimos, bajo costo — para pruebas), 'Production' (recursos mayores, alta disponibilidad), 'Business Critical' (máximo rendimiento, replicación). En el lab usas preset Development porque es un qwik start educativo.",
+      },
+      {
+        term: "Base de Datos (Database)",
+        definition:
+          "Contenedor lógico dentro de una instancia Cloud SQL. Define un espacio separado donde viven tablas, vistas, funciones, triggers. Dentro de una instancia puedes tener múltiples bases de datos independientes (ejemplo: 'tienda', 'ventas', 'clientes'). En el lab creas una base de datos llamada 'guestbook' con el comando CREATE DATABASE.",
+      },
+      {
+        term: "Tabla (Table)",
+        definition:
+          "Estructura dentro de una base de datos que organiza datos en filas y columnas. Cada tabla tiene un nombre y define columnas con tipos específicos. Ejemplo: tabla 'entries' con columnas guestName (texto), content (texto largo), entryID (número). Las tablas son donde realmente se guardan los datos. En el lab creas una tabla 'entries' con campos específicos.",
+      },
+      {
+        term: "Columna / Campo (Column)",
+        definition:
+          "Atributo específico de una tabla. Define qué información guardas en cada registro. Tiene nombre (ej: 'guestName') y tipo de dato (VARCHAR, INT, BOOLEAN, DATE, etc.). Ejemplo: columna 'age' tipo INT permite números enteros; columna 'email' tipo VARCHAR permite texto. En el lab defines columnas: guestName, content, entryID.",
+      },
+      {
+        term: "Tipo de Dato",
+        definition:
+          "Especifica qué tipo de información se almacena en una columna: VARCHAR(n) = texto hasta n caracteres; INT = número entero; FLOAT = número decimal; DATE = fecha (YYYY-MM-DD); BOOLEAN = verdadero/falso; TEXT = texto largo sin límite. Elegir el tipo correcto ahorra almacenamiento y evita errores. En el lab usas VARCHAR para nombres, TEXT para contenido, INT para IDs.",
+      },
+      {
+        term: "Registro / Fila (Row)",
+        definition:
+          "Conjunto de datos de una tabla. Una fila = un registro completo. Ejemplo: si una tabla tiene columnas (guestName, content, entryID), una fila = un guest específico con su nombre, contenido y ID único. En el lab insertas registros de ejemplo con INSERT INTO y los ves con SELECT.",
+      },
+      {
+        term: "Clave Primaria (Primary Key)",
+        definition:
+          "Columna (o conjunto de columnas) que identifica únicamente cada registro. No puede repetirse ni ser nula. En la tabla 'entries', la columna 'entryID' es la clave primaria — cada entrada tiene un ID único. Las claves primarias garantizan que no haya duplicados y permiten búsquedas rápidas.",
       },
       {
         term: "Cliente mysql",
         definition:
-          "Herramienta de línea de comandos para ejecutar consultas SQL.",
+          "Herramienta de línea de comandos que te conecta a un servidor MySQL para ejecutar comandos SQL. En la terminal escribes 'mysql -u usuario -p' y luego comandos como CREATE, SELECT, INSERT. Google Cloud proporciona `gcloud sql connect` que automatiza la autenticación y abre el prompt mysql. En el lab usas 'gcloud sql connect INSTANCE-ID --user=root' para conectarte.",
       },
       {
-        term: "CREATE, USE, INSERT, SELECT",
+        term: "Prompt mysql",
         definition:
-          "Comandos básicos para crear, seleccionar, insertar y consultar información.",
+          "Interfaz interactiva donde escribes comandos SQL cuando estás conectado a MySQL. Se ve como 'mysql>' — aquí ejecutas CREATE DATABASE, CREATE TABLE, INSERT, SELECT. Cada comando termina con ';' (punto y coma). En el lab usas el prompt mysql para crear la base guestbook y la tabla entries.",
+      },
+      {
+        term: "Usuario root",
+        definition:
+          "Usuario de base de datos con permisos administrativos completos. Puede crear bases, crear usuarios, asignar permisos, eliminar datos. En Cloud SQL, 'root' viene preconfigurado con una contraseña que estableciste al crear la instancia. Para aplicaciones en producción, creas usuarios limitados — no usas root para todo. En el lab usas root porque es un laboratorio educativo.",
+      },
+      {
+        term: "Comandos SQL básicos",
+        definition:
+          "Instrucciones para interactuar con bases de datos: CREATE DATABASE = crear base; CREATE TABLE = crear tabla; USE = seleccionar qué base usar; INSERT INTO = agregar registros; SELECT = consultar datos; UPDATE = modificar datos existentes; DELETE = eliminar registros; DROP = eliminar tablas/bases. En el lab ejecutas CREATE, INSERT, SELECT en el prompt mysql.",
+      },
+      {
+        term: "SQL (Structured Query Language)",
+        definition:
+          "Lenguaje estándar para bases de datos relacionales. Permite definir estructura (CREATE TABLE), manipular datos (INSERT, UPDATE, DELETE), consultar (SELECT). SQL es agnóstico del motor — un comando básico SELECT funciona igual en MySQL, PostgreSQL, SQL Server. Es de 'alto nivel' — dices QUÉ quieres (not HOW).",
+      },
+      {
+        term: "Autorización IP / Authorization Network",
+        definition:
+          "Configuración de seguridad que especifica desde qué IPs se puede conectar a la instancia Cloud SQL. Por defecto, Cloud SQL rechaza conexiones externas. En el lab, Cloud Shell tiene autorización automática porque Google lo integra. Si conectaras desde tu computadora local, necesitarías registrar su IP pública en la lista de autorización.",
       },
     ],
     interactionPattern: [
@@ -1145,6 +1382,7 @@ export const labsContent: LabContent[] = [
     slug: "introduction-to-apis-in-google-cloud",
     labNumber: 9,
     title: "Introduction to APIs in Google Cloud",
+    labUrl:"https://www.skills.google/paths/36/course_templates/154/labs/631660",
     description:
       "Exploración de la arquitectura de las APIs y ejecución práctica de métodos de la API de Cloud Storage desde Cloud Shell.",
     overview: {
@@ -1201,39 +1439,114 @@ export const labsContent: LabContent[] = [
       "Este laboratorio es complementario al AB porque no solo muestra cómo ejecutar llamadas a una API, sino que ayuda a entender la arquitectura detrás de esas llamadas: cliente, servidor, métodos HTTP, endpoints, JSON y autenticación. Google Cloud APIs son interfaces programáticas que permiten automatizar tareas y trabajar con servicios de Google Cloud desde la terminal o desde código.\n\nAdemás, el lab permite conectar la teoría con una práctica real: crear un JSON con la configuración del bucket, obtener un token OAuth y enviar una solicitud curl a un endpoint REST. La Cloud Storage JSON API está diseñada como una interfaz basada en JSON para acceder y manipular recursos de Cloud Storage.\n\nDurante la práctica, el estudiante habilita una API, prepara un JSON de configuración, obtiene un token de acceso y realiza llamadas REST para crear y usar recursos de Cloud Storage.",
     concepts: [
       {
-        term: "API",
+        term: "API (Application Programming Interface)",
         definition:
-          "Interfaz que permite que programas se comuniquen entre sí.",
+          "Conjunto de reglas y protocolos que permite que dos programas se comuniquen. Define qué solicitudes puede hacer un cliente, qué responde el servidor, y en qué formato. Las APIs abstraen complejidad — en lugar de construir Cloud Storage desde cero, usas la API de Google Cloud que expone operaciones como crear buckets, subir archivos. En el lab usas la Cloud Storage JSON API para crear buckets y subir archivos sin acceder a la base de datos directamente.",
       },
       {
         term: "Cliente y Servidor",
         definition:
-          "El cliente hace la petición; el servidor recibe y procesa la petición.",
+          "Arquitectura de comunicación: Cliente = programa que inicia la solicitud (ej: tu terminal, una app web); Servidor = programa que recibe, procesa y responde. El cliente siempre inicia, el servidor siempre responde. En el lab, tu terminal (cliente) ejecuta curl para enviar solicitudes al servidor Google Cloud (API). Esta relación es asimétrica — el servidor no inicia comunicación hacia el cliente.",
       },
       {
-        term: "HTTP",
+        term: "HTTP (HyperText Transfer Protocol)",
         definition:
-          "Protocolo usado para intercambiar solicitudes y respuestas.",
+          "Protocolo que define cómo se envían solicitudes y respuestas entre cliente y servidor en internet. Funciona sobre TCP/IP. Define métodos (GET, POST, PUT, DELETE), códigos de estado (200 = éxito, 404 = no encontrado), encabezados y un cuerpo. HTTP es \"sin estado\" — cada solicitud es independiente. En el lab usas HTTP para comunicarte con la Cloud Storage API desde curl.",
+      },
+      {
+        term: "Método HTTP",
+        definition:
+          "Verbo que define qué acción realizar sobre un recurso: GET = leer/obtener datos (sin efectos secundarios); POST = crear un recurso nuevo; PUT = reemplazar un recurso completo; PATCH = modificar parcialmente; DELETE = eliminar. En el lab usas POST para crear buckets y PUT para subir archivos. Cada método tiene semántica específica — siempre usar el correcto es fundamental en APIs REST.",
       },
       {
         term: "Endpoint",
         definition:
-          "URL o ruta concreta donde se accede a un recurso.",
+          "URL o ruta específica en el servidor donde actúa una API. Identifica un recurso. Ejemplo: 'https://www.googleapis.com/storage/v1/b' es el endpoint para crear buckets en Cloud Storage. Los endpoints son únicas — cada uno corresponde a una acción específica combinada con un método HTTP. En el lab usas curl con el endpoint de Cloud Storage para crear buckets y subir objetos.",
+      },
+      {
+        term: "Recurso (Resource)",
+        definition:
+          "Concepto fundamental en REST — representa algo que puede ser identificado, accedido o modificado. Ejemplos: un bucket (recurso), un objeto dentro de un bucket, una base de datos, un usuario. Cada recurso tiene un identificador único (URL/URI). En el lab, un 'bucket' y un 'objeto' son recursos — cada uno tiene una URL única en Cloud Storage.",
       },
       {
         term: "REST / RESTful",
         definition:
-          "Estilo de diseño que usa métodos HTTP y recursos identificables.",
+          "Estilo arquitectónico para diseñar APIs que usan HTTP estándar. Principios: recursos (URIs), métodos HTTP estándar, respuestas sin estado. 'RESTful' = que sigue estos principios. Ventaja: simple, escalable, usa infraestructura web estándar. Cloud Storage JSON API es una API RESTful — usas GET, POST, PUT, DELETE en URLs específicas. Contrasta con SOAP o RPC que son más complejos.",
       },
       {
-        term: "JSON",
+        term: "URI / URL",
         definition:
-          "Formato ligero para estructurar datos.",
+          "Identificador universal de un recurso. URL = Uniform Resource Locator (localización en web, incluye protocolo). URI = Uniform Resource Identifier (identificador general). En APIs: 'https://www.googleapis.com/storage/v1/b/mi-bucket' es una URL que identifica un bucket específico. El patrón {protocol}://{host}/{path}/{resource-id} es estándar en APIs REST.",
       },
       {
-        term: "OAuth",
+        term: "JSON (JavaScript Object Notation)",
         definition:
-          "Mecanismo de autorización que permite obtener tokens de acceso seguros.",
+          "Formato ligero basado en texto para estructurar datos. Usa pares clave-valor, listas, anidamiento. Ejemplo: {\"nombre\": \"mi-bucket\", \"ubicacion\": \"us-central1\"}. Ventajas: legible, parseable fácilmente, agnóstico de lenguaje. Es el estándar de facto en APIs modernas. En el lab creas un JSON con valores.json que describe la configuración del bucket, luego lo envías como cuerpo en la solicitud POST.",
+      },
+      {
+        term: "Request (Solicitud HTTP)",
+        definition:
+          "Mensaje que envía el cliente al servidor. Contiene: método (GET, POST, etc.), URI del recurso, versión de HTTP, encabezados (metadata), y opcionalmente un cuerpo (datos). Ejemplo: POST /storage/v1/b HTTP/1.1 Host: www.googleapis.com [encabezados] [cuerpo JSON]. En el lab, el comando curl construye y envía un HTTP request con el token OAuth.",
+      },
+      {
+        term: "Response (Respuesta HTTP)",
+        definition:
+          "Mensaje que envía el servidor al cliente después de procesar una solicitud. Contiene: código de estado (200, 404, etc.), encabezados (metadata), y opcionalmente un cuerpo (datos). Ejemplo: 'HTTP/1.1 200 OK Content-Type: application/json [cuerpo JSON con detalles del bucket creado]'. En el lab ves la respuesta JSON que confirma la creación del bucket.",
+      },
+      {
+        term: "Status Code (Código de Estado HTTP)",
+        definition:
+          "Número que comunica el resultado de la solicitud: 2xx = éxito (200 OK, 201 Created); 3xx = redirección; 4xx = error del cliente (400 Bad Request, 401 Unauthorized, 404 Not Found); 5xx = error del servidor. El código es crítico — no es lo mismo que el servidor responda 200 (éxito) que 500 (error). En el lab esperas 200 o 201 cuando creas un bucket, 401 si el token OAuth es inválido.",
+      },
+      {
+        term: "Headers (Encabezados HTTP)",
+        definition:
+          "Metadata que acompaña la solicitud y respuesta. Define formato del contenido, autenticación, compresión. Ejemplos comunes: 'Content-Type: application/json' (formato del cuerpo), 'Authorization: Bearer {token}' (credenciales), 'Accept: application/json' (qué formato esperas recibir). Los headers son independientes del cuerpo — comunican contexto sobre la solicitud. En el lab, curl usa -H para enviar encabezados con el token OAuth.",
+      },
+      {
+        term: "curl",
+        definition:
+          "Herramienta de línea de comandos para hacer solicitudes HTTP/HTTPS a servidores. Permite GET, POST, PUT, DELETE, pasar encabezados (-H), cuerpos (-d), autenticación. Syntax: curl [opciones] URL. Ejemplo: 'curl -X POST -H \"Authorization: Bearer TOKEN\" -d @values.json ENDPOINT'. Es ampliamente usado para probar APIs. En el lab usas curl desde Cloud Shell para crear buckets y subir archivos a Cloud Storage.",
+      },
+      {
+        term: "OAuth 2.0",
+        definition:
+          "Protocolo de autorización que permite obtener tokens de acceso seguros sin exponer contraseñas. Flujo: usuario concede permisos → aplicación obtiene token temporal → aplicacion usa token para acceder a recursos. Ventajas: seguro (no comparte credenciales), tokens pueden revocar/expirar. Google Cloud APIs usan OAuth 2.0. En el lab usas el OAuth 2.0 Playground para generar un token que luego usas en las solicitudes curl.",
+      },
+      {
+        term: "Access Token",
+        definition:
+          "Credencial temporal que demuestra identidad y autorización ante una API. Generado por un servidor de autorización (ej: Google). Tiene tiempo de vida limitado (típicamente 1 hora) — después expira y necesitas generar otro. No es una contraseña — es una llave de corta duración. En el lab generas un access token OAuth y lo incluyes en el encabezado 'Authorization: Bearer {token}' de tus solicitudes curl.",
+      },
+      {
+        term: "Autenticación vs Autorización",
+        definition:
+          "Autenticación = verificar quién eres ('¿eres tú realmente?'). Autorización = verificar qué permisos tienes ('¿qué puedes hacer?'). Ejemplo: OAuth confirma tu identidad (autenticación) y el token demuestra que tienes permisos para crear buckets (autorización). Una API requiere ambas — no sirve saber quién eres si no tienes permisos para actuar. En el lab, OAuth proporciona autenticación y el token comunica autorización.",
+      },
+      {
+        term: "API Library",
+        definition:
+          "Catálogo centralizado en Google Cloud Console que lista todas las APIs disponibles: Cloud Storage, Cloud SQL, Compute Engine, etc. Para cada API muestra: descripción, documentación, cuotas, límites. Debes 'habilitar' una API en tu proyecto para poder usarla — esto activa la capacidad pero no crea recursos. En el lab usas API Library para habilitar la Cloud Storage JSON API.",
+      },
+      {
+        term: "API Key",
+        definition:
+          "Forma simple de autenticación en APIs públicas. Una clave única que identifica tu aplicación (no a un usuario). Menos segura que OAuth porque es de larga duración y expone la identidad de la app. Usada para APIs públicas o cuando OAuth es innecesario. Cloud Google ofrece API Keys, pero para acceso a recursos protegidos usa OAuth o Service Accounts. No se usa en el lab, pero es importante conocer la diferencia.",
+      },
+      {
+        term: "Service Account",
+        definition:
+          "Cuenta de servicio que representa una aplicación (no un usuario). Tiene credenciales seguras y permisos específicos. Es como un usuario de sistema — ideal para aplicaciones que necesitan acceso a Google Cloud sin intervención humana. La autenticación es más fuerte que API Key. Usado en producción. En el lab usas OAuth para simular un usuario, pero en producción usarías Service Accounts.",
+      },
+      {
+        term: "Quotas / Rate Limiting",
+        definition:
+          "Límites que Google impone en las APIs para controlar uso: máximo de solicitudes por segundo, máximo de datos transferidos, máximo de recursos creados. Evita abuso y garantiza estabilidad. Cada proyecto tiene cuotas — si las excedes, la API rechaza solicitudes con código 429 (Too Many Requests). En el lab, la Cloud Storage API tiene cuotas, pero como es un laboratorio educativo no las alcanzarás.",
+      },
+      {
+        term: "Documentación de API",
+        definition:
+          "Referencia oficial que explica: endpoints disponibles, métodos soportados, parámetros requeridos, formato de respuesta, códigos de error. Es esencial para usar una API. Google Cloud API Documentation es accesible online (ej: cloud.google.com/storage/docs/json_api/). Buenos desarrolladores consultan documentación antes de escribir código. En el lab la documentación te dice qué endpoint usar para crear buckets.",
       },
     ],
     interactionPattern: [
@@ -1331,6 +1644,7 @@ export const labsContent: LabContent[] = [
     slug: "pub-sub-qwik-start-python",
     labNumber: 10,
     title: "Pub/Sub: Qwik Start - Python",
+    labUrl:"https://www.skills.google/paths/36/course_templates/154/labs/631664",
     description:
       "Configuración de un sistema de mensajería asíncrona creando temas y suscripciones mediante scripts de Python.",
     overview: {
@@ -1387,39 +1701,109 @@ export const labsContent: LabContent[] = [
       "Este laboratorio es complementario al AB porque enseña, con práctica manual, cómo funciona un sistema de mensajería desacoplado entre productores y consumidores. El estudiante crea un tópico, crea una suscripción, publica mensajes y luego los consume, lo que permite visualizar claramente el patrón publisher-subscriber que define a Pub/Sub.\n\nAdemás, el lab ayuda a entender que una suscripción no es solo \"seguir\" un tema, sino establecer un mecanismo de entrega y confirmación de mensajes. Pub/Sub ofrece suscripciones de tipo pull y push, y en este laboratorio se trabaja con un subscriber pull para recuperar mensajes del tópico.\n\nDurante la práctica, el estudiante crea un entorno virtual, instala la librería cliente de Python, crea un topic, configura una suscripción, publica mensajes y finalmente recupera esos mensajes desde el subscriber. Pub/Sub permite desacoplar productores y consumidores mediante topics y subscriptions.",
     concepts: [
       {
-        term: "Topic",
+        term: "Topic (Tópico)",
         definition:
-          "Punto común al que los publishers envían mensajes.",
+          "Canal o punto central donde los publishers envían mensajes. Un topic es como un buzón de correo compartido — todos los mensajes publicados en un topic quedan disponibles para sus suscriptores. Cada topic tiene un nombre único dentro del proyecto (ej: 'MyTopic'). Sin topic no hay lugar para depositar mensajes. En el lab creas MyTopic y luego publicas mensajes en él.",
       },
       {
-        term: "Publisher",
+        term: "Publisher (Publicador)",
         definition:
-          "Aplicación que publica mensajes en un topic.",
+          "Aplicación o componente que envía mensajes a un topic. El publisher no necesita saber quién o cuántos suscriptores existen — solo habla con el topic. Esto es desacoplamiento: productor y consumidor son independientes. En el lab, cuando ejecutas 'gcloud pubsub topics publish MyTopic --message=\"Hola\"', tu terminal actúa como publisher enviando un mensaje al tema.",
       },
       {
-        term: "Subscriber",
+        term: "Subscriber (Suscriptor)",
         definition:
-          "Aplicación que recibe mensajes desde una suscripción.",
+          "Aplicación o componente que recibe mensajes desde una suscripción. El subscriber se conecta a una suscripción (no directamente al topic) y recupera los mensajes. Puede haber múltiples subscribers en la misma suscripción — Pub/Sub balancea el trabajo entre ellos. En el lab, subscriber.py es el código que suscriptores ejecutan para recibir mensajes.",
       },
       {
-        term: "Subscription",
+        term: "Subscription (Suscripción)",
         definition:
-          "Vínculo entre el topic y el consumidor.",
+          "Vínculo configurado entre un topic y un subscriber. Define cómo los mensajes se entregan. Cada suscripción tiene: nombre único, referencia al topic, tipo de entrega (pull o push), deadline de acknowledge. Sin suscripción, los mensajes publicados no llegan a nadie — el topic solo almacena mensajes para suscripciones activas. En el lab creas MySub vinculada a MyTopic.",
       },
       {
-        term: "Pull subscription",
+        term: "Pull Subscription",
         definition:
-          "El cliente solicita mensajes al servidor.",
+          "Tipo de suscripción donde el subscriber **solicita activamente** mensajes ('pull'). El subscriber controla el ritmo: puede pedir 1 mensaje, procesar, pedir otro. Es útil para trabajo sincrónico o cuando necesitas control fino. El subscriber ejecuta código tipo 'dar_me_messages()' repetidamente. En el lab usas pull subscription — subscriber.py ejecuta un loop que pide mensajes.",
       },
       {
-        term: "Acknowledge",
+        term: "Push Subscription",
         definition:
-          "Confirmación de que un mensaje fue recibido y procesado.",
+          "Tipo de suscripción donde Pub/Sub **empuja activamente** los mensajes al subscriber (push). Pub/Sub envía HTTP POST al endpoint del subscriber con el mensaje. Útil para webhooks o cuando quieres que Pub/Sub controle la entrega. Ventaja: desacoplamiento total — el subscriber no necesita conectarse a Pub/Sub, recibe mensajes en su webhook. Desventaja: requiere endpoint HTTP público. No se usa en el lab pero es importante conocer.",
       },
       {
-        term: "Asynchronous messaging",
+        term: "Message (Mensaje)",
         definition:
-          "Modelo en el que productor y consumidor no necesitan coincidir en tiempo real.",
+          "Unidad de información que se envía a través de Pub/Sub. Estructura: data (cuerpo, bytes), attributes (metadatos clave-valor), message_id (ID único asignado por Pub/Sub), timestamp (cuándo llegó). En el lab publicas mensajes simples: 'Hola', 'Mundo', etc. Los mensajes quedan en el topic para que las suscripciones los recuperen.",
+      },
+      {
+        term: "Message Payload",
+        definition:
+          "Contenido real del mensaje — los datos que transmites. Puede ser texto, JSON, binario. Pub/Sub no le importa el formato — es responsabilidad del publisher y subscriber acordar qué estructura usar. Ejemplo: pub lica JSON {\"usuario\": \"Ana\", \"accion\": \"logout\"} y sub suscriber espera ese formato. En el lab publicas strings simples como payload.",
+      },
+      {
+        term: "Acknowledge / ACK",
+        definition:
+          "Confirmación que envía el subscriber a Pub/Sub diciendo \"recibí y procesé este mensaje\". Sin ACK, Pub/Sub asume que el subscriber falló y lo reentrega. El ACK es fundamental para garantía de entrega. En código Python: después de procesar, llamas `message.ack()`. Si no haces ack dentro del deadline (típicamente 10 segundos), el mensaje se reentrega. En el lab llamas ack() después de procesar cada mensaje recibido.",
+      },
+      {
+        term: "Nack (Negative Acknowledge)",
+        definition:
+          "Confirmación negativa — le dices a Pub/Sub \"no pude procesar este mensaje, reintentalo después\". El mensaje vuelve a cola para ser reentregado. Útil cuando encontras un error transitorio. Contrasta con ACK (éxito) y con timeout (sin respuesta). No se usa en el lab introductorio pero es parte del flujo completo de reentento.",
+      },
+      {
+        term: "Asynchronous Messaging / Mensajería Asíncrona",
+        definition:
+          "Patrón donde productor y consumidor **no necesariamente coinciden en tiempo real**. Publisher envía mensaje y continúa — no espera que el subscriber lo reciba. Beneficio: desacoplamiento temporal — si el subscriber está fuera de servicio, los mensajes se acumulan en Pub/Sub y se entregan cuando vuelve. Contrasta con comunicación sincrónica (ej: HTTP request/response donde esperas respuesta). En el lab publicas mensajes y el subscriber los recibe después — son independientes.",
+      },
+      {
+        term: "Decoupling / Desacoplamiento",
+        definition:
+          "Separación entre componentes para que cambios en uno no rompan otro. Pub/Sub desacopla publisher y subscriber en tres formas: tiempo (no necesitan coincidir), ubicación (diferentes máquinas), velocidad (ritmos diferentes). Publisher no conoce ni necesita saber de subscribers. Esto hace sistemas resilientes y escalables. En el lab ves cómo el publisher y subscriber son scripts completamente independientes.",
+      },
+      {
+        term: "Message Ordering",
+        definition:
+          "Orden en que se reciben los mensajes. En Pub/Sub estándar, no se garantiza orden (aunque en la práctica suele preservarse). Para garantizar orden, usas Message Ordering Key — mensajes con la misma clave se procesan en orden. Importante en casos críticos (ej: transacciones bancarias donde el orden de depósitos/retiros importa). En el lab no usas ordenamiento, pero es concepto importante.",
+      },
+      {
+        term: "Dead Letter Queue (DLQ)",
+        definition:
+          "Mecanismo para manejar mensajes que fallan repetidamente. Si un mensaje not puede procesarse después de N reintentos, se envía a una cola de letra muerta en lugar de descartarse. Permite inspeccionar qué salió mal. Pub/Sub tiene soporte para DLQs mediante subscripciones dedicadas. No se usa en el lab pero es práctica importante en producción.",
+      },
+      {
+        term: "Virtual Environment (venv)",
+        definition:
+          "Entorno aislado de Python que contiene su propia versión de Python y paquetes. Esto evita conflictos entre proyectos — si una app necesita librería X versión 1.0 y otra necesita versión 2.0, cada una usa su venv. Se crea con 'python -m venv nombre' y se activa con 'source nombre/bin/activate' (Linux/Mac) o 'nombre\\Scripts\\activate' (Windows). En el lab creas un venv antes de instalar google-cloud-pubsub.",
+      },
+      {
+        term: "Python Client Library",
+        definition:
+          "Librería que proporciona clases y funciones en Python para interactuar con una API. La librería google-cloud-pubsub abstrae detalles de protocolos HTTP, autenticación, serialización. Sin ella escribirías código bajo nivel con curl. Con la librería: `from google.cloud import pubsub_v1; publisher = pubsub_v1.PublisherClient()` y luego publicas fácilmente. En el lab instalas pip install google-cloud-pubsub.",
+      },
+      {
+        term: "Publisher-Subscriber Pattern",
+        definition:
+          "Patrón arquitectónico donde existe muchos productores (publishers) y muchos consumidores (subscribers) comunicados por un intermediario (topic). Pros: escalable, flexible, desacoplado. Cada componente es independiente — agregar nuevos publishers o subscribers no afecta a otros. Desventaja: complejidad, debugging. Pub/Sub de Google implementa este patrón. En el lab ves el patrón: un publisher envía a un topic, el subscriber recibe desde una suscripción.",
+      },
+      {
+        term: "Pub/Sub Project",
+        definition:
+          "Proyecto de Google Cloud que contiene topics y subscriptions. Son recursos que viven bajo tu proyecto específico. El proyecto maneja autenticación, facturación, cuotas. Cuando ejecutas comandos pubsub, usan el proyecto actual de gcloud. En el lab creas MyTopic y MySub dentro de tu proyecto actual.",
+      },
+      {
+        term: "gcloud pubsub (Command-Line Tool)",
+        definition:
+          "Herramienta CLI para administrar Pub/Sub desde la terminal. Comandos: 'gcloud pubsub topics create', 'gcloud pubsub subscriptions create', 'gcloud pubsub topics publish'. Es más manual que usar la librería client, pero útil para setup inicial o scripting simple. En el lab usas comandos gcloud para publicar mensajes: 'gcloud pubsub topics publish MyTopic --message=\"...'.",
+      },
+      {
+        term: "Retention Policy / Política de Retención",
+        definition:
+          "Configura cuánto tiempo Pub/Sub mantiene mensajes no confirmados. Después de ese tiempo, los mensajes se descartan incluso si no fueron procesados. Ejemplo: retention=7 días significa que si un subscriber tarda >7 días en consumir, pierde los mensajes. Útil para evitar acumulación infinita de mensajes. En el lab usas retención por defecto (~7 días), pero en producción ajustas según tus necesidades.",
+      },
+      {
+        term: "Message Filtering",
+        definition:
+          "Capacidad de una suscripción de recibir solo mensajes que coincidan ciertos criterios (basados en atributos). Ejemplo: solo mensajes con attribute 'prioridad=alta'. Reduce trabajo innecesario — el subscriber solo ve mensajes relevantes. Implementado en Pub/Sub mediante filter expressions. No se usa en el lab introductorio pero es avanzado/util.",
       },
     ],
     interactionPattern: [
@@ -1514,6 +1898,7 @@ export const labsContent: LabContent[] = [
     slug: "user-authentication-identity-aware-proxy",
     labNumber: 11,
     title: "User Authentication: Identity-Aware Proxy",
+    labUrl:"https://www.skills.google/paths/36/course_templates/154/labs/631673",
     description:
       "Restricción de acceso a aplicaciones web y verificación de la identidad del usuario mediante Identity-Aware Proxy (IAP).",
     overview: {
@@ -1578,27 +1963,107 @@ export const labsContent: LabContent[] = [
       {
         term: "Identity-Aware Proxy (IAP)",
         definition:
-          "Servicio de Google Cloud que controla acceso según identidad del usuario.",
+          "Servicio de Google Cloud que se coloca delante de tu aplicación para controlar quién puede entrar, basado en identidad y permisos. IAP autentica al usuario, consulta IAM y solo deja pasar solicitudes autorizadas. Es una capa centralizada de seguridad: proteges apps sin reescribir toda la lógica de login. En el lab usas IAP para pasar de una app pública a una app con acceso restringido.",
       },
       {
         term: "Cloud Run",
         definition:
-          "Plataforma para desplegar servicios web administrados.",
+          "Servicio serverless de Google Cloud para ejecutar contenedores HTTP sin administrar servidores. Escala automáticamente y puede exponerse públicamente o protegerse con IAM/IAP. En este lab, Cloud Run hospeda la app Flask y sirve como ejemplo real de recurso que primero es publico y luego protegido por IAP.",
+      },
+      {
+        term: "Autenticacion",
+        definition:
+          "Proceso de verificar la identidad de una persona o sistema: responde la pregunta 'quien eres'. Ejemplo: iniciar sesion con cuenta de Google. En el flujo de IAP, la autenticacion ocurre antes de que tu solicitud llegue a la app. Sin autenticacion, no se puede decidir si el usuario debe entrar o no.",
+      },
+      {
+        term: "Autorizacion",
+        definition:
+          "Proceso de decidir que acciones puede hacer un usuario autenticado: responde la pregunta 'que puedes hacer'. En Google Cloud esto se define con IAM roles. En el lab, aunque un usuario este autenticado, solo entra si tiene el rol IAP-Secured Web App User sobre el recurso.",
+      },
+      {
+        term: "IAM (Identity and Access Management)",
+        definition:
+          "Sistema de permisos de Google Cloud. Define quien (principal) tiene que rol sobre que recurso. IAP se apoya en IAM para permitir o denegar acceso. Si no asignas el rol correcto en IAM, IAP bloqueara incluso usuarios autenticados.",
+      },
+      {
+        term: "Rol IAP-Secured Web App User",
+        definition:
+          "Rol de IAM que permite a un usuario acceder a una aplicacion web protegida por IAP. Es el permiso minimo para pasar por IAP hacia el backend. En el lab, asignar este rol al estudiante es clave; sin ese paso, la app queda protegida pero inaccesible.",
+      },
+      {
+        term: "Principal",
+        definition:
+          "Identidad a la que le asignas permisos: puede ser un usuario, grupo, dominio o cuenta de servicio. En IAM, los permisos siempre se otorgan a un principal. En el lab, el principal principal es la cuenta del estudiante que recibira el rol de acceso a IAP.",
       },
       {
         term: "Headers de identidad",
         definition:
-          "Encabezados HTTP que IAP añade con el correo e ID del usuario.",
+          "Encabezados HTTP que IAP agrega a la solicitud cuando el usuario ya fue autenticado. Ejemplos: X-Goog-Authenticated-User-Email y X-Goog-Authenticated-User-ID. Sirven para personalizar la app (mostrar quien eres), pero por si solos no son prueba criptografica fuerte.",
       },
       {
-        term: "JWT firmado",
+        term: "X-Goog-Authenticated-User-Email",
         definition:
-          "Objeto criptográficamente firmado que permite verificar que la identidad no fue alterada.",
+          "Header que contiene el correo del usuario autenticado por IAP. Suele incluir prefijo como 'accounts.google.com:correo'. Es util para mostrar identidad en UI o aplicar reglas de negocio basicas, siempre que confies en que la solicitud realmente vino a traves de IAP.",
       },
       {
-        term: "Zero trust",
+        term: "X-Goog-Authenticated-User-ID",
         definition:
-          "Modelo de seguridad que no confía por defecto y verifica cada acceso.",
+          "Header con identificador estable del usuario autenticado. Es mejor que el correo para identificar usuarios de forma consistente, porque un email podria cambiar. En el lab se usa junto con el correo para demostrar que la app puede leer identidad del solicitante.",
+      },
+      {
+        term: "Spoofing de headers",
+        definition:
+          "Ataque donde alguien envia headers falsos para hacerse pasar por otro usuario. Si tu app confia ciegamente en headers y IAP esta desactivado o bypassed, un atacante podria inyectar valores falsos con curl. Por eso el lab demuestra el riesgo al desactivar IAP.",
+      },
+      {
+        term: "JWT (JSON Web Token)",
+        definition:
+          "Token compacto con tres partes (header.payload.signature) codificadas en base64url. Contiene claims de identidad y metadatos, y una firma para detectar alteraciones. IAP envia un JWT en X-Goog-IAP-JWT-Assertion para que la app valide que la identidad es autentica.",
+      },
+      {
+        term: "X-Goog-IAP-JWT-Assertion",
+        definition:
+          "Header especial con JWT firmado por IAP. Es la fuente confiable para verificar identidad, porque incluye firma criptografica validable con claves publicas de Google. En el lab, validar este token es el nivel de seguridad mas alto frente a suplantacion.",
+      },
+      {
+        term: "Firma criptografica",
+        definition:
+          "Mecanismo matematico que prueba integridad y origen de un mensaje. Si cambias un bit del JWT, la firma deja de ser valida. En IAP, la firma confirma que el token fue emitido por Google y no manipulado por un atacante.",
+      },
+      {
+        term: "ES256",
+        definition:
+          "Algoritmo de firma digital (ECDSA con curva P-256 y SHA-256) usado por IAP para firmar JWTs. La app debe validar que el algoritmo sea el esperado y que la firma coincida con la clave publica oficial. Esto evita aceptar tokens forjados.",
+      },
+      {
+        term: "Clave publica",
+        definition:
+          "Clave que se usa para verificar firmas (no para firmar). Google publica sus claves para que tu app pueda validar JWTs emitidos por IAP. El backend obtiene la clave correcta usando el 'kid' del token y comprueba la firma antes de confiar en los datos.",
+      },
+      {
+        term: "Claims (iss, aud, exp, sub, email)",
+        definition:
+          "Campos dentro del payload JWT. 'iss' indica quien emitio el token, 'aud' para que servicio va dirigido, 'exp' cuando expira, 'sub' identifica usuario, 'email' su correo. Validar claims es tan importante como validar firma; un token firmado pero con aud incorrecta no debe aceptarse.",
+      },
+      {
+        term: "Audience (aud)",
+        definition:
+          "Claim que indica a que aplicacion/recurso esta destinado el JWT. Evita reutilizacion de tokens en servicios distintos. En IAP debes verificar que 'aud' coincida exactamente con tu recurso protegido; si no coincide, rechazas la solicitud.",
+      },
+      {
+        term: "Zero Trust",
+        definition:
+          "Modelo de seguridad que asume 'no confies en nada por defecto'. Cada solicitud se verifica continuamente por identidad, contexto y politica. IAP implementa principios Zero Trust porque no basta estar en la red interna: igual necesitas autenticacion y autorizacion para cada acceso.",
+      },
+      {
+        term: "Defensa en profundidad",
+        definition:
+          "Estrategia de usar multiples capas de seguridad en vez de una sola. En este lab se ve claro: 1) IAP restringe acceso, 2) headers muestran identidad, 3) JWT firmado verifica identidad criptograficamente. Si una capa falla, las otras reducen riesgo.",
+      },
+      {
+        term: "Principio de minimo privilegio",
+        definition:
+          "Buena practica de otorgar solo los permisos estrictamente necesarios, por el tiempo necesario. En lugar de dar roles amplios, asignas solo IAP-Secured Web App User a quienes realmente necesitan acceder. Reduce superficie de ataque y errores humanos.",
       },
     ],
     interactionPattern: [
@@ -1666,6 +2131,7 @@ export const labsContent: LabContent[] = [
     slug: "cloud-iam-qwik-start",
     labNumber: 12,
     title: "Cloud IAM: Qwik Start",
+    labUrl:"https://www.skills.google/paths/36/course_templates/154/labs/631676",
     description:
       "Configuración y administración centralizada de políticas, roles y permisos de acceso con Cloud Identity and Access Management.",
     overview: {
@@ -1728,34 +2194,99 @@ export const labsContent: LabContent[] = [
       "Este laboratorio es complementario al AB porque permite ver de forma práctica cómo los roles de IAM cambian lo que un usuario puede o no puede hacer dentro de un proyecto. A través de dos identidades distintas, el estudiante observa cómo se otorgan, limitan y revocan permisos sobre recursos como Cloud Storage. IAM unifica el control de acceso de Google Cloud en un sistema consistente de operaciones y permisos.\n\nAdemás, este lab es útil para introducir la idea de mínimo privilegio: no todos los usuarios necesitan acceso total, y las acciones disponibles dependen directamente del rol asignado. Los roles básicos de IAM son amplios y afectan el comportamiento a nivel de proyecto, por lo que conviene usarlos con cuidado.\n\nDurante la práctica, el estudiante trabaja con dos identidades distintas para observar cómo cambian sus capacidades al asignar, revocar y restringir permisos sobre Cloud Storage y sobre el proyecto.",
     concepts: [
       {
-        term: "IAM",
+        term: "IAM (Identity and Access Management)",
         definition:
-          "Sistema de Google Cloud para crear y administrar permisos.",
+          "Sistema de Google Cloud para gestionar quien puede hacer que sobre que recurso. IAM centraliza permisos en politicas que asignan roles a identidades. En vez de configurar cada servicio por separado, defines acceso desde un mismo modelo. En el lab usas IAM para dar, quitar y ajustar permisos entre dos usuarios.",
       },
       {
         term: "Rol",
         definition:
-          "Conjunto de permisos asignados a un usuario o principal.",
+          "Conjunto predefinido de permisos. Un rol no es una persona, es un paquete de capacidades (por ejemplo: ver recursos, crear objetos, administrar IAM). En IAM no asignas permisos uno por uno normalmente; asignas roles a principals. En el lab comparas roles amplios de proyecto con roles granulares de Cloud Storage.",
       },
       {
-        term: "Viewer",
+        term: "Permiso",
         definition:
-          "Rol de solo lectura.",
-      },
-      {
-        term: "Owner",
-        definition:
-          "Rol con permisos para administrar roles y permisos del proyecto.",
+          "Accion puntual que se puede ejecutar sobre un recurso (ejemplo: storage.objects.get, resourcemanager.projects.get). Los roles son colecciones de permisos. Entender esto ayuda a aplicar minimo privilegio: das el rol que contiene solo los permisos necesarios.",
       },
       {
         term: "Principal",
         definition:
-          "Identidad a la que se le asigna acceso.",
+          "Identidad a la que se le asigna acceso. Puede ser usuario, grupo, cuenta de servicio o dominio. IAM siempre responde: que principal tiene que rol sobre que recurso. En el lab, Username 1 y Username 2 son principals distintos con capacidades diferentes.",
       },
       {
-        term: "Proyecto",
+        term: "Politica IAM",
         definition:
-          "Contenedor de recursos y políticas de IAM.",
+          "Documento de reglas de acceso asociado a un recurso. Contiene bindings del tipo: principal -> rol. Cuando haces cambios en la consola IAM, realmente estas editando esta politica. En el lab, al agregar o quitar Viewer cambias la politica IAM del proyecto.",
+      },
+      {
+        term: "Binding",
+        definition:
+          "Asociacion especifica entre un principal y un rol dentro de una politica IAM. Ejemplo: user:ana@example.com -> roles/viewer. Si eliminas ese binding, el usuario pierde esas capacidades. En el lab revocas acceso quitando un binding de Viewer.",
+      },
+      {
+        term: "Proyecto (Project)",
+        definition:
+          "Contenedor logico de recursos en Google Cloud (Compute, Storage, APIs, IAM). Es tambien un limite administrativo y de facturacion. Si otorgas un rol a nivel proyecto, impacta potencialmente muchos recursos dentro de ese proyecto.",
+      },
+      {
+        term: "Scope / Alcance",
+        definition:
+          "Nivel donde aplicas un rol: organizacion, carpeta, proyecto o recurso especifico. Roles en niveles altos heredan hacia abajo. En este lab comparas un alcance amplio (Viewer en proyecto) contra uno mas puntual (Storage Object Viewer para una necesidad concreta).",
+      },
+      {
+        term: "Herencia de permisos",
+        definition:
+          "Comportamiento por el cual permisos otorgados en un nivel superior se aplican a niveles inferiores. Por ejemplo, un rol en proyecto afecta recursos dentro del proyecto. Esta herencia facilita administracion, pero puede dar mas acceso del necesario si no se diseña bien.",
+      },
+      {
+        term: "Owner",
+        definition:
+          "Rol primitivo con permisos muy amplios, incluyendo gestion de permisos IAM del proyecto. Es poderoso y riesgoso si se usa en exceso. Debe reservarse para pocos administradores. En el lab, el usuario Owner puede crear recursos y administrar accesos.",
+      },
+      {
+        term: "Editor",
+        definition:
+          "Rol primitivo amplio que permite modificar muchos recursos, pero sin todas las capacidades administrativas de Owner. Sigue siendo un rol grande y no siempre recomendable para uso cotidiano en equipos con seguridad estricta.",
+      },
+      {
+        term: "Viewer",
+        definition:
+          "Rol primitivo de solo lectura a nivel proyecto. Permite ver recursos y configuraciones, pero no modificarlos. En el lab, Username 2 con Viewer puede observar el bucket creado por otro usuario, pero no administrarlo.",
+      },
+      {
+        term: "Browser",
+        definition:
+          "Rol basico orientado a descubrimiento de recursos y metadatos, con menos capacidades que Viewer en muchos casos. Se usa para permitir navegacion minima sin otorgar lectura completa de ciertos datos.",
+      },
+      {
+        term: "Storage Object Viewer",
+        definition:
+          "Rol mas granular enfocado en leer objetos de Cloud Storage. Permite acceso especifico a datos de almacenamiento sin abrir permisos amplios del proyecto completo. En el lab lo usas para demostrar minimo privilegio frente a Project Viewer.",
+      },
+      {
+        term: "Roles primitivos vs roles granulares",
+        definition:
+          "Roles primitivos (Owner, Editor, Viewer) son amplios y rapidos de usar, pero suelen exceder permisos necesarios. Roles granulares/predefinidos por servicio limitan capacidades a tareas concretas. Buenas practicas modernas prefieren roles granulares.",
+      },
+      {
+        term: "Minimo privilegio",
+        definition:
+          "Principio de seguridad que indica otorgar solo los permisos estrictamente necesarios para una tarea y nada mas. Reduce errores y superficie de ataque. Este lab lo muestra al pasar de acceso amplio de proyecto a un permiso puntual de Storage.",
+      },
+      {
+        term: "Revocacion de acceso",
+        definition:
+          "Accion de quitar un rol o binding para retirar permisos. Es parte del ciclo normal de seguridad (onboarding y offboarding). En el lab, cuando revocas Viewer, Username 2 pierde acceso al proyecto y sus recursos.",
+      },
+      {
+        term: "Propagacion de permisos",
+        definition:
+          "Tiempo que tarda Google Cloud en reflejar cambios IAM en todos sus sistemas. No siempre es instantaneo; puede haber segundos o minutos de retraso. En operaciones reales, esto importa para troubleshooting y para validar cambios antes de asumir que fallaron.",
+      },
+      {
+        term: "Auditoria de acceso",
+        definition:
+          "Revision de quien tiene que permisos y por que. Se apoya en politicas IAM, registros de actividad y revisiones periodicas. Es clave para cumplimiento y seguridad. Aunque el lab es introductorio, practicar cambios controlados prepara para auditorias reales.",
       },
     ],
     interactionPattern: [
