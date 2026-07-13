@@ -3,7 +3,10 @@ import { TopicContent } from "./unit1";
 export const unit5Content: TopicContent[] = [
   {
     slug: "opciones-almacenamiento",
+
     title: "Opciones de almacenamiento en la nube",
+    courseLink: "https://www.skills.google/paths/36/course_templates/154",
+    courseTitle: "Google Cloud Computing Foundations: Infrastructure in Google Cloud",
     readingTime: "12 min",
     objectives: [
       "Comprender qué significa almacenar información en la nube y por qué no equivale solo a guardar archivos",
@@ -143,6 +146,8 @@ export const unit5Content: TopicContent[] = [
   {
     slug: "datos-estructurados-no-estructurados",
     title: "Datos estructurados y no estructurados",
+    courseLink: "https://www.skills.google/paths/36/course_templates/154",
+    courseTitle: "Google Cloud Computing Foundations: Infrastructure in Google Cloud",
     readingTime: "11 min",
     objectives: [
       "Distinguir entre datos estructurados y no estructurados a partir de su forma y modo de organización",
@@ -282,6 +287,8 @@ export const unit5Content: TopicContent[] = [
   {
     slug: "arquitectura-almacenamiento",
     title: "Arquitectura general de almacenamiento",
+        courseLink: "https://www.skills.google/paths/36/course_templates/154",
+    courseTitle: "Google Cloud Computing Foundations: Infrastructure in Google Cloud",
     readingTime: "12 min",
     objectives: [
       "Comprender cómo se organiza el almacenamiento en la nube como parte de una arquitectura más amplia",
@@ -426,6 +433,8 @@ export const unit5Content: TopicContent[] = [
   {
     slug: "almacenamiento-objetos",
     title: "Almacenamiento de objetos",
+        courseLink: "https://www.skills.google/paths/36/course_templates/154",
+    courseTitle: "Google Cloud Computing Foundations: Infrastructure in Google Cloud",
     readingTime: "12 min",
     objectives: [
       "Comprender qué es el almacenamiento de objetos y por qué es útil para archivos grandes y contenido flexible",
@@ -499,6 +508,30 @@ export const unit5Content: TopicContent[] = [
           ["Acceso", "URL, API REST, CLI", "Rutas de directorio", "SQL / consultas"],
           ["Escalabilidad", "Prácticamente ilimitada", "Limitada por disco", "Depende del motor"],
           ["Edición parcial", "No (se reemplaza el objeto entero)", "Sí", "Sí (UPDATE por campos)"],
+        ],
+      },
+      {
+        type: "starService",
+        serviceName: "Cloud Storage",
+        icon: "/assets/Cloud Storage.svg",
+        description: "Cloud Storage es el servicio de almacenamiento de objetos de Google Cloud. Permite guardar y acceder a cantidades ilimitadas de datos no estructurados (imágenes, videos, respaldos, logs, datasets) con alta durabilidad (99.999999999% — 11 nueves), disponibilidad global y acceso por URL, API REST o línea de comandos.",
+        features: [
+          "4 clases de almacenamiento: Standard, Nearline (30 días), Coldline (90 días), Archive (365 días)",
+          "Buckets con nombres globalmente únicos — organizan objetos sin jerarquía real",
+          "Versionado de objetos: conserva versiones anteriores automáticamente",
+          "Lifecycle rules: mueve o elimina objetos automáticamente según antigüedad o clase",
+          "Permisos granulares con IAM y Access Control Lists (ACLs)",
+          "URLs firmadas (signed URLs) para acceso temporal sin autenticación",
+          "Transfer Service para migración masiva desde otros clouds o servidores",
+          "Integración directa con BigQuery, Dataflow, Cloud Functions y AI/ML",
+        ],
+        commands: [
+          { command: "gcloud storage buckets create gs://my-bucket --location=us-central1", description: "Crear un bucket en la región us-central1" },
+          { command: "gcloud storage cp archivo.pdf gs://my-bucket/", description: "Subir un archivo al bucket" },
+          { command: "gcloud storage ls gs://my-bucket/", description: "Listar objetos dentro de un bucket" },
+          { command: "gcloud storage cp gs://my-bucket/archivo.pdf .", description: "Descargar un archivo del bucket al directorio actual" },
+          { command: "gcloud storage rm gs://my-bucket/archivo.pdf", description: "Eliminar un objeto del bucket" },
+          { command: "gcloud storage buckets update gs://my-bucket --lifecycle-file=lifecycle.json", description: "Aplicar reglas de ciclo de vida desde un archivo JSON" },
         ],
       },
       {

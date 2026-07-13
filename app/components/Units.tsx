@@ -20,7 +20,6 @@ type UnitDisplay = {
   title: string;
   shortTitle: string;
   description: string;
-  hours: number;
   icon: LucideIcon;
   color: string;
   borderColor: string;
@@ -28,18 +27,18 @@ type UnitDisplay = {
   modules: string[];
 };
 
-const unitMeta: Record<number, { description: string; hours: number; icon: LucideIcon; color: string; borderColor: string; tags: string[] }> = {
-  1: { description: "Conceptos base de cloud computing, historia, ventajas, modelos IaaS/PaaS/SaaS y tipos de despliegue.", hours: 12, icon: Cloud, color: "text-azure", borderColor: "border-azure/30", tags: ["fundamentals", "models"] },
-  2: { description: "Arquitectura cloud, acceso, consola, herramientas de trabajo y automatización.", hours: 12, icon: Monitor, color: "text-cyan", borderColor: "border-cyan/30", tags: ["architecture", "tools"] },
-  3: { description: "Máquinas virtuales, escalamiento, contenedores, orquestación y serverless.", hours: 14, icon: Server, color: "text-success", borderColor: "border-success/30", tags: ["compute", "containers"] },
-  4: { description: "Eventos, funciones reactivas, automatización y despliegues básicos.", hours: 10, icon: Zap, color: "text-unam-gold", borderColor: "border-unam-gold/30", tags: ["events", "automation"] },
-  5: { description: "Opciones de almacenamiento, datos estructurados/no estructurados y arquitectura.", hours: 10, icon: Database, color: "text-azure", borderColor: "border-azure/30", tags: ["storage", "data"] },
-  6: { description: "Almacenamiento de objetos, bases de datos SQL, NoSQL y distribuidas.", hours: 12, icon: Database, color: "text-cyan", borderColor: "border-cyan/30", tags: ["SQL", "NoSQL"] },
-  7: { description: "APIs REST, gestión de APIs, mensajería e integración asíncrona.", hours: 10, icon: Code, color: "text-success", borderColor: "border-success/30", tags: ["APIs", "messaging"] },
-  8: { description: "Seguridad cloud, responsabilidad compartida, cifrado e IAM.", hours: 10, icon: Shield, color: "text-unam-gold", borderColor: "border-unam-gold/30", tags: ["security", "IAM"] },
+const unitMeta: Record<number, { description: string; icon: LucideIcon; color: string; borderColor: string; tags: string[] }> = {
+  1: { description: "Conceptos base de cloud computing, historia, ventajas, modelos IaaS/PaaS/SaaS y tipos de despliegue.", icon: Cloud, color: "text-azure", borderColor: "border-azure/30", tags: ["fundamentals", "models"] },
+  2: { description: "Arquitectura cloud, acceso, consola, herramientas de trabajo y automatización.", icon: Monitor, color: "text-cyan", borderColor: "border-cyan/30", tags: ["architecture", "tools"] },
+  3: { description: "Máquinas virtuales, escalamiento, contenedores, orquestación y serverless.", icon: Server, color: "text-success", borderColor: "border-success/30", tags: ["compute", "containers"] },
+  4: { description: "Eventos, funciones reactivas, automatización y despliegues básicos.", icon: Zap, color: "text-unam-gold", borderColor: "border-unam-gold/30", tags: ["events", "automation"] },
+  5: { description: "Opciones de almacenamiento, datos estructurados/no estructurados y arquitectura.", icon: Database, color: "text-azure", borderColor: "border-azure/30", tags: ["storage", "data"] },
+  6: { description: "Almacenamiento de objetos, bases de datos SQL, NoSQL y distribuidas.", icon: Database, color: "text-cyan", borderColor: "border-cyan/30", tags: ["SQL", "NoSQL"] },
+  7: { description: "APIs REST, gestión de APIs, mensajería e integración asíncrona.", icon: Code, color: "text-success", borderColor: "border-success/30", tags: ["APIs", "messaging"] },
+  8: { description: "Seguridad cloud, responsabilidad compartida, cifrado e IAM.", icon: Shield, color: "text-unam-gold", borderColor: "border-unam-gold/30", tags: ["security", "IAM"] },
 };
 
-const defaultMeta = { description: "", hours: 10, icon: Server, color: "text-azure", borderColor: "border-azure/30", tags: [] };
+const defaultMeta = { description: "", icon: Server, color: "text-azure", borderColor: "border-azure/30", tags: [] };
 
 const units: UnitDisplay[] = unitsData.map((u) => {
   const meta = unitMeta[u.number] ?? defaultMeta;
@@ -48,7 +47,6 @@ const units: UnitDisplay[] = unitsData.map((u) => {
     title: u.title,
     shortTitle: u.shortTitle,
     description: meta.description,
-    hours: meta.hours,
     icon: meta.icon,
     color: meta.color,
     borderColor: meta.borderColor,
@@ -206,9 +204,6 @@ function TimelineUnit({
 
           {/* Meta */}
           <div className="hidden sm:flex items-center gap-3 shrink-0">
-            <span className="text-xs text-text-secondary px-2 py-1 rounded-md bg-grey-light border border-border/50">
-              {unit.hours}h
-            </span>
             {unit.tags.map((tag) => (
               <span
                 key={tag}

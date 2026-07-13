@@ -43,6 +43,7 @@ export const labsContent: LabContent[] = [
   {
     slug: "create-a-virtual-machine",
     labNumber: 3,
+    labUrl:"https://www.skills.google/paths/36/course_templates/153/labs/631624",
     title: "Create a Virtual Machine",
     description:
       "Creación y configuración básica de una máquina virtual en Google Compute Engine explorando zonas y regiones.",
@@ -211,6 +212,7 @@ export const labsContent: LabContent[] = [
   {
     slug: "app-engine-qwik-start-python",
     labNumber: 4,
+    labUrl:"https://www.skills.google/paths/36/course_templates/153/labs/631628",
     title: "App Engine: Qwik Start - Python",
     description:
       "Despliegue rápido de una aplicación web sencilla escrita en Python utilizando el entorno administrado App Engine.",
@@ -403,6 +405,7 @@ export const labsContent: LabContent[] = [
   {
     slug: "cloud-run-functions-qwik-start-command-line",
     labNumber: 5,
+    labUrl:"https://www.skills.google/paths/36/course_templates/153/labs/631631",
     title: "Cloud Run Functions: Qwik Start - Command Line",
     description:
       "Creación y despliegue de una función serverless orientada a eventos mediante la interfaz de comandos.",
@@ -576,6 +579,7 @@ export const labsContent: LabContent[] = [
   {
     slug: "google-kubernetes-engine-qwik-start",
     labNumber: 6,
+    labUrl:"https://www.skills.google/paths/36/course_templates/153/labs/631634",
     title: "Google Kubernetes Engine: Qwik Start",
     description:
       "Despliegue y escalado de una aplicación contenedorizada dentro de un entorno gestionado con Kubernetes.",

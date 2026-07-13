@@ -29,7 +29,7 @@ const cards = [
     icon: BookOpen,
     title: "Modalidad",
     description:
-      "Teórico-práctico. Sesiones presenciales con trabajo en laboratorio usando Azure for Students.",
+      "Teórico-práctico. Sesiones presenciales con trabajo en laboratorio usando Google Skills.",
     color: "text-blue",
   },
   {
@@ -43,7 +43,7 @@ const cards = [
     icon: Wrench,
     title: "Herramientas",
     description:
-      "Microsoft Azure, Azure CLI, VS Code, GitHub, Azure for Students (créditos gratuitos).",
+      "VS Code, GitHub, Google Skills (créditos gratuitos).",
     color: "text-green",
   },
   {

@@ -14,7 +14,9 @@ import {
 } from "lucide-react";
 import { unitsData } from "@/data/units";
 import { getTopicContent, ContentSection } from "@/data/content";
+import { getRelatedLabs } from "@/data/topicLabMap";
 import Navbar from "@/app/components/Navbar";
+import { RelatedLabBanner } from "@/app/components/RelatedLabBanner";
 import {
   TriggerQuestion,
   TabsSection,
@@ -53,6 +55,7 @@ import { RelationalMap } from "@/app/components/RelationalMap";
 import { ManagedSqlExplorer } from "@/app/components/ManagedSqlExplorer";
 import { GlobalDbExplainer } from "@/app/components/GlobalDbExplainer";
 import { NoSqlExplorer } from "@/app/components/NoSqlExplorer";
+import { StarService } from "@/app/components/StarService";
 
 type Params = {
   unit: string;
@@ -285,6 +288,9 @@ function SectionRenderer({ section }: { section: ContentSection }) {
     case "noSqlExplorer":
       return <NoSqlExplorer />;
 
+    case "starService":
+      return <StarService serviceName={section.serviceName} icon={section.icon} description={section.description} features={section.features} commands={section.commands} />;
+
     case "quiz":
       return <QuizSection section={section} />;
 
@@ -306,6 +312,7 @@ export default async function TopicPage({ params }: { params: Promise<Params> })
 
   const moduleIndex = unitData.modules.findIndex((m) => m.slug === topic);
   const topicContent = getTopicContent(unit, topic);
+  const relatedLabs = getRelatedLabs(unit, topic);
 
   return (
     <>
@@ -378,7 +385,25 @@ export default async function TopicPage({ params }: { params: Promise<Params> })
                 </ul>
               </div>
             )}
+
+            {/* Google Skills Boost course link */}
+            {topicContent?.courseLink && topicContent?.courseTitle && (
+              <div className="mt-3 pt-3 border-t border-border/30 flex items-center gap-2">
+                <img src="/assets/logoCloud.png" alt="Google Cloud" className="w-4 h-4 shrink-0" />
+                <a
+                  href={topicContent.courseLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[11px] text-azure hover:underline transition-colors truncate"
+                >
+                  {topicContent.courseTitle}
+                </a>
+              </div>
+            )}
           </div>
+
+          {/* Related lab banner */}
+          <RelatedLabBanner labs={relatedLabs} />
 
           {/* Content sections */}
           {topicContent ? (

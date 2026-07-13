@@ -4,6 +4,8 @@ export const unit2Content: TopicContent[] = [
   {
     slug: "arquitectura-entorno-cloud",
     title: "Arquitectura general del entorno cloud",
+        courseLink: "https://www.skills.google/paths/36/course_templates/153",
+    courseTitle: "Google Cloud Computing Foundations: Cloud Computing Fundamentals",
     readingTime: "10 min",
     objectives: [
       "Identificar las capas principales de la arquitectura cloud: cómputo, almacenamiento, red, identidad y bases de datos",
@@ -122,6 +124,8 @@ export const unit2Content: TopicContent[] = [
   {
     slug: "proyectos-recursos",
     title: "Proyectos y recursos",
+        courseLink: "https://www.skills.google/paths/36/course_templates/153",
+    courseTitle: "Google Cloud Computing Foundations: Cloud Computing Fundamentals",
     readingTime: "9 min",
     objectives: [
       "Entender qué es un recurso en el contexto cloud y cómo se crea",
@@ -262,6 +266,8 @@ export const unit2Content: TopicContent[] = [
   {
     slug: "facturacion-administracion",
     title: "Facturación y administración básica",
+        courseLink: "https://www.skills.google/paths/36/course_templates/153",
+    courseTitle: "Google Cloud Computing Foundations: Cloud Computing Fundamentals",
     readingTime: "10 min",
     objectives: [
       "Entender cómo se vinculan cuentas, proyectos y costos en la nube",
@@ -397,6 +403,8 @@ export const unit2Content: TopicContent[] = [
   {
     slug: "sdk-automatizacion",
     title: "SDK y herramientas de automatización",
+        courseLink: "https://www.skills.google/paths/36/course_templates/153",
+    courseTitle: "Google Cloud Computing Foundations: Cloud Computing Fundamentals",
     readingTime: "9 min",
     objectives: [
       "Entender qué es un SDK y cómo se diferencia de la CLI y la API directa",

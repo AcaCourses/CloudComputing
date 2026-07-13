@@ -62,9 +62,12 @@ export const unitsData: Unit[] = [
         title: "Máquinas virtuales",
         slug: "maquinas-virtuales"
       },
-
       {
-        title: "Escalamiento y plataformas administradas",
+        title: "Plataformas administradas",
+        slug: "plataformas-administradas"
+      },
+      {
+        title: "Escalamiento y elasticidad",
         slug: "escalamiento"
       },
       {

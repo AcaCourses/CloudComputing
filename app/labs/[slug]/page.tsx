@@ -50,7 +50,7 @@ export default async function LabPage({ params }: PageProps) {
               </span>
               {/* Google Skills Boost badge */}
               <a
-                href="https://www.skills.google/paths/36/course_templates/153/labs/625210"
+                href={lab.labUrl || "#"}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group relative inline-flex items-center gap-0 px-2 py-1 rounded-full transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"

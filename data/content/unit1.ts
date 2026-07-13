@@ -40,13 +40,16 @@ export type ContentSection =
   | { type: "relationalMap" }
   | { type: "managedSqlExplorer" }
   | { type: "globalDbExplainer" }
-  | { type: "noSqlExplorer" };
+  | { type: "noSqlExplorer" }
+  | { type: "starService"; serviceName: string; icon: string; description: string; features: string[]; commands: { command: string; description: string }[] };
 
 export type TopicContent = {
   slug: string;
   title: string;
   readingTime: string;
   objectives: string[];
+  courseLink?: string;
+  courseTitle?: string;
   sections: ContentSection[];
 };
 
@@ -54,6 +57,8 @@ export const unit1Content: TopicContent[] = [
   {
     slug: "introduccion-computacion-nube",
     title: "Introducción a la computación en la nube",
+    courseLink: "https://www.skills.google/paths/36/course_templates/153",
+    courseTitle: "Google Cloud Computing Foundations: Cloud Computing Fundamentals",
     readingTime: "8 min",
     objectives: [
       "Comprender qué es la computación en la nube y su definición formal",
@@ -138,6 +143,8 @@ export const unit1Content: TopicContent[] = [
   {
     slug: "modelos-servicio",
     title: "Modelos de servicio: IaaS, PaaS, SaaS",
+        courseLink: "https://www.skills.google/paths/36/course_templates/153",
+    courseTitle: "Google Cloud Computing Foundations: Cloud Computing Fundamentals",
     readingTime: "12 min",
     objectives: [
       "Diferenciar los tres modelos de servicio cloud: IaaS, PaaS y SaaS",
@@ -247,6 +254,8 @@ export const unit1Content: TopicContent[] = [
   {
     slug: "modelos-despliegue",
     title: "Modelos de despliegue: público, privado, híbrido",
+        courseLink: "https://www.skills.google/paths/36/course_templates/153",
+    courseTitle: "Google Cloud Computing Foundations: Cloud Computing Fundamentals",
     readingTime: "10 min",
     objectives: [
       "Diferenciar los modelos de despliegue: nube pública, privada e híbrida",
@@ -317,6 +326,8 @@ export const unit1Content: TopicContent[] = [
   {
     slug: "proveedores-principales",
     title: "Proveedores principales: Azure, AWS, GCP",
+        courseLink: "https://www.skills.google/paths/36/course_templates/153",
+    courseTitle: "Google Cloud Computing Foundations: Cloud Computing Fundamentals",
     readingTime: "10 min",
     objectives: [
       "Conocer los tres principales proveedores de nube pública",

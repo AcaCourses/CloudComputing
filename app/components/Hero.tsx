@@ -14,7 +14,7 @@ const metrics = [
   { icon: Clock, label: "Horas semestre", value: "64", color: "text-cyan" },
   { icon: CalendarDays, label: "Sesiones/semana", value: "2", color: "text-azure" },
   { icon: FlaskConical, label: "Labs semanales", value: "✓", color: "text-success" },
-  { icon: GraduationCap, label: "Azure for Students", value: "Activo", color: "text-success" },
+  { icon: GraduationCap, label: "Google Skills", value: "Activo", color: "text-success" },
 ];
 
 const TITLE_TEXT = "Fundamentos de Computación en la Nube";

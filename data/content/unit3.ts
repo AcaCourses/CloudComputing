@@ -5,6 +5,8 @@ export const unit3Content: TopicContent[] = [
     slug: "opciones-computo",
     title: "Opciones de cómputo en la nube",
     readingTime: "10 min",
+    courseLink: "https://www.skills.google/paths/36/course_templates/153",
+    courseTitle: "Google Cloud Computing Foundations: Cloud Computing Fundamentals",
     objectives: [
       "Identificar que no todas las cargas se ejecutan igual en la nube y que existen distintas opciones de cómputo según el nivel de control y abstracción",
       "Diferenciar cuándo conviene usar máquinas virtuales, plataformas administradas, contenedores u opciones serverless",
@@ -145,6 +147,8 @@ export const unit3Content: TopicContent[] = [
     slug: "regiones-zonas",
     title: "Regiones y zonas de Google Cloud",
     readingTime: "8 min",
+    courseLink: "https://www.skills.google/paths/36/course_templates/153",
+    courseTitle: "Google Cloud Computing Foundations: Cloud Computing Fundamentals",
     objectives: [
       "Entender qué es una región y qué es una zona en Google Cloud",
       "Distinguir por qué no son lo mismo y cómo se relacionan entre sí",
@@ -286,6 +290,8 @@ export const unit3Content: TopicContent[] = [
     slug: "maquinas-virtuales",
     title: "Máquinas virtuales",
     readingTime: "10 min",
+    courseLink: "https://www.skills.google/paths/36/course_templates/153",
+    courseTitle: "Google Cloud Computing Foundations: Cloud Computing Fundamentals",
     objectives: [
       "Comprender qué es una máquina virtual y por qué sigue siendo una base importante del cómputo cloud",
       "Identificar cuándo conviene usar máquinas virtuales frente a opciones más administradas",
@@ -362,6 +368,30 @@ export const unit3Content: TopicContent[] = [
         ],
       },
       {
+        type: "starService",
+        serviceName: "Compute Engine",
+        icon: "/assets/Compute Engine.svg",
+        description: "Compute Engine es el servicio de infraestructura como servicio (IaaS) de Google Cloud que permite crear y ejecutar máquinas virtuales en la infraestructura global de Google. Ofrece control total sobre el sistema operativo, la configuración de red, el almacenamiento y los aceleradores de hardware. Es la base para cargas que requieren personalización completa del entorno.",
+        features: [
+          "Familias de máquinas: E2 (general), N2 (balanceado), C2 (cómputo), M2 (memoria), A2 (GPU)",
+          "Tipos personalizados: define CPU y RAM exactos según tu necesidad",
+          "Imágenes de SO públicas (Ubuntu, Windows, Debian) y custom",
+          "Discos persistentes: pd-standard, pd-balanced, pd-ssd, pd-extreme",
+          "VMs preemptibles/spot: hasta 91% de descuento para cargas tolerantes",
+          "Live Migration: las VMs se mueven entre hosts sin downtime",
+          "GPUs y TPUs para machine learning y HPC",
+          "Autoescalado con Managed Instance Groups (MIG)",
+        ],
+        commands: [
+          { command: "gcloud compute instances create my-vm --zone=us-central1-a --machine-type=e2-medium", description: "Crear una VM tipo e2-medium en la zona us-central1-a" },
+          { command: "gcloud compute instances list", description: "Listar todas las VMs del proyecto actual" },
+          { command: "gcloud compute ssh my-vm --zone=us-central1-a", description: "Conectarse por SSH a una VM" },
+          { command: "gcloud compute instances stop my-vm --zone=us-central1-a", description: "Detener una VM (deja de cobrar CPU, sigue cobrando disco)" },
+          { command: "gcloud compute instances delete my-vm --zone=us-central1-a", description: "Eliminar una VM y liberar todos sus recursos" },
+          { command: "gcloud compute disks snapshot my-disk --zone=us-central1-a", description: "Crear un snapshot (respaldo) de un disco persistente" },
+        ],
+      },
+      {
         type: "scenario",
         title: "¿VM o servicio administrado?",
         scenarios: [
@@ -424,13 +454,226 @@ export const unit3Content: TopicContent[] = [
   },
 
   {
+    slug: "plataformas-administradas",
+    title: "Plataformas administradas (PaaS)",
+    readingTime: "11 min",
+    courseLink: "https://www.skills.google/paths/36/course_templates/153",
+    courseTitle: "Google Cloud Computing Foundations: Cloud Computing Fundamentals",
+    objectives: [
+      "Comprender qué es una plataforma administrada y qué responsabilidades delega al proveedor",
+      "Identificar App Engine como el servicio PaaS principal de Google Cloud y entender sus dos entornos",
+      "Comparar cuándo conviene una plataforma administrada frente a VMs o contenedores",
+    ],
+    sections: [
+      {
+        type: "trigger",
+        question:
+          "¿Qué pasaría si pudieras desplegar tu aplicación con un solo comando, sin configurar servidores, redes ni parches de seguridad?",
+      },
+      {
+        type: "concept",
+        title: "Concepto clave",
+        content:
+          "Una plataforma administrada (PaaS — Platform as a Service) es un servicio cloud donde el usuario solo se preocupa por su código y configuración básica. El proveedor se encarga de la infraestructura, el sistema operativo, las actualizaciones, el escalamiento y la disponibilidad. El usuario no administra servidores: solo despliega.",
+      },
+      {
+        type: "text",
+        title: "¿Por qué existen las plataformas administradas?",
+        content:
+          "Las VMs dan control total, pero también toda la responsabilidad: parches, seguridad, escalamiento manual, configuración de red. Para muchas aplicaciones web comunes (APIs, sitios, backends), ese nivel de control es innecesario. Las plataformas administradas eliminan esa carga operativa: tú escribes la aplicación, la subes, y la plataforma se encarga del resto.",
+      },
+      {
+        type: "text",
+        content:
+          "El modelo PaaS es ideal cuando tu equipo quiere enfocarse en desarrollar funcionalidades y no en operar infraestructura. Sacrificas algo de control (no eliges el SO ni configuras la red), pero ganas velocidad de despliegue, escalamiento automático y menor carga de mantenimiento.",
+      },
+      {
+        type: "text",
+        title: "App Engine: la referencia PaaS de Google Cloud",
+        content:
+          "App Engine fue el primer servicio de Google Cloud (2008) y sigue siendo una de las formas más simples de desplegar aplicaciones web. Soporta Python, Java, Node.js, Go, PHP, Ruby y .NET. Tiene dos entornos: Standard (sandbox con escalamiento a cero, más restricciones) y Flexible (basado en contenedores Docker, más libertad pero sin escalar a cero).",
+      },
+      {
+        type: "tabs",
+        title: "App Engine: Standard vs Flexible",
+        tabs: [
+          {
+            id: "standard",
+            label: "Standard",
+            badge: "Recomendado",
+            content:
+              "Entorno sandbox con runtimes predefinidos. Escala a cero (no pagas sin tráfico). Inicio rápido (milisegundos). Restricciones: solo lenguajes soportados, sin escritura en disco local, sin procesos en background persistentes. Ideal para: apps web estándar, APIs REST, prototipos rápidos.",
+          },
+          {
+            id: "flexible",
+            label: "Flexible",
+            badge: "Docker",
+            content:
+              "Basado en contenedores Docker sobre VMs de Compute Engine. Permite cualquier lenguaje/runtime. Puedes escribir en disco, usar WebSockets, procesos en background. NO escala a cero (mínimo 1 instancia siempre). Más costoso pero más flexible. Ideal para: apps con dependencias custom o requisitos específicos de runtime.",
+          },
+          {
+            id: "comparacion",
+            label: "Cuándo elegir cuál",
+            badge: "Decisión",
+            content:
+              "¿Tu app es un API/web estándar en Python, Node o Java sin requisitos especiales? → Standard. ¿Necesitas runtime custom, WebSockets, procesos persistentes o librerías nativas? → Flexible. ¿Quieres pagar $0 sin tráfico? → Solo Standard lo permite. ¿Tráfico constante 24/7? → Flexible tiene más sentido.",
+          },
+        ],
+      },
+      {
+        type: "table",
+        title: "PaaS vs IaaS: qué administra cada quién",
+        headers: ["Responsabilidad", "IaaS (Compute Engine)", "PaaS (App Engine)"],
+        rows: [
+          ["Hardware y red física", "Proveedor", "Proveedor"],
+          ["Sistema operativo", "Usuario", "Proveedor"],
+          ["Parches de seguridad", "Usuario", "Proveedor"],
+          ["Runtime (lenguaje)", "Usuario instala", "Proveedor proporciona"],
+          ["Escalamiento", "Usuario configura (MIG)", "Automático"],
+          ["Balanceo de carga", "Usuario configura", "Incluido automáticamente"],
+          ["Despliegue de app", "Usuario sube y configura", "Un comando: gcloud app deploy"],
+          ["Código de la aplicación", "Usuario", "Usuario"],
+        ],
+      },
+      {
+        type: "starService",
+        serviceName: "App Engine",
+        icon: "/assets/App Engine.svg",
+        description: "App Engine es la plataforma como servicio (PaaS) de Google Cloud para desplegar aplicaciones web sin administrar infraestructura. Fue el primer servicio de GCP (2008) y permite llevar una aplicación de código a producción con un solo comando. Gestiona automáticamente el escalamiento, el balanceo de carga, los certificados HTTPS y las actualizaciones del runtime.",
+        features: [
+          "Dos entornos: Standard (sandbox, escala a cero) y Flexible (Docker, más control)",
+          "Lenguajes: Python, Node.js, Java, Go, PHP, Ruby, .NET",
+          "Escalamiento automático sin configurar grupos ni balanceadores",
+          "Versionado de despliegues: rollback instantáneo a versiones anteriores",
+          "Traffic splitting: divide tráfico entre versiones (canary, A/B testing)",
+          "HTTPS automático con certificados gestionados por Google",
+          "Integración nativa con Cloud Datastore, Cloud SQL, Memcache, Task Queues",
+          "Cron jobs integrados para tareas programadas",
+        ],
+        commands: [
+          { command: "gcloud app deploy", description: "Desplegar la aplicación desde el directorio actual" },
+          { command: "gcloud app browse", description: "Abrir la app desplegada en el navegador" },
+          { command: "gcloud app versions list", description: "Listar todas las versiones desplegadas" },
+          { command: "gcloud app services set-traffic --splits v2=1", description: "Enviar 100% del tráfico a la versión v2" },
+          { command: "gcloud app logs tail -s default", description: "Ver los logs en tiempo real del servicio default" },
+          { command: "gcloud app versions delete v1 v2", description: "Eliminar versiones antiguas para liberar recursos" },
+        ],
+      },
+      {
+        type: "table",
+        title: "App Engine Standard vs Flexible",
+        headers: ["Característica", "Standard", "Flexible"],
+        rows: [
+          ["Escala a cero", "Sí (pagas $0 sin tráfico)", "No (mínimo 1 instancia)"],
+          ["Tiempo de inicio", "Milisegundos", "Minutos (inicia VM+contenedor)"],
+          ["Runtime", "Sandbox predefinido", "Docker personalizable"],
+          ["Escritura en disco", "No", "Sí (efímera)"],
+          ["WebSockets", "No", "Sí"],
+          ["SSH a la instancia", "No", "Sí"],
+          ["Costo mínimo", "Puede ser $0", "~$30-50/mes mínimo"],
+          ["Ideal para", "APIs, web apps estándar", "Apps con deps custom"],
+        ],
+      },
+      {
+        type: "tabs",
+        title: "Comparación con otros proveedores",
+        tabs: [
+          {
+            id: "gcp",
+            label: "Google Cloud",
+            badge: "GCP",
+            content:
+              "App Engine es la opción PaaS clásica de GCP. Para casos más modernos, Cloud Run ofrece una experiencia similar pero basada en contenedores con escalamiento a cero. App Engine sigue siendo relevante para apps existentes y para quien prefiere una experiencia de despliegue sin Docker.",
+          },
+          {
+            id: "aws",
+            label: "AWS",
+            badge: "AWS",
+            content:
+              "El equivalente en AWS es Elastic Beanstalk: despliega apps en Python, Node.js, Java, .NET, Go, Ruby con un comando (eb deploy). También gestiona escalamiento, balanceo y health checks. Alternativa moderna: AWS App Runner (más parecido a Cloud Run).",
+          },
+          {
+            id: "azure",
+            label: "Azure",
+            badge: "Azure",
+            content:
+              "En Azure, el equivalente es Azure App Service: PaaS para apps web con despliegue directo, escalamiento automático y soporte para .NET, Node.js, Python, Java, PHP. Azure también ofrece Azure Container Apps como alternativa serverless basada en contenedores.",
+          },
+        ],
+      },
+      {
+        type: "scenario",
+        title: "¿PaaS o IaaS?",
+        scenarios: [
+          {
+            situation: "Equipo de 3 desarrolladores necesita desplegar un API REST en Python (Flask) para una app móvil universitaria. No tienen experiencia en administración de servidores.",
+            question: "¿App Engine o Compute Engine?",
+            hint: "App Engine (Standard). No necesitan administrar servidores, escala automáticamente, y Flask es un runtime soportado nativamente.",
+          },
+          {
+            situation: "Aplicación legacy en Java que usa librerías nativas del SO para procesamiento de imágenes y necesita acceso a directorios locales del filesystem.",
+            question: "¿Puede correr en App Engine Standard?",
+            hint: "No en Standard (restricciones de sandbox). Podría en Flexible (Docker con deps custom) o directamente en una VM.",
+          },
+          {
+            situation: "Startup con un MVP que quiere validar su idea rápido y pagar lo mínimo posible. La app es un backend Node.js con Express.",
+            question: "¿Qué opción minimiza costo y tiempo de configuración?",
+            hint: "App Engine Standard. Escala a cero ($0 sin tráfico), despliegue con un comando, sin configuración de infra. Perfecto para validar con costo mínimo.",
+          },
+        ],
+      },
+      {
+        type: "list",
+        title: "Puntos clave del tema",
+        items: [
+          "PaaS (Plataforma como Servicio) delega la operación de infraestructura al proveedor",
+          "App Engine es el PaaS de Google Cloud — despliega apps web con 'gcloud app deploy'",
+          "Standard escala a cero y es más barato; Flexible usa Docker y es más permisivo",
+          "No administras servidores, parches, SO ni balanceadores — solo tu código",
+          "El trade-off: pierdes control sobre la infra a cambio de velocidad y simplicidad",
+          "Equivalentes: AWS Elastic Beanstalk, Azure App Service",
+          "Ideal para equipos que quieren enfocarse en producto, no en operaciones",
+        ],
+      },
+      {
+        type: "quiz",
+        question: "¿Cuál es la ventaja principal de usar una plataforma administrada como App Engine?",
+        options: [
+          {
+            label: "Tienes control total sobre el sistema operativo y la red",
+            correct: false,
+            explanation: "Eso describe a las VMs (IaaS). En PaaS, el proveedor administra el SO y la red por ti.",
+          },
+          {
+            label: "Puedes desplegar sin administrar servidores, con escalamiento automático incluido",
+            correct: true,
+            explanation: "Correcto. PaaS elimina la carga operativa: solo subes tu código y la plataforma se encarga del resto (infra, escalamiento, HTTPS, balanceo).",
+          },
+          {
+            label: "Es siempre más barato que cualquier VM",
+            correct: false,
+            explanation: "No necesariamente. Para cargas constantes de alto volumen, una VM reservada puede ser más económica que PaaS.",
+          },
+          {
+            label: "Permite ejecutar cualquier software sin restricciones",
+            correct: false,
+            explanation: "PaaS impone restricciones (especialmente Standard). Para software con requisitos especiales, puede necesitarse Flexible o una VM.",
+          },
+        ],
+      },
+    ],
+  },
+
+  {
     slug: "escalamiento",
-    title: "Escalamiento y aplicaciones elásticas",
-    readingTime: "12 min",
+    title: "Escalamiento y elasticidad",
+    readingTime: "10 min",
+    courseLink: "https://www.skills.google/paths/36/course_templates/153",
+    courseTitle: "Google Cloud Computing Foundations: Cloud Computing Fundamentals",
     objectives: [
       "Comprender qué es el escalamiento horizontal y vertical, y cuándo aplicar cada uno",
-      "Identificar cómo funcionan los grupos de instancias administrados (MIGs) y las políticas de autoscaling en Google Cloud",
-      "Diseñar políticas de escalamiento basadas en métricas como CPU, tráfico o uso de memoria",
+      "Entender el concepto de elasticidad y autoescalado en la nube",
+      "Identificar patrones básicos de escalamiento y sus trade-offs",
     ],
     sections: [
       {
@@ -449,77 +692,82 @@ export const unit3Content: TopicContent[] = [
       },
       {
         type: "text",
-        title: "Autoescalado: la clave de la elasticidad",
+        title: "Vertical vs. Horizontal: dos filosofías",
         content:
-          "El autoescalado monitorea métricas (CPU, memoria, peticiones/segundo) y ajusta automáticamente el número de instancias. Cuando la carga sube, se crean nuevas instancias. Cuando baja, se eliminan. Esto permite pagar solo por lo que se usa sin intervención manual. El autoscaler necesita una política que defina: mínimo de instancias (siempre disponibles), máximo (techo de gasto), métrica objetivo (por ejemplo, 60% CPU) y período de estabilización (cooldown).",
+          "El escalamiento vertical (scale up) significa hacer una máquina más grande: agregarle más CPU, más RAM, más disco. Es simple, pero tiene un techo físico y requiere reiniciar la máquina. El escalamiento horizontal (scale out) significa agregar más máquinas idénticas detrás de un balanceador de carga. No tiene techo práctico, pero requiere que la aplicación pueda funcionar en múltiples instancias sin conflicto (stateless).",
+      },
+      {
+        type: "text",
+        title: "Elasticidad: escalar y des-escalar automáticamente",
+        content:
+          "La elasticidad es la capacidad de crecer cuando hay demanda y reducirse cuando la demanda baja. El resultado: pagas solo por lo que necesitas en cada momento. Para lograrlo necesitas un autoscaler que monitoree métricas (CPU, memoria, peticiones/segundo) y ajuste automáticamente la cantidad de instancias según reglas configuradas.",
       },
       {
         type: "text",
         content:
-          "En Google Cloud, el autoescalado se configura a través de Managed Instance Groups (MIGs). Un MIG es un grupo de VMs idénticas basadas en un instance template. El autoscaler del MIG monitorea las métricas y decide cuántas instancias deben existir. También realiza auto-healing: si una instancia no responde al health check, se recrea automáticamente.",
+          "En Google Cloud, el autoescalado de VMs se configura a través de Managed Instance Groups (MIGs): un grupo de VMs idénticas con un autoscaler que añade o elimina instancias según la carga. En servicios administrados como App Engine o Cloud Run, el escalamiento es completamente automático sin configuración manual de grupos ni templates.",
       },
       {
         type: "scalingSimulator",
       },
       {
-        type: "tabs",
-        title: "Escalamiento automático en la práctica",
-        tabs: [
-          {
-            id: "concepto",
-            label: "Concepto general",
-            badge: "Teoría",
-            content:
-              "El autoescalado requiere: (1) un grupo de instancias homogéneas, (2) un balanceador de carga que distribuya el tráfico, (3) una política de escalado con métrica objetivo y límites, (4) un health check que verifique la salud de cada instancia. El resultado es una aplicación que responde a picos sin intervención y ahorra en períodos de baja demanda.",
-          },
-          {
-            id: "gcp",
-            label: "En Google Cloud",
-            badge: "GCP",
-            content:
-              "Se usa un Managed Instance Group (MIG) con autoscaling policy. Se define un instance template (imagen, tipo de máquina, disco), luego se crea el MIG con min/max instances y target CPU utilization. Comando: gcloud compute instance-groups managed set-autoscaling my-mig --max-num-replicas=10 --target-cpu-utilization=0.6 --cool-down-period=60. También soporta métricas custom de Cloud Monitoring.",
-          },
-          {
-            id: "aws",
-            label: "Comparación AWS",
-            badge: "AWS",
-            content:
-              "En AWS se usa un Auto Scaling Group (ASG) asociado a un Launch Template. Se configura con target tracking scaling policy (ej: CPUUtilization al 60%). Comando: aws autoscaling put-scaling-policy --policy-name cpu-target --auto-scaling-group-name my-asg --policy-type TargetTrackingScaling --target-tracking-configuration. AWS usa por defecto un cooldown de 300s (vs 60s en GCP).",
-          },
+        type: "table",
+        title: "Escalamiento vertical vs horizontal",
+        headers: ["Aspecto", "Vertical (Scale Up)", "Horizontal (Scale Out)"],
+        rows: [
+          ["Qué cambia", "Más CPU/RAM en una máquina", "Más máquinas idénticas"],
+          ["Límite", "Techo físico del hardware", "Sin techo práctico"],
+          ["Downtime", "Generalmente requiere reinicio", "Sin downtime (se agregan instancias)"],
+          ["Complejidad", "Baja (una sola máquina)", "Media (balanceo, stateless)"],
+          ["Costo", "Lineal con recursos", "Pago granular por instancias activas"],
+          ["Ideal para", "Apps legacy o con estado pesado", "Apps modernas stateless"],
         ],
       },
       {
-        type: "table",
-        title: "Escalamiento: GCP vs AWS",
-        headers: ["Aspecto", "Google Cloud (MIG)", "AWS (ASG)", "Notas"],
-        rows: [
-          ["Grupo de instancias", "Managed Instance Group", "Auto Scaling Group", "Ambos usan templates"],
-          ["Template", "Instance Template", "Launch Template", "Definen imagen, tipo, disco, red"],
-          ["Autoscaling", "Autoscaler policy", "Scaling Policy", "Ambos soportan target tracking"],
-          ["Cooldown default", "60 segundos", "300 segundos", "GCP reacciona más rápido por defecto"],
-          ["Health check", "Autohealing en MIG", "EC2 Health Checks + ELB", "GCP recrea VMs automáticamente"],
-          ["Métricas custom", "Cloud Monitoring", "CloudWatch", "Ambos permiten métricas personalizadas"],
-          ["Spot/Preemptible", "Spot VMs en MIG", "Spot Instances en ASG", "Ahorro 60-91% con interrupciones"],
+        type: "tabs",
+        title: "Escalamiento en distintos servicios",
+        tabs: [
+          {
+            id: "vms",
+            label: "VMs (MIG)",
+            badge: "IaaS",
+            content:
+              "Para VMs se usa un Managed Instance Group (MIG) con autoscaling policy: defines min/max instancias y una métrica objetivo (ej: 60% CPU). El autoscaler agrega o elimina VMs. Requiere configuración explícita de templates, health checks y balanceadores.",
+          },
+          {
+            id: "appengine",
+            label: "App Engine",
+            badge: "PaaS",
+            content:
+              "App Engine escala automáticamente sin configuración de grupos. Defines instancias mínimas y máximas en app.yaml y la plataforma decide cuántas ejecutar según el tráfico. Escala a cero en el entorno estándar.",
+          },
+          {
+            id: "cloudrun",
+            label: "Cloud Run",
+            badge: "Serverless",
+            content:
+              "Cloud Run escala a cero por defecto. Cada request crea un contenedor si no hay uno disponible. No necesitas configurar grupos ni templates. Define min-instances para evitar cold starts, max-instances como techo.",
+          },
         ],
       },
       {
         type: "scenario",
-        title: "Diseña tu política de escalamiento",
+        title: "Elige la estrategia de escalamiento",
         scenarios: [
           {
             situation: "E-commerce que espera un pico de 20x tráfico durante Hot Sale (dura 48 horas). Normalmente tiene 3 instancias.",
-            question: "¿Cómo configurarías el autoscaling del MIG?",
-            hint: "Piensa en el mínimo antes del evento, el máximo durante, y si el CPU target debería ser más conservador.",
+            question: "¿Escalamiento vertical u horizontal?",
+            hint: "Horizontal. Un pico de 20x no se resuelve agrandando una máquina; necesitas muchas instancias detrás de un balanceador.",
           },
           {
-            situation: "API de procesamiento de imágenes. Cada request es pesado (CPU al 90% por 10 segundos por imagen). Necesitas evitar timeout.",
-            question: "¿Qué métrica usarías y qué target configurarías?",
-            hint: "Con requests de CPU intensivo, necesitas un target CPU bajo para que escale antes de saturarse.",
+            situation: "Base de datos relacional con estado que necesita más capacidad de procesamiento.",
+            question: "¿Vertical u horizontal?",
+            hint: "Vertical (más CPU/RAM a la instancia). Las bases de datos con estado son difíciles de escalar horizontalmente sin sharding.",
           },
           {
-            situation: "App universitaria donde el tráfico es alto de 8am a 2pm y casi cero de medianoche a 6am. Quieres ahorrar máximo.",
-            question: "¿Qué combinación de mínimos, spot VMs y schedule usarías?",
-            hint: "GCP permite scheduled scaling (escalar por horario) además del autoscaler reactivo.",
+            situation: "App universitaria donde el tráfico es alto de 8am a 2pm y casi cero de noche. Quieres ahorrar.",
+            question: "¿Qué tipo de escalamiento conviene?",
+            hint: "Horizontal con escalado a cero. Un servicio como Cloud Run o App Engine elimina instancias automáticamente cuando no hay tráfico.",
           },
         ],
       },
@@ -528,13 +776,12 @@ export const unit3Content: TopicContent[] = [
         title: "Puntos clave del tema",
         items: [
           "Escalar vertical = más recursos por máquina; horizontal = más máquinas",
-          "El escalamiento horizontal es el patrón dominante en cloud por su disponibilidad y elasticidad",
-          "Un MIG (GCP) o ASG (AWS) agrupa instancias homogéneas con autoescalado",
-          "La política de autoscaling define: métrica objetivo, mínimo, máximo y cooldown",
-          "GCP tiene cooldown de 60s por defecto (más reactivo); AWS usa 300s por defecto",
-          "Auto-healing recrea automáticamente instancias que fallan health checks",
-          "Spot/Preemptible VMs reducen costos 60-91% para cargas tolerantes a interrupciones",
-          "El patrón completo es: instance template → MIG → autoscaler → load balancer → health checks",
+          "Horizontal es el patrón dominante en cloud por su elasticidad y disponibilidad",
+          "La elasticidad permite crecer y reducirse automáticamente según demanda",
+          "VMs requieren configuración explícita (MIG + autoscaler + load balancer)",
+          "Servicios administrados (App Engine, Cloud Run) escalan automáticamente sin configuración de grupos",
+          "Las apps deben ser stateless para escalar horizontalmente sin problemas",
+          "Escalar a cero = no pagas cuando no hay tráfico (solo disponible en PaaS/serverless)",
         ],
       },
       {
@@ -569,6 +816,8 @@ export const unit3Content: TopicContent[] = [
     slug: "contenedores",
     title: "Contenedores",
     readingTime: "12 min",
+    courseLink: "https://www.skills.google/paths/36/course_templates/153",
+    courseTitle: "Google Cloud Computing Foundations: Cloud Computing Fundamentals",
     objectives: [
       "Comprender qué es un contenedor y por qué se usa para desplegar aplicaciones de forma consistente",
       "Diferenciar contenedores y máquinas virtuales en términos de empaquetado, portabilidad y nivel de abstracción",
@@ -630,6 +879,30 @@ export const unit3Content: TopicContent[] = [
           ["Aislamiento", "A nivel de proceso (kernel compartido)", "A nivel de hardware (hypervisor)", "VMs más seguras para multi-tenancy"],
           ["Portabilidad", "Alta (cualquier host con container runtime)", "Media (depende del hypervisor)", "Contenedores se mueven fácilmente entre clouds"],
           ["Ideal para", "Microservicios, CI/CD, apps modernas", "Apps legacy, requisitos de SO específicos", "Depende de la naturaleza de la carga"],
+        ],
+      },
+      {
+        type: "starService",
+        serviceName: "Google Kubernetes Engine (GKE)",
+        icon: "/assets/Google Kubernetes Engine.svg",
+        description: "Google Kubernetes Engine es el servicio de orquestación de contenedores administrado de Google Cloud. Ejecuta clústeres de Kubernetes donde puedes desplegar, escalar y gestionar aplicaciones contenedorizadas. Google se encarga del plano de control (master nodes), las actualizaciones y la infraestructura subyacente, mientras tú defines cómo se ejecutan tus workloads.",
+        features: [
+          "Kubernetes administrado: Google gestiona el plano de control (masters, etcd, API server)",
+          "Autopilot mode: GKE administra también los nodos — pagas por pod, no por VM",
+          "Standard mode: tú controlas los node pools (tipos de máquina, cantidad, GPUs)",
+          "Autoescalado a 3 niveles: pods (HPA), nodos (Cluster Autoscaler), clúster (multi-zonal)",
+          "Auto-upgrade y auto-repair de nodos para seguridad y disponibilidad",
+          "Integración nativa con Cloud Load Balancing, Cloud IAM, Artifact Registry",
+          "Soporte para despliegues canary, blue-green y rolling updates",
+          "Service mesh con Istio/Anthos para observabilidad y tráfico avanzado",
+        ],
+        commands: [
+          { command: "gcloud container clusters create my-cluster --zone=us-central1-a --num-nodes=3", description: "Crear un clúster GKE con 3 nodos en us-central1-a" },
+          { command: "gcloud container clusters get-credentials my-cluster --zone=us-central1-a", description: "Configurar kubectl para conectarse al clúster" },
+          { command: "kubectl get pods", description: "Listar todos los pods corriendo en el clúster" },
+          { command: "kubectl apply -f deployment.yaml", description: "Desplegar una aplicación definida en un archivo YAML" },
+          { command: "kubectl scale deployment my-app --replicas=5", description: "Escalar un deployment a 5 réplicas" },
+          { command: "kubectl logs -f deployment/my-app", description: "Ver logs en tiempo real de un deployment" },
         ],
       },
       {
@@ -698,6 +971,8 @@ export const unit3Content: TopicContent[] = [
     slug: "serverless-funciones",
     title: "Serverless y funciones",
     readingTime: "11 min",
+    courseLink: "https://www.skills.google/paths/36/course_templates/153",
+    courseTitle: "Google Cloud Computing Foundations: Cloud Computing Fundamentals",
     objectives: [
       "Comprender qué significa el modelo serverless en cloud y qué parte de la operación abstrae",
       "Explicar qué es una función cloud y cómo responde a eventos o solicitudes",
@@ -757,6 +1032,30 @@ export const unit3Content: TopicContent[] = [
           ["Escala a cero", "Sí", "Sí", "No pagas si no hay invocaciones"],
           ["Orquestación de funciones", "Workflows", "Step Functions", "Para flujos multi-paso"],
           ["Pago", "Por invocación + GB-segundo", "Por invocación + ms de RAM", "Modelos similares"],
+        ],
+      },
+      {
+        type: "starService",
+        serviceName: "Cloud Run",
+        icon: "/assets/Cloud Run.svg",
+        description: "Cloud Run es la plataforma serverless de Google Cloud para ejecutar contenedores sin administrar infraestructura. Acepta cualquier lenguaje o framework empaquetado en un contenedor Docker, escala automáticamente (incluyendo a cero) y cobra solo por las solicitudes procesadas. Es el punto medio ideal entre la flexibilidad de contenedores y la simplicidad de serverless.",
+        features: [
+          "Ejecuta cualquier contenedor Docker — sin restricción de lenguaje ni framework",
+          "Escala a cero: $0 sin tráfico, instancias se crean bajo demanda",
+          "Escala hasta miles de instancias automáticamente según requests",
+          "HTTPS automático con dominio .run.app o custom domain",
+          "Soporta HTTP/1, HTTP/2, WebSockets y gRPC",
+          "Revisiones inmutables con traffic splitting (canary, A/B)",
+          "Integración con Pub/Sub, Cloud Scheduler, Eventarc para triggers por evento",
+          "CPU siempre activa o solo durante requests (optimización de costo)",
+        ],
+        commands: [
+          { command: "gcloud run deploy my-app --source . --region=us-central1", description: "Desplegar desde código fuente (Cloud Build construye el contenedor automáticamente)" },
+          { command: "gcloud run deploy my-app --image gcr.io/PROJECT/my-app --region=us-central1", description: "Desplegar desde una imagen de contenedor existente" },
+          { command: "gcloud run services list", description: "Listar todos los servicios de Cloud Run en el proyecto" },
+          { command: "gcloud run services update my-app --min-instances=1", description: "Configurar mínimo 1 instancia para evitar cold starts" },
+          { command: "gcloud run revisions list --service=my-app", description: "Ver todas las revisiones (versiones) de un servicio" },
+          { command: "gcloud run services update-traffic my-app --to-revisions=v2=50,v1=50", description: "Dividir tráfico 50/50 entre dos revisiones (canary)" },
         ],
       },
       {
