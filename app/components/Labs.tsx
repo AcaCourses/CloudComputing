@@ -2,9 +2,25 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
-import { ExternalLink, Filter, BookOpen, Clock, AlertTriangle } from "lucide-react";
+import {
+  ExternalLink,
+  Filter,
+  BookOpen,
+  Clock,
+  AlertTriangle,
+  ChevronDown,
+  ChevronUp,
+} from "lucide-react";
 import labsData from "@/data/labs.json";
 import { labsContent } from "@/data/content/labs";
+
+type SkillBadgeLab = {
+  title: string;
+  description: string;
+  required?: boolean;
+  guideUrl?: string;
+  skillbadgeUrl?: string;
+};
 
 type Lab = {
   id: number;
@@ -14,6 +30,8 @@ type Lab = {
   submitLink: string;
   status: string;
   unit: number;
+  itemType?: "lab" | "skillBadge";
+  skillBadgeLabs?: SkillBadgeLab[];
 };
 
 const statusColors: Record<string, string> = {
@@ -70,6 +88,7 @@ export default function Labs() {
   const [selectedGroup, setSelectedGroup] = useState<string>("A");
   const [selectedUnit, setSelectedUnit] = useState<number>(0);
   const [selectedMonth, setSelectedMonth] = useState<number>(0); // 0 = all
+  const [openSkillBadgeId, setOpenSkillBadgeId] = useState<number | null>(null);
 
   const labs: Lab[] = labsData.labs;
 
@@ -189,6 +208,120 @@ export default function Labs() {
             const labNum = getLabNumber(lab.name);
             const labSlug = labNum ? labSlugMap.get(labNum) : null;
             const urgency = getUrgency(lab.dueDate);
+            const isSkillBadge = lab.itemType === "skillBadge";
+            const isOpen = openSkillBadgeId === lab.id;
+
+            if (isSkillBadge) {
+              return (
+                <div
+                  key={lab.id}
+                  className={`rounded-xl border bg-panel/50 hover:border-azure/20 transition-all ${urgency.borderClass}`}
+                >
+                  <button
+                    type="button"
+                    onClick={() => setOpenSkillBadgeId((prev) => (prev === lab.id ? null : lab.id))}
+                    className="w-full flex flex-col sm:flex-row sm:items-center gap-3 p-4 text-left"
+                  >
+                    <div className="flex items-center gap-3 flex-1 min-w-0">
+                      <span className="shrink-0 h-7 w-7 rounded-md bg-white/90 border border-border flex items-center justify-center overflow-hidden">
+                        <img
+                          src="/assets/GCPLogo.png"
+                          alt="Google Cloud"
+                          className="h-5 w-5 object-contain"
+                        />
+                      </span>
+                      <span className="text-sm text-foreground font-semibold truncate">
+                        {lab.name}
+                      </span>
+                      <span className="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full border border-azure/30 text-azure bg-azure/10">
+                        Skill Badge
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-3 shrink-0">
+                      <span className={`flex items-center gap-1 text-xs ${urgency.className}`}>
+                        {new Date(lab.dueDate).toLocaleDateString("es-MX", {
+                          day: "numeric",
+                          month: "short",
+                          year: "numeric",
+                        })}
+                      </span>
+                      {isOpen ? (
+                        <ChevronUp className="w-4 h-4 text-azure" />
+                      ) : (
+                        <ChevronDown className="w-4 h-4 text-azure" />
+                      )}
+                    </div>
+                  </button>
+
+                  {isOpen && (
+                    <div className="px-4 pb-4">
+                      <div className="border-t border-border pt-3 space-y-2">
+                        {(lab.skillBadgeLabs ?? []).map((skillLab) => {
+                          const hasGuide = Boolean(skillLab.guideUrl);
+
+                          return (
+                            <div
+                              key={skillLab.title}
+                              className="flex flex-col sm:flex-row sm:items-center gap-3 p-3 rounded-lg border border-border/70 bg-background/30"
+                            >
+                              <div className="flex items-start gap-3 flex-1 min-w-0">
+                                <span className="mt-0.5 text-azure bg-azure/10 rounded-md p-1 shrink-0">
+                                  <BookOpen className="w-3 h-3" />
+                                </span>
+                                <div className="min-w-0">
+                                  <div className="flex items-center gap-2 mb-1">
+                                    <p className="text-sm text-foreground font-medium truncate">
+                                      {skillLab.title}
+                                    </p>
+                                    {skillLab.required && (
+                                      <span className="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full border border-warning/30 text-warning bg-warning/10">
+                                        Required
+                                      </span>
+                                    )}
+                                  </div>
+                                  <p className="text-xs text-text-secondary leading-relaxed">
+                                    {skillLab.description}
+                                  </p>
+                                </div>
+                              </div>
+
+                              {hasGuide ? (
+                                skillLab.guideUrl?.startsWith("http") ? (
+                                  <a
+                                    href={skillLab.guideUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-1 text-xs text-green hover:text-cyan transition-colors shrink-0"
+                                  >
+                                    <BookOpen className="w-3 h-3" />
+                                    Ver guía
+                                    <ExternalLink className="w-3 h-3" />
+                                  </a>
+                                ) : (
+                                  <Link
+                                    href={`${skillLab.guideUrl}?from=skillbadge${skillLab.skillbadgeUrl ? `&skillbadgeUrl=${encodeURIComponent(skillLab.skillbadgeUrl)}` : ""}`}
+                                    className="inline-flex items-center gap-1 text-xs text-green hover:text-cyan transition-colors shrink-0"
+                                  >
+                                    <BookOpen className="w-3 h-3" />
+                                    Ver guía
+                                  </Link>
+                                )
+                              ) : (
+                                <span className="inline-flex items-center gap-1 text-xs text-text-secondary/60 shrink-0">
+                                  <BookOpen className="w-3 h-3" />
+                                  Ver guía (próximamente)
+                                </span>
+                              )}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              );
+            }
 
             return (
             <div

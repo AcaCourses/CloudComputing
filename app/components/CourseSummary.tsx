@@ -22,7 +22,7 @@ const cards = [
     icon: Layers,
     title: "Estructura",
     description:
-      "5 unidades temáticas con laboratorios prácticos semanales que convergen en un proyecto final integrador.",
+      "Unidades temáticas con laboratorios prácticos semanales que convergen en un proyecto final integrador.",
     color: "text-blue",
   },
   {

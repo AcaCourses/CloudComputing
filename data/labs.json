@@ -61,6 +61,40 @@
       "unit": 3
     },
     {
+      "id": 1001,
+      "name": "Implementing Cloud Load Balancing for Compute Engine",
+      "description": "Skill Badge enfocado en balanceo de carga de red y aplicación sobre Compute Engine.",
+      "group": "A",
+      "dueDate": "2026-09-30",
+      "submitLink": "",
+      "status": "pending",
+      "unit": 3,
+      "itemType": "skillBadge",
+      "skillBadgeLabs": [
+        {
+          "title": "Set Up Network Load Balancers",
+          "description": "In this lab you learn how to create a passthrough network load balancer running in Compute Engine virtual machines.",
+          "guideUrl": "/labs/set-up-network-load-balancers"
+        },
+        {
+          "title": "Set Up Application Load Balancers",
+          "description": "In this lab you set up an application load balancers for your application running on Compute Engine virtual machines.",
+          "guideUrl": "/labs/set-up-application-load-balancers"
+        },
+        {
+          "title": "Use an Internal Application Load Balancer",
+          "description": "The internal Application Load Balancer offers you the possibility to load balance TCP/UDP traffic without exposing your VMs via a public IP to the internet. In this lab you create a public-facing web server to serve the result of a simple web application.",
+          "guideUrl": "/labs/use-an-internal-application-load-balancer"
+        },
+        {
+          "title": "Implement Load Balancing on Compute Engine: Challenge Lab",
+          "description": "Lab de reto final para integrar y validar la estrategia de balanceo de carga sobre Compute Engine.",
+          "required": true,
+          "guideUrl": "/labs/implement-load-balancing-on-compute-engine-challenge-lab"
+        }
+      ]
+    },
+    {
       "id": 7,
       "name": "Lab 7: Cloud Storage: Qwik Start - CLI/SDK",
       "description": "Uso de la herramienta de línea de comandos gsutil para realizar tareas básicas de gestión de objetos en Cloud Storage.",
@@ -119,6 +153,79 @@
       "submitLink": "",
       "status": "pending",
       "unit": 5
+    },
+    {
+      "id": 2001,
+      "name": "Set Up an App Dev Environment on Google Cloud",
+      "description": "Skill Badge enfocado en construccion de infraestructura de almacenamiento y servicios cloud usando Cloud Storage, IAM, Cloud Functions y Pub/Sub.",
+      "group": "A",
+      "dueDate": "2026-10-09",
+      "submitLink": "",
+      "status": "pending",
+      "unit": 5,
+      "itemType": "skillBadge",
+      "skillBadgeLabs": [
+        {
+          "title": "Cloud Storage: Qwik Start - Google Cloud Console",
+          "description": "Realizacion de tareas basicas en Cloud Storage usando la Consola de Google Cloud.",
+          "guideUrl": "/labs/cloud-storage-qwik-start-google-cloud-console",
+          "skillbadgeUrl": "https://www.skills.google/paths/36/course_templates/637/labs/592541"
+        },
+        {
+          "title": "Cloud Storage: Qwik Start - CLI/SDK",
+          "description": "Realizacion de tareas basicas en Cloud Storage usando la herramienta de linea de comandos gsutil.",
+          "guideUrl": "/labs/cloud-storage-qwik-start-cli-sdk",
+          "skillbadgeUrl": "https://www.skills.google/paths/36/course_templates/637/labs/592542"
+        },
+        {
+          "title": "Cloud IAM: Qwik Start",
+          "description": "Introduccion a IAM que unifica control de acceso para servicios de Cloud Platform.",
+          "guideUrl": "/labs/cloud-iam-qwik-start",
+          "skillbadgeUrl": "https://www.skills.google/paths/36/course_templates/637/labs/592543"
+        },
+        {
+          "title": "Cloud Monitoring: Qwik Start",
+          "description": "Monitoreo de una instancia de Compute Engine con Cloud Monitoring.",
+          "guideUrl": "/labs/cloud-monitoring-qwik-start",
+          "skillbadgeUrl": "https://www.skills.google/paths/36/course_templates/637/labs/592544"
+        },
+        {
+          "title": "Cloud Run Functions: Qwik Start - Console",
+          "description": "Creacion y despliegue de una Cloud Run function usando la Consola de Google Cloud.",
+          "guideUrl": "/labs/cloud-run-functions-qwik-start-console",
+          "skillbadgeUrl": "https://www.skills.google/paths/36/course_templates/637/labs/592545"
+        },
+        {
+          "title": "Cloud Run Functions: Qwik Start - Command Line",
+          "description": "Creacion y despliegue de una Cloud Run function usando Cloud Shell y la linea de comandos.",
+          "guideUrl": "/labs/cloud-run-functions-qwik-start-command-line",
+          "skillbadgeUrl": "https://www.skills.google/paths/36/course_templates/637/labs/592546"
+        },
+        {
+          "title": "Pub/Sub: Qwik Start - Console",
+          "description": "Publicacion y consumo de mensajes con un suscriptor pull usando la Consola de Google Cloud.",
+          "guideUrl": "/labs/pub-sub-qwik-start-console",
+          "skillbadgeUrl": "https://www.skills.google/paths/36/course_templates/637/labs/592547"
+        },
+        {
+          "title": "Pub/Sub: Qwik Start - Command Line",
+          "description": "Publicacion y consumo de mensajes con un suscriptor pull usando la linea de comandos de Google Cloud.",
+          "guideUrl": "/labs/pub-sub-qwik-start-command-line",
+          "skillbadgeUrl": "https://www.skills.google/paths/36/course_templates/637/labs/592548"
+        },
+        {
+          "title": "Pub/Sub: Qwik Start - Python",
+          "description": "Creacion de un tema y suscriptor con un script de Python, publicacion y visualizacion de mensajes.",
+          "guideUrl": "/labs/pub-sub-qwik-start-python"
+        },
+        {
+          "title": "Set Up an App Dev Environment on Google Cloud: Challenge Lab",
+          "description": "Lab de reto final para validar habilidades en infraestructura cloud de aplicaciones.",
+          "required": true,
+          "guideUrl": "/labs/set-up-an-app-dev-environment-challenge-lab",
+          "skillbadgeUrl": "https://www.skills.google/paths/36/course_templates/637/labs/592550"
+        }
+      ]
     },
     {
       "id": 13,
@@ -181,6 +288,40 @@
       "unit": 3
     },
     {
+      "id": 1002,
+      "name": "Implementing Cloud Load Balancing for Compute Engine",
+      "description": "Skill Badge enfocado en balanceo de carga de red y aplicación sobre Compute Engine.",
+      "group": "B",
+      "dueDate": "2026-09-30",
+      "submitLink": "",
+      "status": "pending",
+      "unit": 3,
+      "itemType": "skillBadge",
+      "skillBadgeLabs": [
+        {
+          "title": "Set Up Network Load Balancers",
+          "description": "In this lab you learn how to create a passthrough network load balancer running in Compute Engine virtual machines.",
+          "guideUrl": "/labs/set-up-network-load-balancers"
+        },
+        {
+          "title": "Set Up Application Load Balancers",
+          "description": "In this lab you set up an application load balancers for your application running on Compute Engine virtual machines.",
+          "guideUrl": "/labs/set-up-application-load-balancers"
+        },
+        {
+          "title": "Use an Internal Application Load Balancer",
+          "description": "The internal Application Load Balancer offers you the possibility to load balance TCP/UDP traffic without exposing your VMs via a public IP to the internet. In this lab you create a public-facing web server to serve the result of a simple web application.",
+          "guideUrl": "/labs/use-an-internal-application-load-balancer"
+        },
+        {
+          "title": "Implement Load Balancing on Compute Engine: Challenge Lab",
+          "description": "Lab de reto final para integrar y validar la estrategia de balanceo de carga sobre Compute Engine.",
+          "required": true,
+          "guideUrl": "/labs/implement-load-balancing-on-compute-engine-challenge-lab"
+        }
+      ]
+    },
+    {
       "id": 19,
       "name": "Lab 7: Cloud Storage: Qwik Start - CLI/SDK",
       "description": "Uso de la herramienta de línea de comandos gsutil para realizar tareas básicas de gestión de objetos en Cloud Storage.",
@@ -239,6 +380,78 @@
       "submitLink": "",
       "status": "pending",
       "unit": 5
+    },
+    {
+      "id": 2002,
+      "name": "Set Up an App Dev Environment on Google Cloud",
+      "description": "Skill Badge enfocado en construccion de infraestructura de almacenamiento y servicios cloud usando Cloud Storage, IAM, Cloud Functions y Pub/Sub.",
+      "group": "B",
+      "dueDate": "2026-10-09",
+      "submitLink": "",
+      "status": "pending",
+      "unit": 5,
+      "itemType": "skillBadge",
+      "skillBadgeLabs": [
+        {
+          "title": "Cloud Storage: Qwik Start - Google Cloud Console",
+          "description": "Realizacion de tareas basicas en Cloud Storage usando la Consola de Google Cloud.",
+          "guideUrl": "/labs/cloud-storage-qwik-start-google-cloud-console",
+          "skillbadgeUrl": "https://www.skills.google/paths/36/course_templates/637/labs/592541"
+        },
+        {
+          "title": "Cloud Storage: Qwik Start - CLI/SDK",
+          "description": "Realizacion de tareas basicas en Cloud Storage usando la herramienta de linea de comandos gsutil.",
+          "guideUrl": "/labs/cloud-storage-qwik-start-cli-sdk",
+          "skillbadgeUrl": "https://www.skills.google/paths/36/course_templates/637/labs/592542"
+        },
+        {
+          "title": "Cloud IAM: Qwik Start",
+          "description": "Introduccion a IAM que unifica control de acceso para servicios de Cloud Platform.",
+          "guideUrl": "/labs/cloud-iam-qwik-start"
+        },
+        {
+          "title": "Cloud Monitoring: Qwik Start",
+          "description": "Monitoreo de una instancia de Compute Engine con Cloud Monitoring.",
+          "guideUrl": "/labs/cloud-monitoring-qwik-start",
+          "skillbadgeUrl": "https://www.skills.google/paths/36/course_templates/637/labs/592544"
+        },
+        {
+          "title": "Cloud Run Functions: Qwik Start - Console",
+          "description": "Creacion y despliegue de una Cloud Run function usando la Consola de Google Cloud.",
+          "guideUrl": "/labs/cloud-run-functions-qwik-start-console",
+          "skillbadgeUrl": "https://www.skills.google/paths/36/course_templates/637/labs/592545"
+        },
+        {
+          "title": "Cloud Run Functions: Qwik Start - Command Line",
+          "description": "Creacion y despliegue de una Cloud Run function usando Cloud Shell y la linea de comandos.",
+          "guideUrl": "/labs/cloud-run-functions-qwik-start-command-line"
+        },
+        {
+          "title": "Pub/Sub: Qwik Start - Console",
+          "description": "Publicacion y consumo de mensajes con un suscriptor pull usando la Consola de Google Cloud.",
+          "guideUrl": "/labs/pub-sub-qwik-start-console",
+          "skillbadgeUrl": "https://www.skills.google/paths/36/course_templates/637/labs/592547"
+        },
+        {
+          "title": "Pub/Sub: Qwik Start - Command Line",
+          "description": "Publicacion y consumo de mensajes con un suscriptor pull usando la linea de comandos de Google Cloud.",
+          "guideUrl": "/labs/pub-sub-qwik-start-command-line",
+          "skillbadgeUrl": "https://www.skills.google/paths/36/course_templates/637/labs/592548"
+        },
+        {
+          "title": "Pub/Sub: Qwik Start - Python",
+          "description": "Creacion de un tema y suscriptor con un script de Python, publicacion y visualizacion de mensajes.",
+          "guideUrl": "/labs/pub-sub-qwik-start-python",
+          "skillbadgeUrl": "https://www.skills.google/paths/36/course_templates/637/labs/592549"
+        },
+        {
+          "title": "Set Up an App Dev Environment on Google Cloud: Challenge Lab",
+          "description": "Lab de reto final para validar habilidades en infraestructura cloud de aplicaciones.",
+          "required": true,
+          "guideUrl": "/labs/set-up-an-app-dev-environment-challenge-lab",
+          "skillbadgeUrl": "https://www.skills.google/paths/36/course_templates/637/labs/592550"
+        }
+      ]
     }
   ]
 }

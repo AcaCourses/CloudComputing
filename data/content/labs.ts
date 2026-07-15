@@ -2364,6 +2364,1466 @@ export const labsContent: LabContent[] = [
       },
     ],
   },
+  {
+      slug: "set-up-network-load-balancers",
+    labNumber: 13,
+    labUrl: "https://www.skills.google/paths/36/course_templates/648/labs/613022",
+    title: "Set Up Network Load Balancers",
+    description:
+      "Implementacion de un balanceador de carga de red de capa 4 (passthrough NLB) sobre Compute Engine.",
+    overview: {
+      serviceIcon: "/assets/Compute Engine.svg",
+      serviceName: "Network Load Balancer",
+      duration: "15 min",
+      level: "Introductory",
+      credits: 1,
+      objectives: [
+        "Configurar region y zona por defecto para recursos de Compute Engine",
+        "Crear tres instancias web con Apache y exponerlas por HTTP",
+        "Configurar IP estatica, health check, target pool y forwarding rule",
+        "Validar distribucion de trafico entre multiples VMs",
+      ],
+      steps: [
+        {
+          step: 1,
+          action: "Preparar entorno",
+          detail: "Configurar region/zona en gcloud y verificar contexto del proyecto.",
+          icon: "settings",
+        },
+        {
+          step: 2,
+          action: "Crear backend web",
+          detail: "Crear www1, www2 y www3 con startup script para Apache.",
+          icon: "server",
+        },
+        {
+          step: 3,
+          action: "Habilitar trafico HTTP",
+          detail: "Crear regla de firewall para permitir puerto 80 hacia instancias con tag.",
+          icon: "shield",
+        },
+        {
+          step: 4,
+          action: "Configurar NLB",
+          detail: "Crear IP estatica, health check, target pool y forwarding rule regional.",
+          icon: "service:Compute Engine",
+        },
+        {
+          step: 5,
+          action: "Probar distribucion",
+          detail: "Enviar trafico al frontend y observar respuestas alternadas de www1/www2/www3.",
+          icon: "shuffle",
+        },
+      ],
+      whatYouLearn: [
+        "Diferencia entre balanceo L4 y L7 en Google Cloud",
+        "Rol de health checks para determinar backends saludables",
+        "Relacion entre target pool y forwarding rule en external passthrough NLB",
+        "Como validar visualmente la distribucion de carga entre instancias",
+      ],
+    },
+    introduction:
+      "En este laboratorio configuras un Network Load Balancer de capa 4 (L4) en Google Cloud para distribuir trafico HTTP hacia varias instancias de Compute Engine. A diferencia de un balanceador de aplicacion, el NLB de passthrough toma decisiones con informacion de red como IP y puerto, sin inspeccionar el contenido de la solicitud.\n\nLa practica cubre el flujo completo: crear tres servidores web, habilitar conectividad por firewall, preparar componentes del balanceador (IP estatica, health check, target pool y forwarding rule) y finalmente enviar trafico para comprobar la distribucion entre instancias.\n\nEsta guia esta alineada al laboratorio GSP007 de Google Skills Boost y mantiene una estructura de participacion para discutir decisiones tecnicas y observaciones clave durante la ejecucion.",
+    concepts: [
+      {
+        term: "Network Load Balancer (L4)",
+        definition:
+          "Balanceador que enruta trafico usando IP y puertos (capa de transporte). No evalua rutas HTTP ni contenido de aplicacion.",
+      },
+      {
+        term: "Passthrough",
+        definition:
+          "Modo donde el trafico se entrega al backend conservando caracteristicas de la conexion de red, sin terminar el flujo HTTP en el balanceador.",
+      },
+      {
+        term: "Target pool",
+        definition:
+          "Conjunto de instancias backend que reciben trafico desde un external passthrough network load balancer en una misma region.",
+      },
+      {
+        term: "Forwarding rule",
+        definition:
+          "Regla frontend que define IP, puerto y destino del trafico entrante hacia el target pool.",
+      },
+      {
+        term: "Health check",
+        definition:
+          "Mecanismo de verificacion para determinar si una instancia esta disponible y debe recibir trafico.",
+      },
+      {
+        term: "Cloud Shell",
+        definition:
+          "Terminal administrada por Google Cloud con gcloud preinstalado para ejecutar comandos contra tu proyecto activo.",
+      },
+    ],
+    interactionPattern: [
+      "Antes de ejecutar: identificar el objetivo tecnico de la tarea.",
+      "Durante la ejecucion: observar salida de comandos y estado de recursos.",
+      "Despues de la tarea: validar evidencia en consola o por curl.",
+      "Cierre: responder una pregunta de participacion en equipo.",
+    ],
+    participationRules: [
+      "Solo se participa respondiendo preguntas abiertas.",
+      "Cada pregunta la responden 2 personas.",
+      "La respuesta debe incluir evidencia observada en el laboratorio.",
+      "Se prioriza justificar decisiones de configuracion, no solo repetir comandos.",
+    ],
+    tasks: [
+      {
+        title: "Task 1: Set the default region and zone",
+        conceptNote:
+          "Configurar compute/region y compute/zone en gcloud evita repetir parametros y reduce errores al crear recursos.",
+        guidingQuestion:
+          "Que impacto tiene elegir una region y zona incorrecta antes de desplegar infraestructura?",
+        observation:
+          "Verifica con gcloud config list que la region y zona quedan persistidas para la sesion.",
+        reflection:
+          "Acabas de definir el contexto geografico base para todas las operaciones de Compute Engine del lab.",
+        participationQuestions: [
+          "Por que conviene fijar region y zona al inicio en lugar de declararlas comando por comando?",
+          "Que problemas operativos podrian aparecer si mezclas recursos en zonas no planeadas?",
+        ],
+      },
+      {
+        title: "Task 2: Create multiple web server instances",
+        conceptNote:
+          "El backend del balanceador necesita varias instancias activas; el startup-script instala Apache y deja una firma distinta por servidor.",
+        guidingQuestion:
+          "Como te ayuda personalizar el index.html de cada VM para validar el balanceo despues?",
+        observation:
+          "Comprueba con gcloud compute instances list y curl http://IP_EXTERNA que www1, www2 y www3 responden correctamente.",
+        reflection:
+          "Acabas de construir el pool inicial de servidores web que recibiran trafico distribuido.",
+        participationQuestions: [
+          "Que evidencia confirma que las tres instancias quedaron listas como backend?",
+          "Por que se utiliza una etiqueta comun network-lb-tag en las tres VMs?",
+        ],
+      },
+      {
+        title: "Task 3: Configure the load balancing service",
+        conceptNote:
+          "La IP estatica define el punto de entrada estable del balanceador y el health check determina que instancias son elegibles.",
+        guidingQuestion:
+          "Por que el health check es obligatorio para que el trafico no llegue a instancias no saludables?",
+        observation:
+          "Verifica la creacion de network-lb-ip-1 y basic-check antes de continuar con target pool y forwarding rule.",
+        reflection:
+          "Acabas de preparar los componentes de control que sostienen la disponibilidad del servicio.",
+        participationQuestions: [
+          "Que ventaja operativa ofrece una IP estatica frente a una IP efimera en un frontend de balanceo?",
+          "Como afecta un health check mal configurado a la disponibilidad percibida por usuarios?",
+        ],
+      },
+      {
+        title: "Task 4: Create target pool and forwarding rule",
+        conceptNote:
+          "El target pool agrupa los backends y la forwarding rule enlaza trafico entrante (IP:puerto) con ese grupo.",
+        guidingQuestion:
+          "Que diferencia funcional hay entre definir backends y definir la regla de entrada del trafico?",
+        observation:
+          "Confirma que www1,www2,www3 fueron agregadas al pool y que la regla www-rule escucha en puerto 80.",
+        reflection:
+          "Acabas de conectar frontend y backend para que el NLB pueda enrutar solicitudes reales.",
+        participationQuestions: [
+          "Que pasaria si creas la forwarding rule pero no agregas instancias al target pool?",
+          "Por que todas las instancias del target pool deben estar en la misma region?",
+        ],
+      },
+      {
+        title: "Task 5: Send traffic and verify distribution",
+        conceptNote:
+          "Probar con curl en bucle permite observar la alternancia de respuestas y validar balanceo efectivo entre VMs.",
+        guidingQuestion:
+          "Que evidencia demuestra que el trafico no esta llegando siempre al mismo backend?",
+        observation:
+          "Extrae IPADDRESS desde la forwarding rule y ejecuta while true; do curl -m1 $IPADDRESS; done para ver rotacion entre www1/www2/www3.",
+        reflection:
+          "Acabas de verificar en tiempo real el comportamiento de distribucion del Network Load Balancer.",
+        participationQuestions: [
+          "Si al inicio no ves rotacion en las respuestas, que validaciones harías antes de concluir que el balanceador falla?",
+          "Que diferencias esperarias observar al migrar este escenario a un balanceador L7 de aplicacion?",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "set-up-application-load-balancers",
+    labNumber: 14,
+    labUrl: "https://www.skills.google/paths/36/course_templates/648/labs/613023",
+    title: "Set Up Application Load Balancers",
+    description:
+      "Configuracion de un Application Load Balancer (L7) en Compute Engine con backend service, URL map, proxy HTTP y forwarding rule global.",
+    overview: {
+      serviceIcon: "/assets/Compute Engine.svg",
+      serviceName: "Application Load Balancer",
+      duration: "20 min",
+      level: "Introductory",
+      credits: 1,
+      objectives: [
+        "Configurar region y zona por defecto para recursos de Compute Engine",
+        "Crear un Application Load Balancer de capa 7 con backend administrado",
+        "Probar trafico hacia el frontend global y validar estado saludable de backends",
+      ],
+      steps: [
+        {
+          step: 1,
+          action: "Configurar contexto",
+          detail: "Definir compute/region y compute/zone para estandarizar los comandos del lab.",
+          icon: "settings",
+        },
+        {
+          step: 2,
+          action: "Preparar instancias",
+          detail: "Crear VMs web y regla de firewall para trafico HTTP.",
+          icon: "server",
+        },
+        {
+          step: 3,
+          action: "Construir ALB L7",
+          detail: "Crear template, MIG, health check, backend service, URL map, proxy y forwarding rule global.",
+          icon: "service:Compute Engine",
+        },
+        {
+          step: 4,
+          action: "Validar trafico",
+          detail: "Verificar backends Healthy y probar la IP global en navegador.",
+          icon: "check-circle",
+        },
+      ],
+      whatYouLearn: [
+        "Diferencia entre balanceo L7 (HTTP/S-aware) y L4",
+        "Funcion de backend service, URL map y target HTTP proxy en el datapath",
+        "Importancia de health checks y reglas de firewall para disponibilidad",
+        "Comportamiento de frontend global con backends en instance groups",
+      ],
+    },
+    introduction:
+      "En este laboratorio implementas un Application Load Balancer de capa 7 en Google Cloud para enrutar trafico HTTP hacia backends en Compute Engine. A diferencia del balanceo de red L4, el L7 entiende el protocolo de aplicacion y puede tomar decisiones de enrutamiento con informacion como URL, host headers y otras propiedades de la solicitud.\n\nLa practica recorre un flujo completo de arquitectura: creacion de instancias backend, configuracion de un managed instance group, definicion de health checks, construccion del backend service y publicacion del frontend global mediante URL map, target HTTP proxy y forwarding rule.\n\nEsta guia sigue la estructura de participacion de tus labs anteriores para reforzar comprension conceptual, evidencia tecnica y discusion en equipo durante cada etapa.",
+    concepts: [
+      {
+        term: "Application Load Balancer (L7)",
+        definition:
+          "Balanceador que entiende HTTP/S y permite enrutamiento avanzado por host, path y otras reglas de capa de aplicacion.",
+      },
+      {
+        term: "Google Front End (GFE)",
+        definition:
+          "Infraestructura global de entrada de Google que recibe solicitudes y aplica la logica de balanceo definida en tu configuracion.",
+      },
+      {
+        term: "Managed Instance Group (MIG)",
+        definition:
+          "Grupo administrado de VMs identicas que facilita escalado, autoreparacion y actualizaciones para backends.",
+      },
+      {
+        term: "Backend service",
+        definition:
+          "Componente que agrupa backends y asocia health checks y politicas para recibir trafico del balanceador.",
+      },
+      {
+        term: "URL map",
+        definition:
+          "Recurso de enrutamiento L7 que decide a que backend service enviar una solicitud segun reglas de host/path.",
+      },
+      {
+        term: "Forwarding rule global",
+        definition:
+          "Frontend del balanceador que expone una IP global y puertos para aceptar trafico de clientes.",
+      },
+    ],
+    interactionPattern: [
+      "Antes de ejecutar: anticipar que componente del ALB se creara y para que sirve.",
+      "Durante la tarea: revisar salida de gcloud y estado de salud de recursos.",
+      "Despues de ejecutar: validar evidencia tecnica con consola o navegador.",
+      "Cierre: responder una pregunta abierta de participacion por equipo.",
+    ],
+    participationRules: [
+      "Solo se participa respondiendo preguntas abiertas.",
+      "Cada pregunta la responden 2 personas.",
+      "Cada respuesta debe incluir evidencia observada del laboratorio.",
+      "Se prioriza explicar por que se crea cada componente, no solo listar comandos.",
+    ],
+    tasks: [
+      {
+        title: "Task 1: Set the default region and zone",
+        conceptNote:
+          "Definir region y zona por defecto estandariza el contexto de trabajo y evita crear recursos en ubicaciones no esperadas.",
+        guidingQuestion:
+          "Que riesgos operativos aparecen si no fijas region y zona antes de iniciar el despliegue?",
+        observation:
+          "Valida con gcloud config list que compute/region y compute/zone quedaron activos para la sesion.",
+        reflection:
+          "Acabas de establecer el contexto base para que todos los recursos del lab queden en la ubicacion prevista.",
+        participationQuestions: [
+          "Por que conviene fijar region y zona al inicio en laboratorios con varios componentes de red?",
+          "Que impacto tendria mezclar recursos de backend en zonas distintas sin plan de arquitectura?",
+        ],
+      },
+      {
+        title: "Task 2: Create multiple web server instances",
+        conceptNote:
+          "Los servidores backend deben responder por HTTP y exponer evidencia del origen de respuesta para validar balanceo.",
+        guidingQuestion:
+          "Como ayuda que cada instancia tenga una pagina distinta al momento de probar trafico?",
+        observation:
+          "Confirma por curl que www1, www2 y www3 responden por su IP externa, y que el firewall permite tcp:80.",
+        reflection:
+          "Acabas de preparar los nodos web que funcionaran como destino del balanceador de aplicacion.",
+        participationQuestions: [
+          "Que evidencia confirma que las VMs ya estan listas para incorporarse al backend del ALB?",
+          "Por que una regla de firewall correcta es condicion necesaria antes de revisar health checks?",
+        ],
+      },
+      {
+        title: "Task 3: Create an Application Load Balancer",
+        conceptNote:
+          "El ALB L7 requiere una cadena de recursos: template -> MIG -> health check -> backend service -> URL map -> proxy -> forwarding rule.",
+        guidingQuestion:
+          "Que rol cumple cada bloque del pipeline de balanceo y por que no basta con crear solo una IP publica?",
+        observation:
+          "Verifica la IP global reservada y que el backend service tenga asociado el MIG junto con http-basic-check.",
+        reflection:
+          "Acabas de construir la arquitectura completa de enrutamiento L7 sobre infraestructura administrada en Compute Engine.",
+        participationQuestions: [
+          "Que diferencia funcional identificas entre URL map y backend service dentro del ALB?",
+          "Por que Google recomienda MIGs para backends en lugar de instancias sueltas en este tipo de despliegue?",
+        ],
+      },
+      {
+        title: "Task 4: Test traffic sent to your instances",
+        conceptNote:
+          "La validacion final requiere comprobar salud de backends y respuesta real desde la IP del frontend global.",
+        guidingQuestion:
+          "Que criterio usarías para decidir si la configuracion ya esta estable y lista para produccion?",
+        observation:
+          "En Load balancing confirma estado Healthy en backend y luego abre http://IP_ADDRESS para ver el hostname que atiende cada solicitud.",
+        reflection:
+          "Acabas de verificar extremo a extremo que el ALB recibe trafico y lo enruta correctamente a instancias saludables.",
+        participationQuestions: [
+          "Si los backends no aparecen Healthy, que tres verificaciones priorizarias antes de rehacer la arquitectura?",
+          "Que beneficios concretos te aporta un ALB L7 frente a un NLB L4 para aplicaciones web modernas?",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "use-an-internal-application-load-balancer",
+    labNumber: 15,
+    labUrl: "https://www.skills.google/paths/36/course_templates/648/labs/613024",
+    title: "Use an Internal Application Load Balancer",
+    description:
+      "Implementacion de un servicio interno balanceado para calculo de numeros primos y su consumo desde un frontend publico en Compute Engine.",
+    overview: {
+      serviceIcon: "/assets/Compute Engine.svg",
+      serviceName: "Internal Application Load Balancer",
+      duration: "20 min",
+      level: "Introductory",
+      credits: 1,
+      objectives: [
+        "Crear un backend distribuido (prime number calculator) en un managed instance group",
+        "Configurar un Internal Load Balancer para trafico privado dentro de la VPC",
+        "Validar el servicio interno desde una VM de prueba en la misma red",
+        "Publicar un frontend que consuma el servicio interno via el balanceador",
+      ],
+      steps: [
+        {
+          step: 1,
+          action: "Preparar entorno",
+          detail: "Configurar region/zona y crear entorno virtual para el flujo de trabajo del lab.",
+          icon: "settings",
+        },
+        {
+          step: 2,
+          action: "Crear backend MIG",
+          detail: "Definir startup script de servicio de primos, template e instance group administrado.",
+          icon: "server",
+        },
+        {
+          step: 3,
+          action: "Configurar ILB",
+          detail: "Crear health check, backend service interno y forwarding rule con IP privada.",
+          icon: "service:Compute Engine",
+        },
+        {
+          step: 4,
+          action: "Probar desde red interna",
+          detail: "Crear VM testinstance, consultar IP interna del balanceador y verificar respuestas True/False.",
+          icon: "check-circle",
+        },
+        {
+          step: 5,
+          action: "Publicar frontend",
+          detail: "Desplegar servidor publico que consulta el servicio interno para renderizar matriz de primos.",
+          icon: "globe",
+        },
+      ],
+      whatYouLearn: [
+        "Como separar capas publica e interna para mejorar seguridad y mantenibilidad",
+        "Funcion de health checks y backend services en un load balancer interno",
+        "Por que un ILB requiere clientes en la misma red privada para pruebas directas",
+        "Patron de arquitectura web tier + internal service tier en Google Cloud",
+      ],
+    },
+    introduction:
+      "En este laboratorio implementas un patron de arquitectura muy comun en sistemas empresariales: una capa publica (web tier) que consume un servicio interno distribuido (internal service tier) sin exponer directamente los backends a internet. El componente central es un Internal Application Load Balancer que recibe trafico privado y lo enruta a instancias saludables dentro de la VPC.\n\nPrimero construyes el servicio interno de calculo de numeros primos sobre un managed instance group. Despues creas health check, backend service y forwarding rule interna para exponer una IP privada estable. Esa IP puede ser consumida por otras aplicaciones dentro de la red, pero no desde internet de forma directa.\n\nFinalmente, despliegas un frontend publico que consulta el servicio interno via el ILB. Asi validas el flujo end-to-end entre una capa externa de presentacion y una capa interna de procesamiento, manteniendo aislamiento y resiliencia.",
+    concepts: [
+      {
+        term: "Internal Application Load Balancer",
+        definition:
+          "Balanceador interno que distribuye trafico dentro de la VPC usando una IP privada, sin exponer backends directamente a internet.",
+      },
+      {
+        term: "Web tier e Internal service tier",
+        definition:
+          "Separacion arquitectonica donde la capa web publica delega procesamiento a servicios internos especializados.",
+      },
+      {
+        term: "Managed Instance Group (MIG)",
+        definition:
+          "Grupo de instancias identicas administradas por Google Cloud para facilitar escalado y autoreparacion.",
+      },
+      {
+        term: "Backend service interno",
+        definition:
+          "Recurso que conecta health checks y grupos de instancias para recibir trafico desde el forwarding rule interno.",
+      },
+      {
+        term: "Forwarding rule privada",
+        definition:
+          "Entrada del balanceador interno con IP privada estable a la que consultan clientes dentro de la red.",
+      },
+      {
+        term: "Principio de minimizacion de exposicion",
+        definition:
+          "Practica de seguridad que evita publicar servicios internos innecesariamente y reduce superficie de ataque.",
+      },
+    ],
+    interactionPattern: [
+      "Antes de ejecutar: identificar si el componente pertenece a capa interna o publica.",
+      "Durante la tarea: validar salidas de gcloud y conectividad por red privada.",
+      "Despues de ejecutar: comprobar evidencia funcional (True/False, matriz en navegador).",
+      "Cierre: discutir impacto de seguridad y resiliencia en el patron implementado.",
+    ],
+    participationRules: [
+      "Solo se participa respondiendo preguntas abiertas.",
+      "Cada pregunta la responden 2 personas.",
+      "Cada respuesta debe citar evidencia del laboratorio (comando, salida o pantalla).",
+      "Se prioriza justificar decisiones de arquitectura sobre repetir pasos mecanicos.",
+    ],
+    tasks: [
+      {
+        title: "Task 1: Create a virtual environment and project context",
+        conceptNote:
+          "Un entorno virtual Python aisla dependencias y mejora reproducibilidad de scripts de arranque y pruebas.",
+        guidingQuestion:
+          "Por que es importante aislar dependencias incluso en un laboratorio corto de infraestructura?",
+        observation:
+          "Configura compute/region y compute/zone, instala virtualenv y activa venv para trabajar con contexto controlado.",
+        reflection:
+          "Acabas de preparar una base reproducible para ejecutar scripts y comandos de provisionamiento.",
+        participationQuestions: [
+          "Que riesgo tecnico reduce usar un entorno virtual frente a instalar dependencias globales?",
+          "Por que conviene fijar region y zona en cada nueva sesion de Cloud Shell?",
+        ],
+      },
+      {
+        title: "Task 2: Create backend managed instance group",
+        conceptNote:
+          "El backend.sh convierte cada VM en un microservicio HTTP que responde si un numero es primo; MIG aporta resiliencia operativa.",
+        guidingQuestion:
+          "Que beneficios concretos tiene usar MIG para un servicio interno en lugar de VMs individuales?",
+        observation:
+          "Crea template primecalc con --no-address, abre firewall para tag backend y despliega grupo backend de 3 instancias.",
+        reflection:
+          "Acabas de levantar una capa de servicio interno distribuida y no expuesta publicamente.",
+        participationQuestions: [
+          "Por que el parametro --no-address fortalece la seguridad de esta arquitectura?",
+          "Que evidencia usarias para verificar que el MIG ya tiene instancias listas para recibir trafico?",
+        ],
+      },
+      {
+        title: "Task 3: Set up the internal load balancer",
+        conceptNote:
+          "El ILB combina health check, backend service y forwarding rule privada para ofrecer una entrada estable a clientes internos.",
+        guidingQuestion:
+          "Por que un servicio interno robusto necesita tanto chequeo de salud como direccionamiento estable?",
+        observation:
+          "Crea ilb-health, prime-service (internal) y prime-lb con IP privada para puerto 80 en la red default.",
+        reflection:
+          "Acabas de encapsular el acceso al servicio de primos detras de una VIP interna administrada.",
+        participationQuestions: [
+          "Que rol cumple cada componente (health check, backend service, forwarding rule) en la disponibilidad del servicio?",
+          "Que problema operativo resuelve tener una IP privada fija para consumidores internos?",
+        ],
+      },
+      {
+        title: "Task 4: Test the load balancer from an internal VM",
+        conceptNote:
+          "Un ILB no se prueba directamente desde internet; necesitas un cliente dentro de la misma VPC para validar conectividad.",
+        guidingQuestion:
+          "Que te demuestra obtener True/False desde testinstance al consultar IP/2, IP/4 e IP/5?",
+        observation:
+          "Crea testinstance, ingresa por SSH, ejecuta curls contra la IP interna y confirma respuestas correctas de primalidad.",
+        reflection:
+          "Acabas de validar que el balanceador interno enruta trafico correctamente hacia backends saludables.",
+        participationQuestions: [
+          "Por que Cloud Shell por si solo no es una prueba suficiente de conectividad para un ILB interno?",
+          "Si una consulta no responde, que verificaciones harías primero: red, firewall, health check o backend?",
+        ],
+      },
+      {
+        title: "Task 5: Create a public-facing web server consuming the ILB",
+        conceptNote:
+          "El frontend.sh construye una capa publica que delega calculo al servicio interno, aplicando separacion de responsabilidades.",
+        guidingQuestion:
+          "Que ventaja arquitectonica aporta que el frontend publico no calcule primos directamente?",
+        observation:
+          "Despliega VM frontend con getprimes.py, abre firewall publico tcp:80 y verifica en navegador la matriz de numeros primos.",
+        reflection:
+          "Acabas de completar un flujo end-to-end donde una aplicacion publica consume un backend interno balanceado y seguro.",
+        participationQuestions: [
+          "Que cambio harias para endurecer seguridad del frontend sin romper la comunicacion hacia el servicio interno?",
+          "Como escalaria esta arquitectura si creciera el trafico tanto en frontend como en backend interno?",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "implement-load-balancing-on-compute-engine-challenge-lab",
+    labNumber: 16,
+    labUrl: "https://www.skills.google/paths/36/course_templates/648/labs/613025",
+    title: "Implement Load Balancing on Compute Engine: Challenge Lab",
+    description:
+      "Lab de desafio integral que combina configuracion de NLB y ALB para validar habilidades de balanceo de carga de red.",
+    overview: {
+      serviceIcon: "/assets/Compute Engine.svg",
+      serviceName: "Load Balancing Challenge",
+      duration: "25 min",
+      level: "Introductory",
+      credits: 1,
+      objectives: [
+        "Crear multiples instancias web con firewall rules",
+        "Configurar un Network Load Balancer",
+        "Crear un HTTP Application Load Balancer",
+        "Validar conectividad y distribucion de trafico en ambos balanceadores",
+      ],
+      steps: [
+        {
+          step: 1,
+          action: "Crear instancias backend",
+          detail: "Desplegar web1, web2, web3 con Apache y firewall www-firewall-network-lb.",
+          icon: "server",
+        },
+        {
+          step: 2,
+          action: "Configurar Network Load Balancer",
+          detail: "IP estatica, health check, target pool y forwarding rule para L4.",
+          icon: "service:Compute Engine",
+        },
+        {
+          step: 3,
+          action: "Configurar HTTP Load Balancer",
+          detail: "Template, MIG, backend service, URL map, proxy y forwarding rule global para L7.",
+          icon: "globe",
+        },
+        {
+          step: 4,
+          action: "Validar ambos balanceadores",
+          detail: "Probar conectividad a IPs de frontend y verificar distribucion de trafico.",
+          icon: "check-circle",
+        },
+      ],
+      whatYouLearn: [
+        "Diferencia operativa entre balanceo L4 (trafico) y L7 (HTTP)",
+        "Orden correcto de dependencias en arquitectura de balanceo",
+        "Como diagnosticar y resolver fallos de conectividad en configuraciones complejas",
+        "Validacion end-to-end de servicios distribuidos con multiples capas de balanzamiento",
+      ],
+    },
+    introduction:
+      "Este es un CHALLENGE LAB: no contiene instrucciones paso a paso. En su lugar, recibes un escenario de negocio y tareas a completar. Debes aplicar lo aprendido en los labs anteriores (NLB, ALB e ILB) para resolver el desafio en 25 minutos.\n\nEl sistema de puntuacion automatizado te validara cada tarea: 100% significa que completaste correctamente todos los recursos con los nombres y configuraciones solicitadas. Cuando no obtengas puntuacion maxima, ese feedback es tu pista para identificar que falta o esta mal configurado.\n\nUsando esta guia como referencia, encontraras pistas clave, ejemplos de comandos adaptables y conceptos necesarios. Pero TU debes determinar el orden, los parametros exactos y las validaciones finales. Este es el momento de que demuestres maestria en balanceo de carga de Google Cloud!",
+    concepts: [
+      {
+        term: "Challenge Lab",
+        definition:
+          "Formato de laboratorio donde recibes tareas con criterios de exito pero sin instrucciones detalladas. Debes aplicar conocimientos previos para resolver.",
+      },
+      {
+        term: "Network Load Balancer (L4)",
+        definition:
+          "Balanceador regional que enruta trafico por IP y puerto, sin inspeccionar contenido HTTP.",
+      },
+      {
+        term: "HTTP Load Balancer (L7)",
+        definition:
+          "Balanceador global que entiende HTTP y puede enrutar por host, path y otros criterios de aplicacion.",
+      },
+      {
+        term: "Managed Instance Group",
+        definition:
+          "Grupo de instancias identicas administrado por Google Cloud con capacidad de escalado y autoreparacion.",
+      },
+      {
+        term: "Health check",
+        definition:
+          "Verificacion periodica del estado de backends para asegurar que solo maquinas sanas reciben trafico.",
+      },
+      {
+        term: "Principio de independencia de capas",
+        definition:
+          "En arquitecturas complejas, cada capa de balanceo es independiente; configurar mal una capsula los problemas a ese nivel.",
+      },
+    ],
+    interactionPattern: [
+      "Lee la tarea y sus criterios de exito.",
+      "Identifica qué recursos crear en orden logico.",
+      "Ejecuta comandos usando pistas como referencia.",
+      "Valida con el sistema de puntuacion automatizado.",
+      "Usa feedback para iterar y completar aquello que falta.",
+    ],
+    participationRules: [
+      "No hay preguntas de participacion — el feedback automatizado es tu guia.",
+      "El sistema valida nombres exactos de recursos y configuraciones.",
+      "Tienes 25 minutos para completar todas las tareas.",
+      "La puntuacion maxima (100%) significa que todo esta correcto.",
+    ],
+    tasks: [
+      {
+        title: "Task 1: Create multiple web server instances",
+        conceptNote:
+          "Necesitas 3 VMs identicas con Apache corriendo y expuestas por HTTP. El firewall es critico: sin el, ni siquiera el health check podra alcanzarlas.",
+        guidingQuestion:
+          "En que orden creo el firewall: antes o despues de las VMs? Por que importa el tag en ambos lados?",
+        observation:
+          "Llamadas: web1, web2, web3 en zona ZONE con imagen debian-12 e2-small. Startup script debe personalizar el hostname de cada VM.",
+        reflection:
+          "Cada VM debe responder por curl con su nombre: 'Web Server: web1', 'Web Server: web2', etc.",
+        participationQuestions: [
+          "Pista: El script que instala Apache puede ser el mismo para las 3 VMs si lo adaptas con sed o variables de shell.",
+        ],
+      },
+      {
+        title: "Task 2: Configure the load balancing service (L4/NLB)",
+        conceptNote:
+          "El NLB requiere: IP estatica externa, health check, target pool que vincula instancias, y forwarding rule que acepta trafico. El orden importa.",
+        guidingQuestion:
+          "Cual es el orden correcto de creacion? Puedo crear forwarding rule sin primero tener target pool lleno? Y el pool sin health check?",
+        observation:
+          "Nombre de IP: network-lb-ip-1 | Pool: www-pool | Puerto 80. health check es el basico (HTTP /)",
+        reflection:
+          "Una vez creada, proeba con curl IP/static/index.html desde Cloud Shell para verificar que almenos una VM responde.",
+        participationQuestions: [
+          "Pista comando (adaptalo): gcloud compute health-checks create http basic-check --port 80",
+          "Pista comando (adaptalo): gcloud compute target-pools create www-pool --health-checks basic-check --region REGION",
+          "Pista comando (adaptalo): gcloud compute forwarding-rules create www-rule --region REGION --target-pool www-pool --address network-lb-ip-1 --ports 80",
+        ],
+      },
+      {
+        title: "Task 3: Create an HTTP load balancer (L7/ALB)",
+        conceptNote:
+          "El ALB es mas complejo: template -> MIG -> backend service -> URL map -> proxy -> forwarding rule global. Cada paso depende del anterior.",
+        guidingQuestion:
+          "¿Debo crear el MIG antes o despues del template? ¿El health check es compartible con el NLB o necesito uno nuevo?",
+        observation:
+          "Template: lb-backend-template (e2-medium) | MIG: lb-backend-group | IP global: lb-ipv4-1 | Health: http-basic-check | URL map: web-map-http",
+        reflection:
+          "La IP del ALB sera diferente a la del NLB. Despues de completar, ambas deberian responder en http://IP con paginas de diferentes backends.",
+        participationQuestions: [
+          "Pista: El MIG debe apuntar a 2 instancias si solo quieres probar rapido (pero el challenge puede exigir 3).",
+          "Pista comando (adaptalo): gcloud compute instance-templates create lb-backend-template --machine-type e2-medium --image-family debian-12 --image-project debian-cloud --tags allow-health-check --no-address --metadata-from-file startup-script=YOUR_SCRIPT.sh",
+          "Pista comando (adaptalo): gcloud compute instance-groups managed create lb-backend-group --base-instance-name backend --template lb-backend-template --size 2 --zone ZONE",
+          "Pista: La firewall rule fw-allow-health-check debe tener source-ranges 130.211.0.0/22,35.191.0.0/16 y target-tags allow-health-check.",
+        ],
+      },
+      {
+        title: "Task 4: Test traffic sent to the instances",
+        conceptNote:
+          "Prueba final: verificar que ambos balanceadores distribuyen trafico correctamente. El NLB es regional, el ALB es global.",
+        guidingQuestion:
+          "¿Como sé si el tráfico se distribuye entre multiples backends vs. siempre el mismo? ¿Que dice el nombre de la maquina en la pagina?",
+        observation:
+          "Abre en navegador http://IP-DEL-NLB y http://IP-DEL-ALB. Ambas deberian mostrar 'Web Server: webX' rotando entre web1, web2, web3 (o las del MIG).",
+        reflection:
+          "Si ves siempre la misma maquina, el health check podria estar fallando o el firewall bloqueando. Revisa.",
+        participationQuestions: [
+          "Pista diagnostico: gcloud compute backend-services get-health BACKEND-SERVICE-NAME --global para ver estado de backends en ALB.",
+          "Pista diagnostico: Si el ALB tarda >5 minutos, posibles causas: MIG aun escalando, health check falla, firewall incorrecto.",
+          "Pista validacion: curl -i http://IP desde Cloud Shell debe devolver 200 OK, no 502/503/timeout.",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "cloud-storage-qwik-start-google-cloud-console",
+    labNumber: 17,
+    labUrl: "https://www.skills.google/paths/36/course_templates/637/labs/592541",
+    title: "Cloud Storage: Qwik Start - Google Cloud Console",
+    description: "Realización de tareas básicas en Cloud Storage usando la Consola de Google Cloud.",
+    introduction:
+      "Cloud Storage permite almacenamiento y recuperación mundial de cualquier cantidad de datos en cualquier momento. Puedes usar Cloud Storage para diversos escenarios, como servir contenido de sitios web, almacenar datos para archivo y recuperación ante desastres, o distribuir grandes objetos de datos a usuarios mediante descarga directa.\n\nEn este laboratorio práctico aprenderás a usar la consola de Google Cloud para crear buckets, subir objetos, crear carpetas y gestionar permisos de acceso público.",
+    concepts: [
+      {
+        term: "Bucket",
+        definition: "Contenedor básico que almacena datos en Cloud Storage. Los nombres de buckets son únicos globalmente.",
+      },
+      {
+        term: "Objeto",
+        definition: "Archivo individual almacenado en un bucket de Cloud Storage. Solo necesita ser único dentro de su bucket.",
+      },
+      {
+        term: "Carpeta",
+        definition: "Estructura organizativa virtual dentro de un bucket (no es un verdadero directorio del sistema de archivos).",
+      },
+      {
+        term: "Permisos de acceso público",
+        definition: "Configuración que permite que cualquier persona en internet acceda a un objeto mediante su URL pública.",
+      },
+      {
+        term: "Zona/Región de almacenamiento",
+        definition: "Ubicación geográfica donde se replican y almacenan los datos en Cloud Storage.",
+      },
+    ],
+    interactionPattern: [
+      "Navegar a Cloud Storage > Buckets en la consola",
+      "Crear y configurar un nuevo bucket con opciones de acceso",
+      "Cargar archivos usando la interfaz gráfica",
+      "Organizar objetos usando carpetas y subcarpetas",
+      "Modificar permisos y crear URLs públicamente accesibles",
+      "Verificar cambios y limpiar recursos",
+    ],
+    participationRules: [
+      "Usar solo la cuenta temporal proporcionada por el lab, nunca tu cuenta personal de Google Cloud",
+      "Los nombres de buckets deben ser únicos globalmente; usa tu Project ID como nombre si es necesario",
+      "Seguir las reglas de nomenclatura: solo minúsculas, números, guiones y puntos; entre 3 y 63 caracteres",
+      "Desactiva 'Enforce public access prevention' solo cuando sea necesario para permitir acceso público",
+      "Guarda la URL pública generada; la necesitarás para verificar que el archivo es accesible",
+    ],
+    tasks: [
+      {
+        title: "Task 1: Create a bucket",
+        conceptNote:
+          "Los buckets son contenedores globales únicos. Su configuración básica incluye ubicación geográfica (región/zona), clase de almacenamiento (Standard es la más común) y control de acceso.",
+        guidingQuestion:
+          "¿Qué hace único a cada bucket? ¿Por qué no puedes usar el mismo nombre que otro usuario? ¿Cómo afecta la elección de región al costo y la latencia?",
+        observation:
+          'Usa tu Project ID como nombre. Selecciona Region, ubicación rellena automáticamente. Elige Standard para Set a default class. Selecciona Uniform para Access control y desactiva "Enforce public access prevention".',
+        reflection:
+          "Una vez creado, aparecerá en la lista de buckets. Este es tu contenedor principal para todo lo que subirás hoy.",
+        participationQuestions: [
+          "Pista de nomenclatura: Los buckets con puntos (ej. example.com) requieren verificación DNS adicional; evita si es posible.",
+          "Pista: No uses guiones bajos (_) adyacentes a puntos o otros guiones para cumplir con estándares DNS.",
+          "Pista: Si ves 'Public access will be prevented', simplemente desactiva esa opción y confirma si quieres permitir acceso público más adelante.",
+        ],
+      },
+      {
+        title: "Task 2: Upload an object into the bucket",
+        conceptNote:
+          "Cargar objetos (archivos) es la operación más fundamental. Cada objeto puede tener metadatos (tipo MIME, etiquetas) y permisos individuales.",
+        guidingQuestion:
+          "¿Puedo subir dos archivos con el mismo nombre al mismo bucket? ¿Qué sucede si renombro un archivo durante la carga?",
+        observation:
+          "Descarga kitten.png de esta página. En el bucket, haz clic en Upload > Upload files. Asegúrate de que el archivo se nombra 'kitten.png' (renombra si es necesario).",
+        reflection:
+          "El archivo cargado aparecerá en la lista Objects con su tamaño, tipo y marca de tiempo de carga.",
+        participationQuestions: [
+          "Pista: Puedes renombrar un archivo después de cargarlo usando el menú de tres puntos > Rename.",
+          "Pista: El único identificador único es la combinación bucket + nombre del objeto. Puedes tener kitten.png en múltiples buckets.",
+          "Pista: Verifica el tamaño del archivo cargado; debe coincidir con lo descargado si el proceso fue exitoso.",
+        ],
+      },
+      {
+        title: "Task 3: Share a bucket publicly",
+        conceptNote:
+          "Compartir archivos públicamente requiere otorgar el rol 'Storage Object Viewer' a 'allUsers'. Esto genera una URL HTTPS que cualquiera puede acceder.",
+        guidingQuestion:
+          "¿Qué es 'allUsers'? ¿Es lo mismo que 'Authenticated Users'? ¿Puedo revocar acceso público más tarde?",
+        observation:
+          "Ve a Permissions > Grant access. Ingresa 'allUsers' como New principals. Selecciona Cloud Storage > Storage Object Viewer. Confirma en la ventana emergente.",
+        reflection:
+          "Después de guardar, la columna Public access mostrará 'Access granted to public principals'. Usa Copy URL para obtener el enlace compartible.",
+        participationQuestions: [
+          "Pista: La URL pública sigue el formato https://storage.googleapis.com/BUCKET_NAME/OBJECT_NAME",
+          "Pista: Para revocar acceso, regresa a Permissions, selecciona allUsers, y haz clic en Revoke Access.",
+          "Pista: Si la URL no funciona inmediatamente, espera unos segundos y recarga; la replicación puede tomar tiempo.",
+        ],
+      },
+      {
+        title: "Task 4: Create folders",
+        conceptNote:
+          "Las carpetas son jerarquías virtuales en Cloud Storage (simuladas por prefijos). No son directorios reales del sistema de archivos.",
+        guidingQuestion:
+          "¿Puedo crear subcarpetas ilimitadamente? ¿Cuál es el límite de profundidad de carpetas? ¿Ocupan espacio las carpetas vacías?",
+        observation:
+          'En Objects, haz clic en Create folder. Nombre: folder1. Entra en folder1, crea folder2. Sube un archivo en folder2.',
+        reflection:
+          "La ruta será: bucket/folder1/folder2/archivo. Las carpetas se rappresentan con iconos de carpeta en la consola.",
+        participationQuestions: [
+          "Pista: No hay límite de profundidad a nivel de API, pero la consola limita la exploración visual por UI.",
+          "Pista: Si quieres referirse a un archivo anidado vía código, usa gcloud storage ls gs://bucket/folder1/folder2/",
+          "Pista: Las carpetas vacías se muestran pero no ocupan espacio real; se crean dinámicamente en la consola para navegación.",
+        ],
+      },
+      {
+        title: "Task 5: Delete a folder",
+        conceptNote:
+          "Eliminar una carpeta elimina recursivamente toda su contenido (subcarpetas y objetos). Esta acción es destructiva y no puede deshacerse.",
+        guidingQuestion:
+          "¿Si elimino una carpeta, se eliminan todos mis archivos dentro? ¿Hay una papelera o backup antes de eliminar?",
+        observation:
+          "Regresa al nivel de bucket. Selecciona el bucket. Haz clic en Delete. Escribe 'DELETE' para confirmar. Haz clic en Delete nuevamente.",
+        reflection:
+          "La carpeta y todo su contenido se eliminan permanentemente. El bucket vacío permanece hasta que lo elimines también.",
+        participationQuestions: [
+          "Pista: No hay opción 'Undo' después de confirmar. Asegúrate de que realmente quieres eliminar antes de escribir 'DELETE'.",
+          "Pista: Si Solo quieres eliminar archivos dentro de una carpeta pero mantenerla, elimina archivos individuales en lugar de la carpeta.",
+          "Pista: Después de este lab, puedes eliminar el bucket vacío para evitar costos; solo requiere 'DELETE' como confirmación.",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "cloud-monitoring-qwik-start",
+    labNumber: 18,
+    labUrl: "https://www.skills.google/paths/36/course_templates/637/labs/592544",
+    title: "Cloud Monitoring: Qwik Start",
+    description: "Monitoreo de una instancia de Compute Engine con Cloud Monitoring e instalación de agentes de observabilidad.",
+    introduction:
+      "Cloud Monitoring proporciona visibilidad sobre rendimiento, disponibilidad y salud general de aplicaciones cloud. Integra métricas, eventos y metadatos de Google Cloud y otros entornos, y los transforma en tableros, gráficos y alertas accionables.\n\nEn este laboratorio configurarás observabilidad end-to-end sobre una VM: creación de instancia, servidor web, agentes de Ops, uptime checks, política de alertas, dashboard personalizado y validación en Logs Explorer.",
+    concepts: [
+      {
+        term: "Metrics Scope",
+        definition: "Contexto de Monitoring donde se agregan y visualizan métricas de uno o más proyectos.",
+      },
+      {
+        term: "Ops Agent",
+        definition: "Agente unificado de Google Cloud para recolectar métricas y logs en VMs.",
+      },
+      {
+        term: "Uptime Check",
+        definition: "Sonda periódica que valida si un endpoint está disponible desde distintas ubicaciones.",
+      },
+      {
+        term: "Alerting Policy",
+        definition: "Regla que dispara incidentes/notificaciones cuando una métrica cruza un umbral.",
+      },
+      {
+        term: "Dashboard",
+        definition: "Panel visual personalizable para seguimiento operativo con widgets de métricas.",
+      },
+    ],
+    interactionPattern: [
+      "Crear y validar una VM base para observabilidad",
+      "Instalar Apache y verificar tráfico por IP externa",
+      "Instalar/validar agentes de Monitoring y Logging",
+      "Configurar uptime check y política de alertas",
+      "Crear dashboard con widgets de CPU y red",
+      "Correlacionar eventos de stop/start en Logs Explorer",
+      "Verificar incidentes y resultados de uptime",
+    ],
+    participationRules: [
+      "Usar solo la cuenta temporal del lab para evitar cargos en cuentas personales",
+      "Esperar entre 2 y 5 minutos tras cambios de estado (start/stop) para ver reflejo en métricas y logs",
+      "Registrar evidencia de: VM activa, uptime check creado, política de alerta, dashboard y logs",
+      "Eliminar o desactivar canal de notificación por correo al final para evitar alertas posteriores",
+      "Mantener consistencia de región/zona configurando defaults desde Cloud Shell",
+    ],
+    tasks: [
+      {
+        title: "Task 1: Create a Compute Engine instance",
+        conceptNote:
+          "La VM es la fuente principal de señales operativas. Configurar región, zona y firewall HTTP correctamente evita falsos negativos en uptime y pruebas web.",
+        guidingQuestion:
+          "¿Por qué definir región/zona por defecto en gcloud antes de crear recursos? ¿Qué impacto tiene habilitar Allow HTTP traffic?",
+        observation:
+          "Crea `lamp-1-vm` en serie E2, tipo `e2-medium`, disco Debian y firewall HTTP habilitado. Espera check verde de aprovisionamiento.",
+        reflection:
+          "Una base estable reduce ruido en monitoreo. Si la VM nace sin HTTP, varias validaciones posteriores fallarán aunque Monitoring esté correcto.",
+        participationQuestions: [
+          "Pista comandos: `gcloud config set compute/zone \"ZONE\"` y `gcloud config set compute/region \"REGION\"` antes de crear recursos.",
+          "Pista: Valida IP externa visible en VM Instances; la usarás para uptime checks.",
+          "Pista: Si no ves la columna External IP, habilítala desde Column display options.",
+        ],
+      },
+      {
+        title: "Task 2: Add Apache2 HTTP Server to your instance",
+        conceptNote:
+          "Un servicio HTTP activo genera telemetría útil para uptime, red y logs. Apache sirve como workload mínimo para validar observabilidad.",
+        guidingQuestion:
+          "¿Qué diferencia hay entre tener una VM encendida y tener un servicio realmente atendiendo tráfico?",
+        observation:
+          "Conéctate por SSH a `lamp-1-vm` y ejecuta update/install/restart de Apache. Verifica respuesta de página por IP externa.",
+        reflection:
+          "Si la página default de Apache no abre, revisa firewall HTTP, estado del servicio y que la instalación haya concluido sin errores.",
+        participationQuestions: [
+          "Pista comandos: `sudo apt-get update`, `sudo apt-get install apache2 php7.0`, `sudo service apache2 restart`.",
+          "Pista compatibilidad: si `php7.0` no está disponible en la imagen, usar versión alternativa que indique el lab.",
+          "Pista validación: acceder por navegador a la External IP debe mostrar página de Apache.",
+        ],
+      },
+      {
+        title: "Task 3: Install Ops Agent and create an uptime check",
+        conceptNote:
+          "Ops Agent centraliza recolección de métricas/logs; uptime checks validan disponibilidad desde sondas externas. Juntos cubren salud interna y externa.",
+        guidingQuestion:
+          "¿Qué te dice un uptime check que no te dice solo un gráfico de CPU? ¿Qué señales requieren agente dentro de la VM?",
+        observation:
+          "Instala Ops Agent con script oficial y confirma estado del servicio. Luego crea uptime check HTTP tipo URL usando la IP externa de la VM (frecuencia 1 min).",
+        reflection:
+          "El uptime check puede tardar en pasar a activo. No asumas fallo inmediato: espera ciclos de sondeo y refresca vista.",
+        participationQuestions: [
+          "Pista comandos: `curl -sSO https://dl.google.com/cloudagents/add-google-cloud-ops-agent-repo.sh` y `sudo bash add-google-cloud-ops-agent-repo.sh --also-install`.",
+          "Pista estado: `sudo systemctl status google-cloud-ops-agent\"*\"` (salir con `q`).",
+          "Pista UI: en Uptime checks usa protocolo HTTP, Resource type URL y título `Lamp Uptime Check`.",
+        ],
+      },
+      {
+        title: "Task 4: Create an alerting policy",
+        conceptNote:
+          "Las alertas traducen telemetría en acción operativa. Un umbral de tráfico de red permite detectar picos anómalos o actividad no esperada.",
+        guidingQuestion:
+          "¿Cómo escoger un umbral útil sin generar ruido? ¿Por qué configurar retest window ayuda a reducir falsos positivos?",
+        observation:
+          "Crea policy sobre métrica de Network traffic (VM Interface), condición Above threshold = 500, retest window = 1 min. Configura canal de notificación por email.",
+        reflection:
+          "Una alerta útil combina umbral, ventana de revalidación y canal correcto. Documenta mensaje para contexto del equipo.",
+        participationQuestions: [
+          "Pista: tras crear canal de email, usa Refresh en Notification Channels para que aparezca en el selector.",
+          "Pista nombre: usa `Inbound Traffic Alert` para mantener coherencia con rúbrica del lab.",
+          "Pista cierre: recuerda remover notificación email al final para evitar correos después del lab.",
+        ],
+      },
+      {
+        title: "Task 5: Build dashboard and inspect logs",
+        conceptNote:
+          "Dashboards y logs complementan el diagnóstico: métricas muestran tendencia, logs explican eventos puntuales.",
+        guidingQuestion:
+          "¿Qué aprendemos al correlacionar un stop/start de VM con logs y con el estado del uptime check?",
+        observation:
+          "Crea dashboard `Cloud Monitoring LAMP Qwik Start Dashboard` con widgets `CPU Load` y `Received Packets`. En Logs Explorer filtra VM `lamp-1-vm` y observa eventos al detener/iniciar instancia.",
+        reflection:
+          "Tras reiniciar la VM, es normal ver fallos temporales en uptime checks. Cuando regiones vuelven a activo, el pipeline de observabilidad quedó validado.",
+        participationQuestions: [
+          "Pista logs: filtra en Logging > Logs Explorer por recurso `VM Instance > lamp-1-vm`.",
+          "Pista experimento: abre Compute Engine y Logs Explorer en paralelo para observar eventos en tiempo real.",
+          "Pista verificación final: revisa Monitoring > Uptime checks y Monitoring > Alerting para incidentes/eventos generados.",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "cloud-run-functions-qwik-start-console",
+    labNumber: 19,
+    labUrl: "https://www.skills.google/paths/36/course_templates/637/labs/592545",
+    title: "Cloud Run Functions: Qwik Start - Console",
+    description: "Creación, despliegue y prueba de una Cloud Run function usando la Consola de Google Cloud.",
+    introduction:
+      "Una Cloud Run function es código que se ejecuta en respuesta a eventos, como solicitudes HTTP, mensajes de mensajería o cargas de archivos. Al ser event-driven, se ejecuta solo cuando ocurre un evento, lo que la hace ideal para tareas rápidas y desacopladas.\n\nEn este laboratorio crearás una función desde la consola, la desplegarás con el editor inline, la probarás con payload HTTP y revisarás sus logs en Observability.",
+    concepts: [
+      {
+        term: "Cloud Run function",
+        definition: "Función serverless orientada a eventos que corre sobre la plataforma Cloud Run.",
+      },
+      {
+        term: "Trigger HTTP",
+        definition: "Disparador basado en solicitud web; permite invocar la función mediante petición HTTP.",
+      },
+      {
+        term: "Second generation",
+        definition: "Entorno de ejecución moderno para funciones, con mejoras de rendimiento y escalado.",
+      },
+      {
+        term: "Revision scaling",
+        definition: "Control de concurrencia y número máximo de instancias por revisión desplegada.",
+      },
+      {
+        term: "Observability Logs",
+        definition: "Registro de ejecuciones, errores y eventos operativos de la función desplegada.",
+      },
+    ],
+    interactionPattern: [
+      "Crear servicio de función desde Cloud Run > Services",
+      "Configurar nombre, región, autenticación pública y gen2",
+      "Ajustar scaling máximo y crear servicio",
+      "Desplegar código inline por defecto (helloHttp)",
+      "Probar función con payload desde UI/CLI",
+      "Validar trazas en Observability > Logs",
+    ],
+    participationRules: [
+      "Usar solo la cuenta temporal del lab para evitar cargos en cuenta personal",
+      "Aceptar habilitación de APIs requeridas cuando la consola lo solicite",
+      "Mantener `Allow public access` únicamente para el entorno del laboratorio",
+      "Conservar evidencia de despliegue exitoso, respuesta de prueba y logs",
+      "Diferenciar claramente prueba desde interfaz y prueba desde comando CLI",
+    ],
+    tasks: [
+      {
+        title: "Task 1: Create a function",
+        conceptNote:
+          "El alta inicial define el comportamiento operativo de la función: identidad, exposición HTTP, entorno gen2 y límites de escalado.",
+        guidingQuestion:
+          "¿Qué implica permitir acceso público en una función HTTP? ¿Por qué limitar instancias máximas ayuda a controlar costo y comportamiento?",
+        observation:
+          "En Cloud Run > Services, elige WRITE A FUNCTION. Configura service name `gcfunction`, región del lab, authentication `Allow public access`, execution environment `Second generation`, y revision scaling max instances = 5.",
+        reflection:
+          "Una configuración correcta en creación evita retrabajo en despliegue y asegura que la prueba HTTP sea alcanzable.",
+        participationQuestions: [
+          "Pista: Si aparece popup para APIs requeridas, presiona ENABLE y espera finalización.",
+          "Pista: Mantén memoria por defecto según instrucción del lab, no sobre-ajustes recursos.",
+          "Pista: Revisa que el nombre del servicio sea exacto (`gcfunction`) para el autograder.",
+        ],
+      },
+      {
+        title: "Task 2: Deploy the function",
+        conceptNote:
+          "El deploy empaqueta y publica la revisión activa de la función. El código inline `helloHttp` permite validar flujo sin dependencias extra.",
+        guidingQuestion:
+          "¿Qué diferencia hay entre crear la función y desplegarla? ¿Qué indicador visual confirma despliegue exitoso?",
+        observation:
+          "En Source code (Inline editor), conserva implementación por defecto de `index.js` (`helloHttp`) y usa SAVE and REDEPLOY.",
+        reflection:
+          "Hasta que el estado cambie a check verde, la función puede no aceptar pruebas; espera fin de despliegue.",
+        participationQuestions: [
+          "Pista: Durante deploy verás spinner junto al servicio; check marca finalización.",
+          "Pista: No cambies el handler inicial para evitar desalineación con validación del lab.",
+          "Pista: Si falla deploy, revisa panel de errores de build antes de redeploy.",
+        ],
+      },
+      {
+        title: "Task 3: Test the function",
+        conceptNote:
+          "La prueba valida el contrato de entrada/salida de la función HTTP y confirma que la revisión activa responde correctamente.",
+        guidingQuestion:
+          "¿Cómo verificar que la respuesta proviene de la función recién desplegada y no de una revisión previa?",
+        observation:
+          "Desde function details usa TEST. En Triggering event coloca `{\"message\":\"Hello World!\"}`. Copia el comando CLI de prueba y ejecútalo en Cloud Shell.",
+        reflection:
+          "La salida debe incluir `Hello World!`. Si no aparece, valida payload JSON y endpoint usado por el comando.",
+        participationQuestions: [
+          "Pista: Usa exactamente la clave `message` para coincidir con ejemplo del lab.",
+          "Pista: Ejecutar prueba en UI y CLI te da doble evidencia funcional.",
+          "Pista: Si hay 401/403, revisa configuración de autenticación pública del servicio.",
+        ],
+      },
+      {
+        title: "Task 4: View logs",
+        conceptNote:
+          "Logs operativos permiten confirmar invocaciones, latencia y errores. Son la base de diagnóstico en serverless.",
+        guidingQuestion:
+          "¿Qué eventos esperas ver en logs tras una invocación exitosa? ¿Cómo distinguir error de despliegue vs error de ejecución?",
+        observation:
+          "En Service Details abre Observability > Logs y revisa entradas después de las pruebas. Debes ver registros de requests y ejecución de función.",
+        reflection:
+          "Un flujo sano muestra despliegue exitoso + invocación con respuesta. Logs consistentes validan operación end-to-end.",
+        participationQuestions: [
+          "Pista: Filtra por nombre de servicio `gcfunction` si hay ruido de otros recursos.",
+          "Pista: Realiza una prueba adicional para generar una entrada de log reciente.",
+          "Pista: Usa timestamp y severity para correlacionar cada invocación con su resultado.",
+        ],
+      },
+      {
+        title: "Task 5: Validate understanding and compare approaches",
+        conceptNote:
+          "El objetivo no solo es desplegar, sino entender el patrón event-driven y cuándo usar consola vs línea de comandos.",
+        guidingQuestion:
+          "¿Qué ventaja da la consola para onboarding y cuál da CLI para automatización repetible?",
+        observation:
+          "Confirma que Cloud Run functions es entorno serverless orientado a eventos y que el trigger utilizado en este lab es HTTPS.",
+        reflection:
+          "Como continuación natural, compara este flujo con la versión Command Line para reforzar DevOps y automatización.",
+        participationQuestions: [
+          "Pista respuesta conceptual: afirmación de serverless event-driven es `True`.",
+          "Pista trigger: en este lab el tipo de trigger esperado es `HTTPS`.",
+          "Pista siguiente paso: contrastar pasos de consola con `gcloud functions deploy`/comandos equivalentes en la guía CLI.",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "pub-sub-qwik-start-console",
+    labNumber: 20,
+    labUrl: "https://www.skills.google/paths/36/course_templates/637/labs/592547",
+    title: "Pub/Sub: Qwik Start - Console",
+    description: "Publicación y consumo de mensajes con suscripción pull usando la Consola de Google Cloud.",
+    introduction:
+      "Pub/Sub es un servicio de mensajería asíncrona para intercambiar eventos entre aplicaciones y servicios. Un productor publica mensajes en un topic y uno o varios consumidores los leen desde subscriptions.\n\nEn este laboratorio crearás un topic y una suscripción pull, publicarás un mensaje desde la consola y lo consumirás con Cloud Shell para validar el flujo completo de mensajería.",
+    concepts: [
+      {
+        term: "Topic",
+        definition: "Canal lógico donde los productores publican mensajes en Pub/Sub.",
+      },
+      {
+        term: "Subscription",
+        definition: "Recurso que permite a consumidores recibir mensajes de un topic.",
+      },
+      {
+        term: "Pull delivery",
+        definition: "Modo de consumo en el que el suscriptor solicita activamente mensajes al servicio.",
+      },
+      {
+        term: "Acknowledge (ACK)",
+        definition: "Confirmación de procesamiento para que un mensaje no vuelva a entregarse.",
+      },
+      {
+        term: "Asynchronous messaging",
+        definition: "Comunicación desacoplada entre productores y consumidores con alta escalabilidad.",
+      },
+    ],
+    interactionPattern: [
+      "Crear topic en Pub/Sub > Topics",
+      "Crear suscripción tipo Pull asociada al topic",
+      "Publicar mensaje de prueba desde la consola",
+      "Consumir mensaje desde Cloud Shell con gcloud",
+      "Validar flujo productor-topic-suscriptor",
+    ],
+    participationRules: [
+      "Usar únicamente la cuenta temporal del laboratorio para evitar cargos fuera del entorno de práctica",
+      "Respetar nombres exactos solicitados por el lab (MyTopic, MySub) para pasar validación automática",
+      "Dejar configuraciones avanzadas por defecto salvo que el enunciado indique lo contrario",
+      "Registrar evidencia de topic creado, suscripción creada, mensaje publicado y mensaje consumido",
+      "Diferenciar claramente el rol de productor (publish) y consumidor (pull) en cada paso",
+    ],
+    tasks: [
+      {
+        title: "Task 1: Set up Pub/Sub topic",
+        conceptNote:
+          "El topic es el punto de entrada de eventos. Sin topic no existe canal para que productores publiquen datos.",
+        guidingQuestion:
+          "¿Por qué el productor publica al topic y no directamente al consumidor? ¿Qué ventaja de arquitectura obtienes?",
+        observation:
+          "En Pub/Sub > Topics, crea un topic con Topic ID `MyTopic` y deja valores por defecto.",
+        reflection:
+          "Con el topic creado, el sistema ya acepta mensajes, pero todavía no hay consumidor hasta crear una suscripción.",
+        participationQuestions: [
+          "Pista: El autograder del lab suele validar nombre exacto del topic, evita variaciones.",
+          "Pista: Si no ves Pub/Sub en el menú, usa View All Products > Analytics.",
+          "Pista: Crear topic no entrega mensajes por sí solo; necesitas subscription.",
+        ],
+      },
+      {
+        title: "Task 2: Add a pull subscription",
+        conceptNote:
+          "La subscription conecta consumidores con el topic y define cómo se entregarán mensajes (push o pull).",
+        guidingQuestion:
+          "¿Qué cambia entre push y pull? ¿Cuándo conviene que el consumidor controle el ritmo de lectura?",
+        observation:
+          "Desde MyTopic, crea suscripción `MySub`, confirma topic `projects/<PROJECT_ID>/topics/MyTopic` y Delivery Type `Pull`.",
+        reflection:
+          "Ahora existe una ruta de consumo activa. Cada mensaje publicado en MyTopic podrá ser leído por MySub.",
+        participationQuestions: [
+          "Pista: Revisa que Delivery Type no quede en Push por error.",
+          "Pista: Mantén defaults para evitar incompatibilidades con la rúbrica del lab.",
+          "Pista: Verifica que MySub aparezca en la lista de subscriptions tras crearla.",
+        ],
+      },
+      {
+        title: "Task 3: Publish a message",
+        conceptNote:
+          "Publicar crea un evento en el topic. El mensaje queda disponible para subscriptions asociadas según su estado de entrega.",
+        guidingQuestion:
+          "¿Qué sucede si publicas antes de crear suscripción? ¿Y si tienes múltiples suscripciones al mismo topic?",
+        observation:
+          "En detalles de MyTopic, pestaña Messages > Publish Message. Escribe `Hello World` en Message y publica.",
+        reflection:
+          "El productor queda desacoplado: no necesita saber quién consumirá ni cuándo, solo publica en el topic.",
+        participationQuestions: [
+          "Pista: Publica desde la consola para seguir flujo exacto de este lab.",
+          "Pista: Puedes publicar múltiples mensajes para observar consumo secuencial.",
+          "Pista: Mantén payload simple para validar rápidamente en Cloud Shell.",
+        ],
+      },
+      {
+        title: "Task 4: Pull and acknowledge message",
+        conceptNote:
+          "En pull, el consumidor pide mensajes explícitamente. Con `--auto-ack`, el ACK se envía automáticamente al recibirlos.",
+        guidingQuestion:
+          "¿Qué implicación operativa tiene usar auto-ack frente a ack manual en sistemas críticos?",
+        observation:
+          "En Cloud Shell ejecuta: `gcloud pubsub subscriptions pull --auto-ack MySub` y verifica `Hello World` en el campo DATA.",
+        reflection:
+          "Si el mensaje aparece, validaste el pipeline completo: publish -> topic -> subscription -> pull consumer.",
+        participationQuestions: [
+          "Pista: Si no llega mensaje, confirma que publicaste en MyTopic y que MySub está ligado al topic correcto.",
+          "Pista: Sin `--auto-ack`, deberías gestionar ACK manual para evitar redelivery.",
+          "Pista: Repite comando para comprobar que el mensaje ya fue confirmado y no reaparece.",
+        ],
+      },
+      {
+        title: "Task 5: Validate understanding",
+        conceptNote:
+          "La clave del lab es comprender el desacople productor-consumidor y la confiabilidad/escala del patrón asíncrono.",
+        guidingQuestion:
+          "¿Cómo mejora Pub/Sub la resiliencia frente a integración síncrona directa entre servicios?",
+        observation:
+          "Confirma: publisher envía a topic, subscriber consume vía subscription. Pub/Sub es asíncrono, confiable y escalable.",
+        reflection:
+          "Esta base te prepara para casos event-driven más complejos con múltiples consumidores y procesamiento paralelo.",
+        participationQuestions: [
+          "Pista conceptual: respuesta correcta del primer ítem es `topic, subscription`.",
+          "Pista conceptual: la afirmación de alta confiabilidad y escalabilidad es `True`.",
+          "Pista práctica: el output esperado del pull debe contener `Hello World` en DATA.",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "pub-sub-qwik-start-command-line",
+    labNumber: 21,
+    labUrl: "https://www.skills.google/paths/36/course_templates/637/labs/592548",
+    title: "Pub/Sub: Qwik Start - Command Line",
+    description: "Gestión de topics y subscriptions, publicación y consumo de mensajes en Pub/Sub usando Cloud Shell.",
+    introduction:
+      "Pub/Sub es un servicio global de mensajería asíncrona que desacopla productores y consumidores para lograr comunicación confiable y escalable. En este laboratorio trabajarás todo por línea de comandos con gcloud para dominar el flujo completo.\n\nAprenderás a crear, listar y eliminar topics y subscriptions, publicar mensajes, consumirlos con pull subscriber y usar flags para controlar cuántos mensajes recuperar por solicitud.",
+    concepts: [
+      {
+        term: "Topic",
+        definition: "Canal lógico donde los productores publican mensajes.",
+      },
+      {
+        term: "Subscription",
+        definition: "Vinculación de consumo que recibe mensajes desde un topic específico.",
+      },
+      {
+        term: "Pull subscriber",
+        definition: "Consumidor que solicita mensajes explícitamente al servicio Pub/Sub.",
+      },
+      {
+        term: "Auto-ack",
+        definition: "Confirmación automática del mensaje al ser recibido para evitar reentrega.",
+      },
+      {
+        term: "Limit flag",
+        definition: "Bandera de comando para fijar el número máximo de mensajes a recuperar.",
+      },
+    ],
+    interactionPattern: [
+      "Crear topic base y topics temporales de prueba",
+      "Listar y limpiar recursos de prueba",
+      "Crear suscripción principal y suscripciones temporales",
+      "Publicar mensajes al topic principal",
+      "Consumir mensajes con pull y auto-ack",
+      "Consumir múltiples mensajes en una sola solicitud con limit",
+    ],
+    participationRules: [
+      "Usar exclusivamente la cuenta temporal del laboratorio",
+      "Respetar nombres exactos solicitados por la rúbrica: myTopic y mySubscription",
+      "Ejecutar comandos de limpieza para evitar confusión entre recursos temporales y finales",
+      "Registrar evidencia de cada fase: create, list, delete, publish y pull",
+      "Diferenciar claramente pruebas de un solo mensaje frente a pruebas de múltiples mensajes",
+    ],
+    tasks: [
+      {
+        title: "Task 1: Create, list and clean Pub/Sub topics",
+        conceptNote:
+          "La administración de topics por CLI permite automatizar infraestructura de mensajería y mantener entornos limpios.",
+        guidingQuestion:
+          "¿Por qué crear recursos temporales de prueba y luego eliminarlos ayuda a validar operaciones CRUD de forma controlada?",
+        observation:
+          "Crea myTopic, Test1 y Test2; luego lista topics para validar creación. Elimina Test1 y Test2 y vuelve a listar para confirmar que solo queda myTopic.",
+        reflection:
+          "Este patrón te entrena para verificar estado real del entorno después de cada comando, no solo confiar en salida puntual.",
+        participationQuestions: [
+          "Pista comandos: gcloud pubsub topics create myTopic, Test1 y Test2.",
+          "Pista verificación: gcloud pubsub topics list antes y después de eliminar recursos temporales.",
+          "Pista limpieza: gcloud pubsub topics delete Test1 y gcloud pubsub topics delete Test2.",
+        ],
+      },
+      {
+        title: "Task 2: Create, list and clean subscriptions",
+        conceptNote:
+          "Sin una subscription no hay consumo de mensajes. El topic guarda el canal, la subscription habilita recepción.",
+        guidingQuestion:
+          "¿Qué diferencia funcional existe entre tener topic creado y tener topic con subscription activa?",
+        observation:
+          "Crea mySubscription asociada a myTopic. Agrega Test1 y Test2 como subscriptions de prueba. Lista subscriptions del topic y luego elimina Test1 y Test2.",
+        reflection:
+          "La salida final debe mostrar solo mySubscription, lo que confirma que la ruta de consumo principal está intacta.",
+        participationQuestions: [
+          "Pista comando principal: gcloud pubsub subscriptions create --topic myTopic mySubscription.",
+          "Pista listado: gcloud pubsub topics list-subscriptions myTopic.",
+          "Pista limpieza: gcloud pubsub subscriptions delete Test1 y Test2.",
+        ],
+      },
+      {
+        title: "Task 3: Publish and pull a single message",
+        conceptNote:
+          "Publicar empuja eventos al topic; pull recupera mensajes desde la subscription y, con auto-ack, los marca como procesados.",
+        guidingQuestion:
+          "¿Por qué al ejecutar pull repetidamente van desapareciendo mensajes y eventualmente aparece Listed 0 items?",
+        observation:
+          "Publica Hello y otros tres mensajes en myTopic. Ejecuta pull con auto-ack desde mySubscription para observar recepción y consumo efectivo.",
+        reflection:
+          "Sin flags adicionales, pull suele devolver un mensaje por solicitud; repetir comando permite vaciar cola progresivamente.",
+        participationQuestions: [
+          "Pista publish: usa gcloud pubsub topics publish myTopic --message con distintos textos.",
+          "Pista pull: gcloud pubsub subscriptions pull mySubscription --auto-ack.",
+          "Pista diagnóstico: si no ves mensajes, verifica que publicaste en myTopic y no en otro topic.",
+        ],
+      },
+      {
+        title: "Task 4: Pull multiple messages with limit",
+        conceptNote:
+          "El flag limit permite leer varios mensajes en una sola llamada, útil para procesamiento por lotes.",
+        guidingQuestion:
+          "¿Cómo cambia el comportamiento operativo entre consumir uno por uno vs consumir en lotes con limit?",
+        observation:
+          "Publica tres mensajes nuevos y ejecuta pull con --limit=3 sobre mySubscription para recuperar lote completo.",
+        reflection:
+          "Este patrón reduce número de llamadas y permite estrategias batch en consumidores de alta carga.",
+        participationQuestions: [
+          "Pista: espera alrededor de un minuto antes del pull en caso de latencia de propagación.",
+          "Pista comando: gcloud pubsub subscriptions pull mySubscription --limit=3.",
+          "Pista comparación: repite pull sin limit para observar diferencia de salida.",
+        ],
+      },
+      {
+        title: "Task 5: Validate conceptual understanding",
+        conceptNote:
+          "El objetivo final es dominar el modelo productor-topic-subscription-consumidor y sus implicaciones de confiabilidad.",
+        guidingQuestion:
+          "¿Qué ventajas aporta el desacople de Pub/Sub frente a integración síncrona directa entre servicios?",
+        observation:
+          "Confirma que para recibir mensajes debes crear una subscription del topic y que Pub/Sub está diseñado para comunicación asíncrona altamente confiable y escalable.",
+        reflection:
+          "Con este flujo ya puedes automatizar pipelines event-driven y preparar escenarios de streaming más complejos.",
+        participationQuestions: [
+          "Pista conceptual: la afirmación sobre necesidad de subscription para recibir mensajes es True.",
+          "Pista conceptual: Pub/Sub como servicio asíncrono confiable y escalable también es True.",
+          "Pista práctica: evidencia mínima incluye salida de topics list, list-subscriptions y pulls exitosos.",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "set-up-an-app-dev-environment-challenge-lab",
+    labNumber: 22,
+    labUrl: "https://www.skills.google/paths/36/course_templates/637/labs/592550",
+    title: "Set Up an App Dev Environment on Google Cloud: Challenge Lab",
+    description: "Reto integrador para configurar bucket, Pub/Sub, Cloud Run Function (gen2) y permisos IAM en un proyecto real.",
+    introduction:
+      "Este es un Challenge Lab: no hay instrucciones paso a paso. El objetivo es demostrar que puedes resolver un escenario real usando lo aprendido en los labs previos de Storage, Pub/Sub, Cloud Run Functions e IAM.\n\nPara obtener 100%, debes crear correctamente los recursos solicitados, en la región y zona indicadas por el laboratorio, con nombres exactos y configuración funcional. Usa el validador automático como retroalimentación para iterar rápido.",
+    concepts: [
+      {
+        term: "Challenge Lab",
+        definition: "Laboratorio de evaluación práctica donde aplicas habilidades previas sin guía detallada.",
+      },
+      {
+        term: "Cloud Run Function 2nd gen",
+        definition: "Función event-driven ejecutada sobre Cloud Run con trigger administrado por Eventarc.",
+      },
+      {
+        term: "Cloud Storage trigger",
+        definition: "Evento de creación de objeto en bucket que dispara la ejecución de la función.",
+      },
+      {
+        term: "Least privilege IAM",
+        definition: "Remover accesos innecesarios para mantener seguridad y gobernanza del proyecto.",
+      },
+      {
+        term: "Automated scoring",
+        definition: "Sistema de validación que verifica recursos por nombre, tipo y configuración esperada.",
+      },
+    ],
+    interactionPattern: [
+      "Leer variables dinámicas del panel del lab (Bucket Name, Topic Name, Function Name, REGION, ZONE)",
+      "Crear recursos con nombres exactos y configuración de bajo costo",
+      "Desplegar función con trigger Cloud Storage y código correcto",
+      "Validar ejecución subiendo imagen y comprobando miniatura",
+      "Eliminar acceso del usuario Viewer heredado",
+      "Reintentar validaciones hasta 100%",
+    ],
+    participationRules: [
+      "Sustituye placeholders solo con valores del panel del lab; no inventes nombres",
+      "Mantén todos los recursos en REGION y ZONE indicados por el laboratorio",
+      "Usa Cloud Run Functions 2nd gen y Node.js 22 como requisito obligatorio",
+      "Si ves errores de permisos/Eventarc, espera unos minutos y vuelve a intentar",
+      "Después de cada tarea, usa Check my progress para localizar fallos rápido",
+    ],
+    tasks: [
+      {
+        title: "Task 1: Create the storage bucket",
+        conceptNote:
+          "El bucket será origen y destino de la función de thumbnails; su nombre exacto y ubicación son parte de la evaluación.",
+        guidingQuestion:
+          "¿El bucket está en la región correcta y con el nombre exacto pedido por el lab?",
+        observation:
+          "Crea el bucket con Bucket Name (exacto) y valida su ubicación según REGION/ZONE del panel del challenge.",
+        reflection:
+          "Si el validador falla, revisa primero nombre y ubicación antes de cambiar otras opciones.",
+        participationQuestions: [
+          "Hint comando: gcloud storage buckets create gs://BUCKET_NAME --location=REGION",
+          "Hint: verifica con gcloud storage buckets list | grep BUCKET_NAME",
+          "Hint: evitar configuraciones adicionales no solicitadas reduce errores de rúbrica.",
+        ],
+      },
+      {
+        title: "Task 2: Create the Pub/Sub topic",
+        conceptNote:
+          "El topic se usa para publicar el nombre del thumbnail generado por la función.",
+        guidingQuestion:
+          "¿El topic tiene el nombre exacto del challenge y existe en el proyecto activo?",
+        observation:
+          "Crea Topic Name y confirma presencia antes de desplegar la función.",
+        reflection:
+          "Si topicName en código no coincide exactamente con Topic Name, la publicación fallará.",
+        participationQuestions: [
+          "Hint comando: gcloud pubsub topics create TOPIC_NAME",
+          "Hint verificación: gcloud pubsub topics list | grep TOPIC_NAME",
+          "Hint: no uses nombres de ejemplo de labs anteriores (myTopic, Test1, etc.).",
+        ],
+      },
+      {
+        title: "Task 3: Deploy thumbnail Cloud Run Function (gen2)",
+        conceptNote:
+          "La función debe dispararse al crear objetos en el bucket y generar miniaturas 64x64 para imágenes JPG/PNG.",
+        guidingQuestion:
+          "¿La función usa Node.js 22, trigger de Cloud Storage, entry point correcto y runtime 2nd gen?",
+        observation:
+          "Crea Cloud Run Function Name (2nd gen, Node.js 22), trigger Cloud Storage sobre Bucket Name, entry point igual al nombre de función solicitado por el panel. En index.js y package.json pega el código del enunciado y reemplaza topicName con Topic Name y el nombre de la función en functions.cloudEvent('FUNCTION_NAME', ...).",
+        reflection:
+          "Si subes una imagen y no aparece thumbnail, revisa trigger, nombre de entry point, logs y permisos de Eventarc/Service Agents.",
+        participationQuestions: [
+          "Hint crítico: en index.js NO dejes vacío functions.cloudEvent('') ni const topicName = ''.",
+          "Hint comando prueba: gcloud storage cp map.jpg gs://BUCKET_NAME/ (usa una imagen jpg/png)",
+          "Hint validación: gcloud storage ls gs://BUCKET_NAME y confirma archivo *_64x64_thumbnail.*",
+          "Hint permisos: si aparece error de propagación de permisos, espera 2-5 min y redeploy.",
+          "Hint logs: en Cloud Run Function > Logs busca errores de sharp, permisos Pub/Sub o trigger inexistente.",
+        ],
+      },
+      {
+        title: "Task 4: Remove previous cloud engineer access",
+        conceptNote:
+          "Esta tarea valida gobernanza IAM: eliminar accesos heredados innecesarios en el proyecto.",
+        guidingQuestion:
+          "¿Quitaste el usuario Viewer (Username 2) y mantuviste solo tu cuenta Owner (Username 1)?",
+        observation:
+          "En IAM, identifica la cuenta del ingeniero previo con rol Viewer y elimínala del proyecto.",
+        reflection:
+          "Si borras el usuario incorrecto puedes perder acceso; confirma correo y rol antes de remover.",
+        participationQuestions: [
+          "Hint UI rápida: IAM & Admin > IAM > localizar Username 2 > Remove principal.",
+          "Hint CLI alternativa: gcloud projects get-iam-policy PROJECT_ID para auditar miembros antes/después.",
+          "Hint final: corre Check my progress inmediatamente tras remover para validar tarea 4.",
+        ],
+      },
+      {
+        title: "Task 5: Challenge verification strategy",
+        conceptNote:
+          "En challenge labs, iterar por evidencia y validador es más eficaz que rehacer todo desde cero.",
+        guidingQuestion:
+          "¿Qué validación falla exactamente y qué recurso/propiedad concreta corrige ese fallo?",
+        observation:
+          "Usa ciclo corto: revisar tarea fallida -> inspeccionar nombre/región/trigger/entry point -> corregir -> volver a validar.",
+        reflection:
+          "Llegar al 100% depende de precisión en nombres y configuración, no de complejidad adicional.",
+        participationQuestions: [
+          "Hint checklist mínimo: bucket OK, topic OK, function gen2+trigger+entry point OK, IAM cleanup OK.",
+          "Hint: evita cambiar recursos que ya validaron en verde.",
+          "Hint: documenta errores exactos del log/validador para depurar más rápido.",
+        ],
+      },
+    ],
+  },
+  
 ];
 
 export function getLabContent(slug: string): LabContent | undefined {

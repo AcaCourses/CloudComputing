@@ -18,10 +18,12 @@ import LabVisualSummary from "@/app/components/LabVisualSummary";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
+  searchParams: Promise<{ from?: string; skillbadgeUrl?: string }>;
 };
 
-export default async function LabPage({ params }: PageProps) {
+export default async function LabPage({ params, searchParams }: PageProps) {
   const { slug } = await params;
+  const { from, skillbadgeUrl } = await searchParams;
   const lab = getLabContent(slug);
 
   if (!lab) {
@@ -80,6 +82,17 @@ export default async function LabPage({ params }: PageProps) {
               >
                 <ExternalLink className="w-4 h-4" />
                 Abrir laboratorio en Google Cloud Skills Boost
+              </a>
+            )}
+            {from === "skillbadge" && skillbadgeUrl && (
+              <a
+                href={decodeURIComponent(skillbadgeUrl)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 mt-4 ml-2 px-4 py-2 bg-success text-white rounded-lg text-sm font-medium hover:bg-success/90 transition-colors"
+              >
+                <ExternalLink className="w-4 h-4" />
+                Ver en Skill Badge
               </a>
             )}
           </header>
