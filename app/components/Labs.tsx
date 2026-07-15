@@ -30,7 +30,7 @@ type Lab = {
   submitLink: string;
   status: string;
   unit: number;
-  itemType?: "lab" | "skillBadge";
+  itemType?: string;
   skillBadgeLabs?: SkillBadgeLab[];
 };
 
