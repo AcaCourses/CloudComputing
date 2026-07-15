@@ -106,6 +106,34 @@ const criteria = [
   "Respeto en el trabajo en equipo y en el día a día. Cualquier falta de respeto hacia miembros de sus equipos u otras personas dentro de la clase resulta en reprobación directa.",
 ];
 
+const certificateCriteria = [
+  "Participación activa.",
+  "Asistencia a eventos.",
+  "Entregas puntuales.",
+  "Módulos completados a tiempo.",
+  "Buen desempeño en exámenes y evaluaciones.",
+  "Empates: sorteo.",
+];
+
+const certificateCards = [
+  {
+    title: "¿Qué se obtiene?",
+    text: "Créditos completos para gestionar la certificación oficial Google Cloud Computing Foundations Certificate.",
+  },
+  {
+    title: "¿Quiénes acceden?",
+    text: "Solo las 10 personas con mejor desempeño de cada grupo.",
+  },
+  {
+    title: "¿Cómo se elige?",
+    text: "Se evalúa participación, asistencia, entregas, avance de módulos y resultados en evaluaciones.",
+  },
+  {
+    title: "¿Qué motiva esto?",
+    text: "Reconocer constancia, compromiso y avance sostenido durante todo el semestre.",
+  },
+];
+
 export default function Evaluation() {
   const router = useRouter();
   const headerAnim = useInView();
@@ -379,6 +407,110 @@ export default function Evaluation() {
 
           {/* Participaciones - Podium section */}
           <ParticipacionesPodium />
+
+          {/* Certificate access section */}
+          <section className="mt-10">
+            <div className="">
+              <div className="rounded-xl border border-border bg-white p-6 sm:p-8 shadow-sm">
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="h-px w-8 bg-green" />
+                  <span className="text-xs font-medium text-green uppercase tracking-wider">Criterios</span>
+                </div>
+
+                <h3 className="text-lg sm:text-xl font-bold text-foreground">
+                  Acceso al certificado Google Cloud Computing Foundations
+                </h3>
+                <p className="mt-2 text-sm text-text-secondary leading-relaxed max-w-2xl">
+                  Una oportunidad para reconocer constancia, participación y desempeño durante el semestre.
+                </p>
+
+                <div className="mt-4 flex flex-wrap gap-2">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium bg-blue-light text-blue border border-blue/25">
+                    <span className="w-1.5 h-1.5 rounded-full bg-blue" />
+                    Participación
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium bg-green-light text-green border border-green/25">
+                    <span className="w-1.5 h-1.5 rounded-full bg-green" />
+                    Puntualidad
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium bg-orange/10 text-orange border border-orange/30">
+                    <span className="w-1.5 h-1.5 rounded-full bg-orange" />
+                    Desempeño
+                  </span>
+                </div>
+
+                <div className="mt-6 rounded-xl border border-blue/25 bg-blue-light/25 p-4 sm:p-5">
+                  <div className="flex items-center justify-between gap-3">
+                    <p className="text-sm text-foreground leading-relaxed font-medium">
+                      Solo las 10 personas con mejor desempeño de cada grupo podrán acceder a los créditos completos para esta certificación.
+                    </p>
+                    <span className="shrink-0 inline-flex items-center rounded-lg border border-blue/30 bg-white px-2 py-1 text-[11px] font-bold text-blue">
+                      TOP 10
+                    </span>
+                  </div>
+                </div>
+
+                <div className="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-3 items-stretch">
+                  <div className="space-y-3">
+                    {certificateCards.slice(0, 2).map((card, i) => (
+                      <div
+                        key={card.title}
+                        className="rounded-lg  border-border bg-white p-3.5 hover:border-blue/30 hover:-translate-y-0.5 hover:shadow-sm transition-all duration-200"
+                        style={{ transitionDelay: `${i * 50}ms` }}
+                      >
+                        <p className="text-xs font-semibold text-foreground">{card.title}</p>
+                        <p className="mt-1 text-xs text-text-secondary leading-relaxed">{card.text}</p>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="rounded-xl border-border bg-gradient-to-b from-grey-light/30 to-white p-4 flex items-center justify-center">
+                    <div className="relative w-full max-w-[210px] aspect-square">
+                      <Image
+                        src="/assets/Google Cloud Computing Foundations Certificate.png"
+                        alt="Google Cloud Computing Foundations Certificate"
+                        fill
+                        className="object-contain"
+                        sizes="(max-width: 1024px) 180px, 220px"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-3">
+                    {certificateCards.slice(2, 4).map((card, i) => (
+                      <div
+                        key={card.title}
+                        className="rounded-lg  border-border bg-white p-3.5 hover:border-blue/30 hover:-translate-y-0.5 hover:shadow-sm transition-all duration-200"
+                        style={{ transitionDelay: `${(i + 2) * 50}ms` }}
+                      >
+                        <p className="text-xs font-semibold text-foreground">{card.title}</p>
+                        <p className="mt-1 text-xs text-text-secondary leading-relaxed">{card.text}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="mt-7">
+                  <h4 className="text-sm font-semibold text-foreground mb-3">Criterios</h4>
+                  <ul className="grid sm:grid-cols-2 gap-2.5">
+                    {certificateCriteria.map((item, i) => (
+                      <li
+                        key={i}
+                        className="group flex items-start gap-2.5 text-sm text-text-secondary leading-relaxed rounded-lg border border-border bg-white px-3 py-2.5 hover:border-green/30 hover:shadow-sm transition-all duration-200"
+                      >
+                        <CheckCircle2 className="w-4 h-4 text-green shrink-0 mt-0.5 group-hover:scale-105 transition-transform" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <p className="mt-6 text-sm text-foreground leading-relaxed font-medium">
+                  Participa con constancia, completa tus módulos a tiempo y fortalece tu perfil con una credencial valiosa para tu CV y LinkedIn.
+                </p>
+              </div>
+            </div>
+          </section>
         </div>
       </div>
     </section>
@@ -421,7 +553,7 @@ export default function Evaluation() {
                 1) Requisito principal - 30% de la calificacion
               </h4>
               <p className="text-sm text-foreground mb-4">
-                Terminar y obtener credencial en ambos modulos Foundations. Es obligatorio completar los 2 para ser acreedores al 30%.
+                Terminar y obtener credencial en ambos modulos Foundations. 15% por cada modulo.
               </p>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -490,63 +622,6 @@ export default function Evaluation() {
                   2. Set Up an App Dev Environment on Google Cloud
                 </a>
               </div>
-            </div>
-
-            <div className="rounded-xl border border-orange/20 bg-orange/5 p-4 md:p-5">
-              <h4 className="text-sm font-semibold text-orange mb-3">
-                3) Modulos opcionales con puntos extra
-              </h4>
-              <p className="text-sm text-foreground mb-3">
-                Los opcionales dan puntos extra solo si se completan en pareja.
-              </p>
-
-              <div className="space-y-4">
-                <div className="rounded-lg border border-border/60 bg-white p-3">
-                  <p className="text-xs font-semibold text-foreground mb-2">Pareja opcional A (+0.6 pts)</p>
-                  <a
-                    href="https://www.skills.google/paths/36/course_templates/155"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="block text-sm text-blue hover:text-blue-dark hover:underline"
-                  >
-                    Google Cloud Computing Foundations: Networking and Security in Google Cloud
-                  </a>
-                  <a
-                    href="https://www.skills.google/paths/36/course_templates/654"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="block text-sm text-blue hover:text-blue-dark hover:underline mt-1"
-                  >
-                    Build a Secure Google Cloud Network
-                  </a>
-                  <p className="text-xs text-text-secondary mt-2">Deben completarse juntos para sumar +0.6 sobre la calificacion final.</p>
-                </div>
-
-                <div className="rounded-lg border border-border/60 bg-white p-3">
-                  <p className="text-xs font-semibold text-foreground mb-2">Pareja opcional B (+0.6 pts)</p>
-                  <a
-                    href="https://www.skills.google/paths/36/course_templates/156"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="block text-sm text-blue hover:text-blue-dark hover:underline"
-                  >
-                    Google Cloud Computing Foundations: Data, ML, and AI in Google Cloud
-                  </a>
-                  <a
-                    href="https://www.skills.google/paths/36/course_templates/631"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="block text-sm text-blue hover:text-blue-dark hover:underline mt-1"
-                  >
-                    Prepare Data for ML APIs on Google Cloud
-                  </a>
-                  <p className="text-xs text-text-secondary mt-2">Deben completarse juntos para sumar +0.6 sobre la calificacion final.</p>
-                </div>
-              </div>
-
-              <p className="mt-4 text-sm font-semibold text-foreground">
-                Total maximo de extra: +1.2 puntos sobre la calificacion final.
-              </p>
             </div>
           </div>
 

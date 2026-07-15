@@ -450,7 +450,7 @@ const entregables = [
   "Nombre de la plataforma o solución",
   "Problema que busca resolver",
   "Eje temático elegido",
-  "Especialización a la que se alinea",
+  "Cómo la solución utiliza Data, ML e IA",
   "Público objetivo",
   "Descripción general de cómo funcionaría",
   "Servicios de nube que usarían",
@@ -478,8 +478,8 @@ const rubricaProyecto = [
     puntos: 7,
   },
   {
-    criterio: "Alineación con especialización",
-    detalle: "La propuesta se conecta claramente con uno de los caminos: Networking & Security o Data, ML and AI.",
+    criterio: "Alineación con Data, ML e IA",
+    detalle: "La propuesta integra claramente capacidades de Data, Machine Learning e Inteligencia Artificial en su solución.",
     puntos: 4,
   },
   {
@@ -512,11 +512,11 @@ const reglasGenerales = [
   "Los equipos los seleccionan los alumnos.",
   "Solo 2 integrantes exponen.",
   "La exposición dura máximo 5 minutos.",
-  "Antes de presentar, deben indicar a cuál camino de especialización se alinea su propuesta.",
+  "Todos los proyectos deben alinearse con Data, ML e IA (no hay opciones de especialización diferentes).",
   "La solución debe ser teórica y conceptual, no un desarrollo completo.",
   "La página web debe funcionar como una maqueta o emulación tipo MVP de la plataforma propuesta.",
   "Se puede usar IA para generar el prototipo, siempre que el equipo pueda explicar lo que construyó.",
-  "La exposición debe demostrar comprensión del problema, la propuesta, la especialización elegida y los servicios cloud seleccionados.",
+  "La exposición debe demostrar comprensión del problema, la propuesta, las capacidades de ML/IA utilizadas y los servicios cloud seleccionados.",
 ];
 
 const mvpMustShow = [
@@ -535,7 +535,7 @@ const promptEjemplo = `Quiero que construyas un sistema web tipo MVP llamado Eco
 Objetivo del sistema:
 Diseña una plataforma web que ayude a escuelas, familias y administradores a organizar rutas compartidas, registrar hábitos de traslado y visualizar oportunidades para reducir emisiones. El proyecto debe verse como una solución real, aunque sea un prototipo funcional frontend con datos simulados.
 
-Quiero que el sistema esté pensado como una propuesta conceptual alineada con sostenibilidad, transformación digital e impulso del uso de IA.
+IMPORTANTE: Tu solución DEBE estar alineada al camino de especialización en Data, Machine Learning e Inteligencia Artificial. Integra capacidades de ML, análisis de datos y APIs de IA de Google Cloud para resolver el problema.
 
 Requisitos generales:
 - Crea una aplicación web moderna, atractiva y clara.
@@ -792,7 +792,7 @@ export default function ProyectoPage() {
 
             <p className="mt-5 text-base sm:text-lg text-text-secondary max-w-2xl mx-auto leading-relaxed">
               Propón una solución digital basada en la nube, vinculada con un eje temático social
-              y uno de los dos caminos de especialización de Google Cloud.
+              y el camino de especialización en Data, Machine Learning e Inteligencia Artificial.
             </p>
 
             {/* Quick nav buttons */}
@@ -832,56 +832,30 @@ export default function ProyectoPage() {
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-20">
 
-        {/* ═══ CAMINOS DE ESPECIALIZACIÓN ═══ */}
+        {/* ═══ RUTA DE ESPECIALIZACIÓN ═══ */}
         <section>
           <div className="text-center mb-8">
-            <h2 className="text-xl sm:text-2xl font-bold text-foreground">Caminos de Especialización</h2>
+            <h2 className="text-xl sm:text-2xl font-bold text-foreground">Especialización: Data, ML e IA</h2>
             <p className="mt-2 text-sm text-text-secondary">
-              Antes de presentar, cada equipo debe indicar a cuál camino se alinea su propuesta y explicar por qué.
+              Todos los proyectos deben alinearse con el camino de Data, Machine Learning e Inteligencia Artificial en Google Cloud.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-6">
-            {/* Networking & Security */}
-            <div className="relative group rounded-2xl border-2 border-azure/20 bg-gradient-to-br from-azure/5 to-transparent p-6 hover:border-azure/40 hover:shadow-lg transition-all duration-300">
-              <div className="absolute top-4 right-4 text-[10px] font-bold text-azure bg-azure/10 px-2 py-1 rounded-full uppercase tracking-wider">
-                Camino 1
-              </div>
-              <div className="p-3 rounded-xl bg-azure/10 w-fit mb-4 group-hover:scale-110 transition-transform">
-                <Shield className="w-7 h-7 text-azure" />
-              </div>
-              <h3 className="text-lg font-bold text-foreground mb-2">
-                Networking & Security in Google Cloud
-              </h3>
-              <p className="text-sm text-text-secondary leading-relaxed">
-                Redes, seguridad, control de acceso, protección de datos, cifrado y cumplimiento normativo en la nube.
-              </p>
-              <div className="mt-4 flex flex-wrap gap-1.5">
-                {["VPC", "Firewalls", "IAM", "IAP", "Cloud Armor", "SSL/TLS"].map((t) => (
-                  <span key={t} className="text-[10px] px-2 py-0.5 rounded-full bg-azure/10 text-azure font-medium">{t}</span>
-                ))}
-              </div>
+          <div className="rounded-2xl border-2 border-green/20 bg-gradient-to-br from-green/5 to-transparent p-6 hover:border-green/40 hover:shadow-lg transition-all duration-300">
+            <div className="p-3 rounded-xl bg-green/10 w-fit mb-4 group-hover:scale-110 transition-transform">
+              <Brain className="w-7 h-7 text-green" />
             </div>
-
-            {/* Data, ML & AI */}
-            <div className="relative group rounded-2xl border-2 border-green/20 bg-gradient-to-br from-green/5 to-transparent p-6 hover:border-green/40 hover:shadow-lg transition-all duration-300">
-              <div className="absolute top-4 right-4 text-[10px] font-bold text-green bg-green/10 px-2 py-1 rounded-full uppercase tracking-wider">
-                Camino 2
-              </div>
-              <div className="p-3 rounded-xl bg-green/10 w-fit mb-4 group-hover:scale-110 transition-transform">
-                <Brain className="w-7 h-7 text-green" />
-              </div>
-              <h3 className="text-lg font-bold text-foreground mb-2">
-                Data, ML, and AI in Google Cloud
-              </h3>
-              <p className="text-sm text-text-secondary leading-relaxed">
-                Análisis de datos, aprendizaje automático, APIs de inteligencia artificial, procesamiento de lenguaje natural y visión.
-              </p>
-              <div className="mt-4 flex flex-wrap gap-1.5">
-                {["BigQuery", "Vertex AI", "Vision API", "NLP", "Translation", "TTS"].map((t) => (
-                  <span key={t} className="text-[10px] px-2 py-0.5 rounded-full bg-green/10 text-green font-medium">{t}</span>
-                ))}
-              </div>
+            <h3 className="text-lg font-bold text-foreground mb-2">
+              Data, ML, and AI in Google Cloud
+            </h3>
+            <p className="text-sm text-text-secondary leading-relaxed">
+              Análisis de datos, aprendizaje automático, APIs de inteligencia artificial, procesamiento de lenguaje natural y visión.
+              Tu propuesta debe integrar capacidades de ML, análisis de datos y APIs de IA para resolver el problema elegido.
+            </p>
+            <div className="mt-4 flex flex-wrap gap-1.5">
+              {["BigQuery", "Vertex AI", "Vision API", "NLP", "Translation", "TTS", "Recommendations AI"].map((t) => (
+                <span key={t} className="text-[10px] px-2 py-0.5 rounded-full bg-green/10 text-green font-medium">{t}</span>
+              ))}
             </div>
           </div>
         </section>
@@ -963,7 +937,7 @@ export default function ProyectoPage() {
                   {isOpen && (
                     <div className="p-4 sm:p-5 border-t border-border/50 bg-white space-y-5">
                       <p className="text-[10px] font-bold text-text-secondary uppercase tracking-wider">
-                        Elige uno de los siguientes escenarios y desarróllalo con el enfoque que prefieras
+                        Elige uno de los siguientes escenarios y resuélvelo utilizando Data, ML e Inteligencia Artificial
                       </p>
 
                       {eje.escenarios.map((esc, idx) => (
@@ -979,45 +953,23 @@ export default function ProyectoPage() {
                             </div>
                           </div>
 
-                          {/* Two approaches */}
-                          <div className="grid sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-border">
-                            {/* Networking & Security approach */}
-                            <div className="p-4 space-y-2.5">
-                              <div className="flex items-center gap-1.5">
-                                <Shield className="w-3.5 h-3.5 text-azure" />
-                                <span className="text-[10px] font-bold text-azure uppercase tracking-wider">
-                                  Enfoque: Networking & Security
-                                </span>
-                              </div>
-                              <p className="text-xs font-medium text-foreground">{esc.networking.enfoque}</p>
-                              <ul className="space-y-1.5">
-                                {esc.networking.ideas.map((idea, i) => (
-                                  <li key={i} className="text-[11px] text-text-secondary flex items-start gap-1.5">
-                                    <span className="w-1 h-1 rounded-full bg-azure shrink-0 mt-1.5" />
-                                    {idea}
-                                  </li>
-                                ))}
-                              </ul>
+                          {/* Data, ML & AI approach - Only approach */}
+                          <div className="p-4 space-y-2.5">
+                            <div className="flex items-center gap-1.5">
+                              <Brain className="w-3.5 h-3.5 text-green" />
+                              <span className="text-[10px] font-bold text-green uppercase tracking-wider">
+                                Enfoque: Data, ML & AI
+                              </span>
                             </div>
-
-                            {/* Data, ML & AI approach */}
-                            <div className="p-4 space-y-2.5">
-                              <div className="flex items-center gap-1.5">
-                                <Brain className="w-3.5 h-3.5 text-green" />
-                                <span className="text-[10px] font-bold text-green uppercase tracking-wider">
-                                  Enfoque: Data, ML & AI
-                                </span>
-                              </div>
-                              <p className="text-xs font-medium text-foreground">{esc.data.enfoque}</p>
-                              <ul className="space-y-1.5">
-                                {esc.data.ideas.map((idea, i) => (
-                                  <li key={i} className="text-[11px] text-text-secondary flex items-start gap-1.5">
-                                    <span className="w-1 h-1 rounded-full bg-green shrink-0 mt-1.5" />
-                                    {idea}
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
+                            <p className="text-xs font-medium text-foreground">{esc.data.enfoque}</p>
+                            <ul className="space-y-1.5">
+                              {esc.data.ideas.map((idea, i) => (
+                                <li key={i} className="text-[11px] text-text-secondary flex items-start gap-1.5">
+                                  <span className="w-1 h-1 rounded-full bg-green shrink-0 mt-1.5" />
+                                  {idea}
+                                </li>
+                              ))}
+                            </ul>
                           </div>
                         </div>
                       ))}

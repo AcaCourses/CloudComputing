@@ -3059,6 +3059,55 @@ export const labsContent: LabContent[] = [
     labUrl: "https://www.skills.google/paths/36/course_templates/637/labs/592541",
     title: "Cloud Storage: Qwik Start - Google Cloud Console",
     description: "Realización de tareas básicas en Cloud Storage usando la Consola de Google Cloud.",
+    overview: {
+      serviceIcon: "/assets/Cloud Storage.svg",
+      serviceName: "Cloud Storage",
+      duration: "10 min",
+      level: "Introductory",
+      credits: 1,
+      objectives: [
+        "Crear un bucket con configuración básica correcta",
+        "Subir objetos y organizarlos en carpetas/subcarpetas",
+        "Compartir objetos públicamente y validar URL",
+      ],
+      steps: [
+        {
+          step: 1,
+          action: "Crear bucket",
+          detail: "Definir nombre único global, región y controles de acceso en la consola.",
+          icon: "Database",
+        },
+        {
+          step: 2,
+          action: "Subir archivo",
+          detail: "Cargar kitten.png al bucket y verificar metadatos del objeto.",
+          icon: "Upload",
+        },
+        {
+          step: 3,
+          action: "Configurar acceso público",
+          detail: "Asignar Storage Object Viewer a allUsers y validar URL compartible.",
+          icon: "Globe",
+        },
+        {
+          step: 4,
+          action: "Crear carpetas",
+          detail: "Generar folder1/folder2 y cargar archivo dentro de la jerarquía.",
+          icon: "FolderOpen",
+        },
+        {
+          step: 5,
+          action: "Limpiar recursos",
+          detail: "Eliminar carpeta/objetos siguiendo el flujo de confirmación.",
+          icon: "Trash2",
+        },
+      ],
+      whatYouLearn: [
+        "Fundamentos de buckets y objetos en Cloud Storage",
+        "Gestión visual de archivos y estructura lógica en carpetas",
+        "Control de permisos públicos para compartir contenido",
+      ],
+    },
     introduction:
       "Cloud Storage permite almacenamiento y recuperación mundial de cualquier cantidad de datos en cualquier momento. Puedes usar Cloud Storage para diversos escenarios, como servir contenido de sitios web, almacenar datos para archivo y recuperación ante desastres, o distribuir grandes objetos de datos a usuarios mediante descarga directa.\n\nEn este laboratorio práctico aprenderás a usar la consola de Google Cloud para crear buckets, subir objetos, crear carpetas y gestionar permisos de acceso público.",
     concepts: [
@@ -3187,6 +3236,55 @@ export const labsContent: LabContent[] = [
     labUrl: "https://www.skills.google/paths/36/course_templates/637/labs/592544",
     title: "Cloud Monitoring: Qwik Start",
     description: "Monitoreo de una instancia de Compute Engine con Cloud Monitoring e instalación de agentes de observabilidad.",
+    overview: {
+      serviceIcon: "/assets/Cloud Monitoring.svg",
+      serviceName: "Cloud Monitoring",
+      duration: "20 min",
+      level: "Introductory",
+      credits: 1,
+      objectives: [
+        "Monitorear una VM con métricas, uptime checks y alertas",
+        "Instalar y validar el Ops Agent para logs y métricas",
+        "Crear dashboard personalizado y correlacionar eventos en logs",
+      ],
+      steps: [
+        {
+          step: 1,
+          action: "Preparar VM y servicio web",
+          detail: "Crear lamp-1-vm, instalar Apache y validar acceso por IP externa.",
+          icon: "service:Compute Engine",
+        },
+        {
+          step: 2,
+          action: "Instalar agente",
+          detail: "Implementar Google Cloud Ops Agent y verificar estado del servicio.",
+          icon: "Activity",
+        },
+        {
+          step: 3,
+          action: "Configurar uptime check",
+          detail: "Crear verificación HTTP sobre la URL/IP de la VM con frecuencia de 1 minuto.",
+          icon: "HeartPulse",
+        },
+        {
+          step: 4,
+          action: "Crear alerta",
+          detail: "Definir política de alerting por tráfico de red y canal de notificación.",
+          icon: "Bell",
+        },
+        {
+          step: 5,
+          action: "Dashboard y logs",
+          detail: "Agregar widgets y observar eventos stop/start en Logs Explorer.",
+          icon: "LineChart",
+        },
+      ],
+      whatYouLearn: [
+        "Pipeline completo de observabilidad en Google Cloud",
+        "Diseño básico de alertas útiles con umbrales y retest window",
+        "Relación entre métricas operativas y eventos en logs",
+      ],
+    },
     introduction:
       "Cloud Monitoring proporciona visibilidad sobre rendimiento, disponibilidad y salud general de aplicaciones cloud. Integra métricas, eventos y metadatos de Google Cloud y otros entornos, y los transforma en tableros, gráficos y alertas accionables.\n\nEn este laboratorio configurarás observabilidad end-to-end sobre una VM: creación de instancia, servidor web, agentes de Ops, uptime checks, política de alertas, dashboard personalizado y validación en Logs Explorer.",
     concepts: [
@@ -3316,6 +3414,49 @@ export const labsContent: LabContent[] = [
     labUrl: "https://www.skills.google/paths/36/course_templates/637/labs/592545",
     title: "Cloud Run Functions: Qwik Start - Console",
     description: "Creación, despliegue y prueba de una Cloud Run function usando la Consola de Google Cloud.",
+    overview: {
+      serviceIcon: "/assets/Cloud Run.svg",
+      serviceName: "Cloud Run Functions",
+      duration: "15 min",
+      level: "Introductory",
+      credits: 1,
+      objectives: [
+        "Crear una Cloud Run function desde la consola",
+        "Desplegarla en segunda generación con configuración correcta",
+        "Probar invocación y revisar logs de observabilidad",
+      ],
+      steps: [
+        {
+          step: 1,
+          action: "Crear función",
+          detail: "Definir nombre, región, acceso público, gen2 y límite de instancias.",
+          icon: "service:Cloud Run",
+        },
+        {
+          step: 2,
+          action: "Desplegar código",
+          detail: "Usar helloHttp por defecto y ejecutar SAVE and REDEPLOY.",
+          icon: "Rocket",
+        },
+        {
+          step: 3,
+          action: "Probar función",
+          detail: "Enviar payload JSON con mensaje Hello World desde TEST/CLI.",
+          icon: "FlaskConical",
+        },
+        {
+          step: 4,
+          action: "Inspeccionar logs",
+          detail: "Validar ejecución y trazas en Observability > Logs.",
+          icon: "ScrollText",
+        },
+      ],
+      whatYouLearn: [
+        "Flujo completo create-deploy-test en Cloud Run Functions",
+        "Conceptos clave de ejecución event-driven serverless",
+        "Buenas prácticas de validación rápida con logs",
+      ],
+    },
     introduction:
       "Una Cloud Run function es código que se ejecuta en respuesta a eventos, como solicitudes HTTP, mensajes de mensajería o cargas de archivos. Al ser event-driven, se ejecuta solo cuando ocurre un evento, lo que la hace ideal para tareas rápidas y desacopladas.\n\nEn este laboratorio crearás una función desde la consola, la desplegarás con el editor inline, la probarás con payload HTTP y revisarás sus logs en Observability.",
     concepts: [
@@ -3444,6 +3585,49 @@ export const labsContent: LabContent[] = [
     labUrl: "https://www.skills.google/paths/36/course_templates/637/labs/592547",
     title: "Pub/Sub: Qwik Start - Console",
     description: "Publicación y consumo de mensajes con suscripción pull usando la Consola de Google Cloud.",
+    overview: {
+      serviceIcon: "/assets/PubSub.svg",
+      serviceName: "Pub/Sub",
+      duration: "10 min",
+      level: "Introductory",
+      credits: 0,
+      objectives: [
+        "Crear un topic para intercambio de eventos",
+        "Crear una suscripción pull asociada",
+        "Publicar y consumir mensajes desde consola y Cloud Shell",
+      ],
+      steps: [
+        {
+          step: 1,
+          action: "Crear topic",
+          detail: "Crear MyTopic desde la interfaz de Pub/Sub.",
+          icon: "MessageSquare",
+        },
+        {
+          step: 2,
+          action: "Crear subscription",
+          detail: "Agregar MySub con tipo de entrega Pull.",
+          icon: "ArrowDownToLine",
+        },
+        {
+          step: 3,
+          action: "Publicar mensaje",
+          detail: "Enviar Hello World desde la pestaña Messages del topic.",
+          icon: "Send",
+        },
+        {
+          step: 4,
+          action: "Consumir mensaje",
+          detail: "Ejecutar pull con auto-ack en Cloud Shell y validar DATA.",
+          icon: "Terminal",
+        },
+      ],
+      whatYouLearn: [
+        "Arquitectura básica publisher-topic-subscription",
+        "Consumo pull y confirmación de mensajes",
+        "Flujo híbrido consola + CLI para validación operativa",
+      ],
+    },
     introduction:
       "Pub/Sub es un servicio de mensajería asíncrona para intercambiar eventos entre aplicaciones y servicios. Un productor publica mensajes en un topic y uno o varios consumidores los leen desde subscriptions.\n\nEn este laboratorio crearás un topic y una suscripción pull, publicarás un mensaje desde la consola y lo consumirás con Cloud Shell para validar el flujo completo de mensajería.",
     concepts: [
@@ -3571,6 +3755,49 @@ export const labsContent: LabContent[] = [
     labUrl: "https://www.skills.google/paths/36/course_templates/637/labs/592548",
     title: "Pub/Sub: Qwik Start - Command Line",
     description: "Gestión de topics y subscriptions, publicación y consumo de mensajes en Pub/Sub usando Cloud Shell.",
+    overview: {
+      serviceIcon: "/assets/PubSub.svg",
+      serviceName: "Pub/Sub",
+      duration: "10 min",
+      level: "Introductory",
+      credits: 0,
+      objectives: [
+        "Administrar topics y subscriptions con gcloud",
+        "Publicar mensajes y consumirlos con pull subscriber",
+        "Usar flags como auto-ack y limit para controlar lectura",
+      ],
+      steps: [
+        {
+          step: 1,
+          action: "CRUD de topics",
+          detail: "Crear, listar y eliminar topics temporales de práctica.",
+          icon: "Layers",
+        },
+        {
+          step: 2,
+          action: "CRUD de subscriptions",
+          detail: "Crear mySubscription, listar suscripciones y limpiar pruebas.",
+          icon: "ListChecks",
+        },
+        {
+          step: 3,
+          action: "Publicar mensajes",
+          detail: "Enviar múltiples mensajes a myTopic con gcloud pubsub topics publish.",
+          icon: "Send",
+        },
+        {
+          step: 4,
+          action: "Pull y batch",
+          detail: "Consumir mensajes con auto-ack y luego con limit=3.",
+          icon: "Terminal",
+        },
+      ],
+      whatYouLearn: [
+        "Operación de Pub/Sub completamente por CLI",
+        "Diferencia entre lectura unitaria y lectura por lotes",
+        "Prácticas de limpieza y verificación de estado real",
+      ],
+    },
     introduction:
       "Pub/Sub es un servicio global de mensajería asíncrona que desacopla productores y consumidores para lograr comunicación confiable y escalable. En este laboratorio trabajarás todo por línea de comandos con gcloud para dominar el flujo completo.\n\nAprenderás a crear, listar y eliminar topics y subscriptions, publicar mensajes, consumirlos con pull subscriber y usar flags para controlar cuántos mensajes recuperar por solicitud.",
     concepts: [
@@ -3693,136 +3920,160 @@ export const labsContent: LabContent[] = [
       },
     ],
   },
-  {
-    slug: "set-up-an-app-dev-environment-challenge-lab",
-    labNumber: 22,
-    labUrl: "https://www.skills.google/paths/36/course_templates/637/labs/592550",
-    title: "Set Up an App Dev Environment on Google Cloud: Challenge Lab",
-    description: "Reto integrador para configurar bucket, Pub/Sub, Cloud Run Function (gen2) y permisos IAM en un proyecto real.",
-    introduction:
-      "Este es un Challenge Lab: no hay instrucciones paso a paso. El objetivo es demostrar que puedes resolver un escenario real usando lo aprendido en los labs previos de Storage, Pub/Sub, Cloud Run Functions e IAM.\n\nPara obtener 100%, debes crear correctamente los recursos solicitados, en la región y zona indicadas por el laboratorio, con nombres exactos y configuración funcional. Usa el validador automático como retroalimentación para iterar rápido.",
-    concepts: [
-      {
-        term: "Challenge Lab",
-        definition: "Laboratorio de evaluación práctica donde aplicas habilidades previas sin guía detallada.",
-      },
-      {
-        term: "Cloud Run Function 2nd gen",
-        definition: "Función event-driven ejecutada sobre Cloud Run con trigger administrado por Eventarc.",
-      },
-      {
-        term: "Cloud Storage trigger",
-        definition: "Evento de creación de objeto en bucket que dispara la ejecución de la función.",
-      },
-      {
-        term: "Least privilege IAM",
-        definition: "Remover accesos innecesarios para mantener seguridad y gobernanza del proyecto.",
-      },
-      {
-        term: "Automated scoring",
-        definition: "Sistema de validación que verifica recursos por nombre, tipo y configuración esperada.",
-      },
+{
+  "slug": "set-up-an-app-dev-environment-challenge-lab",
+  "labNumber": 22,
+  "labUrl": "https://www.skills.google/paths/36/course_templates/637/labs/592550",
+  "title": "Set Up an App Dev Environment on Google Cloud: Challenge Lab",
+  "description": "Guía de implementación técnica para automatizar el procesamiento de imágenes usando Cloud Storage, Pub/Sub, Cloud Run Functions (gen2) e IAM bajo restricciones estrictas.",
+  "overview": {
+    "serviceIcon": "/assets/Cloud Run.svg",
+    "serviceName": "Skill Badge Challenge",
+    "duration": "25 min",
+    "level": "Introductory",
+    "credits": 1,
+    "objectives": [
+      "Configurar bucket, topic y función gen2 con nombres exactos",
+      "Automatizar creación de miniaturas con trigger de Cloud Storage",
+      "Aplicar limpieza de acceso IAM removiendo el usuario heredado",
+      "Cerrar el reto con validación automática al 100%"
     ],
-    interactionPattern: [
-      "Leer variables dinámicas del panel del lab (Bucket Name, Topic Name, Function Name, REGION, ZONE)",
-      "Crear recursos con nombres exactos y configuración de bajo costo",
-      "Desplegar función con trigger Cloud Storage y código correcto",
-      "Validar ejecución subiendo imagen y comprobando miniatura",
-      "Eliminar acceso del usuario Viewer heredado",
-      "Reintentar validaciones hasta 100%",
+    "steps": [
+      {
+        "step": 1,
+        "action": "Provisionar recursos base",
+        "detail": "Crear Bucket Name y Topic Name en la región indicada por el panel.",
+        "icon": "Database"
+      },
+      {
+        "step": 2,
+        "action": "Desplegar función",
+        "detail": "Publicar Cloud Run Function Name en gen2 con Node.js 22 y trigger Cloud Storage.",
+        "icon": "service:Cloud Run"
+      },
+      {
+        "step": 3,
+        "action": "Validar flujo de imágenes",
+        "detail": "Subir JPG/PNG y comprobar creación de archivo _64x64_thumbnail.",
+        "icon": "Image"
+      },
+      {
+        "step": 4,
+        "action": "Ajustar IAM",
+        "detail": "Remover la cuenta Viewer del cloud engineer previo.",
+        "icon": "ShieldCheck"
+      },
+      {
+        "step": 5,
+        "action": "Asegurar puntaje",
+        "detail": "Iterar con Check my progress hasta completar todos los objetivos.",
+        "icon": "CheckCircle2"
+      }
     ],
-    participationRules: [
-      "Sustituye placeholders solo con valores del panel del lab; no inventes nombres",
-      "Mantén todos los recursos en REGION y ZONE indicados por el laboratorio",
-      "Usa Cloud Run Functions 2nd gen y Node.js 22 como requisito obligatorio",
-      "Si ves errores de permisos/Eventarc, espera unos minutos y vuelve a intentar",
-      "Después de cada tarea, usa Check my progress para localizar fallos rápido",
-    ],
-    tasks: [
-      {
-        title: "Task 1: Create the storage bucket",
-        conceptNote:
-          "El bucket será origen y destino de la función de thumbnails; su nombre exacto y ubicación son parte de la evaluación.",
-        guidingQuestion:
-          "¿El bucket está en la región correcta y con el nombre exacto pedido por el lab?",
-        observation:
-          "Crea el bucket con Bucket Name (exacto) y valida su ubicación según REGION/ZONE del panel del challenge.",
-        reflection:
-          "Si el validador falla, revisa primero nombre y ubicación antes de cambiar otras opciones.",
-        participationQuestions: [
-          "Hint comando: gcloud storage buckets create gs://BUCKET_NAME --location=REGION",
-          "Hint: verifica con gcloud storage buckets list | grep BUCKET_NAME",
-          "Hint: evitar configuraciones adicionales no solicitadas reduce errores de rúbrica.",
-        ],
-      },
-      {
-        title: "Task 2: Create the Pub/Sub topic",
-        conceptNote:
-          "El topic se usa para publicar el nombre del thumbnail generado por la función.",
-        guidingQuestion:
-          "¿El topic tiene el nombre exacto del challenge y existe en el proyecto activo?",
-        observation:
-          "Crea Topic Name y confirma presencia antes de desplegar la función.",
-        reflection:
-          "Si topicName en código no coincide exactamente con Topic Name, la publicación fallará.",
-        participationQuestions: [
-          "Hint comando: gcloud pubsub topics create TOPIC_NAME",
-          "Hint verificación: gcloud pubsub topics list | grep TOPIC_NAME",
-          "Hint: no uses nombres de ejemplo de labs anteriores (myTopic, Test1, etc.).",
-        ],
-      },
-      {
-        title: "Task 3: Deploy thumbnail Cloud Run Function (gen2)",
-        conceptNote:
-          "La función debe dispararse al crear objetos en el bucket y generar miniaturas 64x64 para imágenes JPG/PNG.",
-        guidingQuestion:
-          "¿La función usa Node.js 22, trigger de Cloud Storage, entry point correcto y runtime 2nd gen?",
-        observation:
-          "Crea Cloud Run Function Name (2nd gen, Node.js 22), trigger Cloud Storage sobre Bucket Name, entry point igual al nombre de función solicitado por el panel. En index.js y package.json pega el código del enunciado y reemplaza topicName con Topic Name y el nombre de la función en functions.cloudEvent('FUNCTION_NAME', ...).",
-        reflection:
-          "Si subes una imagen y no aparece thumbnail, revisa trigger, nombre de entry point, logs y permisos de Eventarc/Service Agents.",
-        participationQuestions: [
-          "Hint crítico: en index.js NO dejes vacío functions.cloudEvent('') ni const topicName = ''.",
-          "Hint comando prueba: gcloud storage cp map.jpg gs://BUCKET_NAME/ (usa una imagen jpg/png)",
-          "Hint validación: gcloud storage ls gs://BUCKET_NAME y confirma archivo *_64x64_thumbnail.*",
-          "Hint permisos: si aparece error de propagación de permisos, espera 2-5 min y redeploy.",
-          "Hint logs: en Cloud Run Function > Logs busca errores de sharp, permisos Pub/Sub o trigger inexistente.",
-        ],
-      },
-      {
-        title: "Task 4: Remove previous cloud engineer access",
-        conceptNote:
-          "Esta tarea valida gobernanza IAM: eliminar accesos heredados innecesarios en el proyecto.",
-        guidingQuestion:
-          "¿Quitaste el usuario Viewer (Username 2) y mantuviste solo tu cuenta Owner (Username 1)?",
-        observation:
-          "En IAM, identifica la cuenta del ingeniero previo con rol Viewer y elimínala del proyecto.",
-        reflection:
-          "Si borras el usuario incorrecto puedes perder acceso; confirma correo y rol antes de remover.",
-        participationQuestions: [
-          "Hint UI rápida: IAM & Admin > IAM > localizar Username 2 > Remove principal.",
-          "Hint CLI alternativa: gcloud projects get-iam-policy PROJECT_ID para auditar miembros antes/después.",
-          "Hint final: corre Check my progress inmediatamente tras remover para validar tarea 4.",
-        ],
-      },
-      {
-        title: "Task 5: Challenge verification strategy",
-        conceptNote:
-          "En challenge labs, iterar por evidencia y validador es más eficaz que rehacer todo desde cero.",
-        guidingQuestion:
-          "¿Qué validación falla exactamente y qué recurso/propiedad concreta corrige ese fallo?",
-        observation:
-          "Usa ciclo corto: revisar tarea fallida -> inspeccionar nombre/región/trigger/entry point -> corregir -> volver a validar.",
-        reflection:
-          "Llegar al 100% depende de precisión en nombres y configuración, no de complejidad adicional.",
-        participationQuestions: [
-          "Hint checklist mínimo: bucket OK, topic OK, function gen2+trigger+entry point OK, IAM cleanup OK.",
-          "Hint: evita cambiar recursos que ya validaron en verde.",
-          "Hint: documenta errores exactos del log/validador para depurar más rápido.",
-        ],
-      },
-    ],
+    "whatYouLearn": [
+      "Resolución de escenarios reales sin guía paso a paso",
+      "Depuración orientada a logs y errores de permisos/Eventarc",
+      "Precisión en naming/region como criterio crítico de validación",
+      "Aplicación práctica de IAM en contextos de handoff operativo"
+    ]
   },
+  "introduction": "Este Challenge Lab evalúa tu capacidad para resolver un escenario del mundo real sin instrucciones paso a paso. Para obtener el 100%, debes desplegar los recursos con los nombres exactos, regiones asignadas y configuraciones funcionales solicitadas en tu panel de Google Cloud Skills. Usa esta guía de comandos como referencia técnica y checklist de automatización.",
+  "concepts": [
+    {
+      "term": "Región y Zona (Variables del Lab)",
+      "definition": "Ubicación geográfica obligatoria asignada dinámicamente; desplegar en otra región romperá las validaciones del lab."
+    },
+    {
+      "term": "Cloud Run Functions (2nd gen)",
+      "definition": "Infraestructura serverless moderna basada en contenedores de Cloud Run que gestiona eventos asíncronos mediante Eventarc."
+    },
+    {
+      "term": "Eventarc Advanced Trigger",
+      "definition": "Mecanismo de transporte que vincula la mutación de objetos en Cloud Storage directamente con la invocación HTTP de tu función."
+    },
+    {
+      "term": "Entry Point (Punto de Entrada)",
+      "definition": "El identificador de cadena exacto que expone la función en la firma de Node.js y que el runtime requiere mapear."
+    },
+    {
+      "term": "Principio de Menor Privilegio (IAM)",
+      "definition": "Gobernanza de seguridad enfocada en auditar identidades y remover accesos heredados obsoletos o inseguros del proyecto."
+    }
+  ],
+  "interactionPattern": [
+    "Declarar variables de entorno en Cloud Shell para evitar errores manuales de tipografía.",
+    "Inicializar el bucket de almacenamiento persistente y el bus de mensajería asíncrona.",
+    "Modificar los archivos de código fuente inyectando los nombres exactos del panel del lab.",
+    "Desplegar la función serverless de segunda generación especificando los flags de runtime y trigger.",
+    "Eliminar la identidad asignada al ingeniero previo desde la consola de IAM & Admin.",
+    "Procesar una imagen de prueba JPG o PNG para gatillar la generación automática del thumbnail."
+  ],
+  "participationRules": [
+    "Usa nombres exactos del panel; añadir prefijos o cambiar mayúsculas anulará el puntaje de la tarea.",
+    "Espera de 2 a 3 minutos si Eventarc arroja un error de propagación de permisos durante el despliegue inicial.",
+    "Verifica que el archivo index.js tenga correctamente asignados los placeholders de los métodos de inicialización.",
+    "No alteres los bloques de dependencias ni las versiones requeridas en el archivo package.json original.",
+    "Monitorea los registros de ejecución en la pestaña de Logs si el archivo con sufijo _64x64_thumbnail no se autogenera."
+  ],
+  "tasks": [
+    {
+      "title": "Task 1: Create a bucket",
+      "conceptNote": "El bucket será origen y destino de la función de thumbnails; su nombre exacto y ubicación son parte de la evaluación.",
+      "guidingQuestion": "¿El bucket está en la región correcta y con el nombre exacto pedido por el lab?",
+      "observation": "Crea el bucket con Bucket Name (exacto) y valida su ubicación según REGION/ZONE del panel del challenge.",
+      "reflection": "Si el validador falla, revisa primero nombre y ubicación antes de cambiar otras opciones.",
+      "participationQuestions": [
+        "Comando de creación: gcloud storage buckets create gs://BUCKET_NAME --location=REGION inicializa el bucket en la ubicación física obligatoria.",
+        "Comando de inspección: gcloud storage buckets describe gs://BUCKET_NAME comprueba la ubicación y metadatos del recurso generado.",
+        "Tip de diseño: Mantener el bucket con acceso uniforme sin ACLs previene problemas de lectura para el agente de Eventarc.",
+        "Comando de persistencia: export BUCKET=tu_bucket_aqui simplifica la ejecución de los comandos posteriores en Cloud Shell.",
+        "Tip de validación: Haz click en Check my progress inmediatamente después de recibir la confirmación de creación del bucket."
+      ]
+    },
+    {
+      "title": "Task 2: Create a Pub/Sub topic",
+      "conceptNote": "El topic se usa para publicar el mensaje de notificación una vez que el thumbnail ha sido procesado de forma exitosa.",
+      "guidingQuestion": "¿El topic tiene el nombre exacto del challenge y existe en el proyecto activo?",
+      "observation": "Crea Topic Name y confirma presencia antes de desplegar la función.",
+      "reflection": "Si topicName en código no coincide exactamente con Topic Name, la publicación fallará.",
+      "participationQuestions": [
+        "Comando de creación: gcloud pubsub topics create TOPIC_NAME inicializa el bus de mensajería donde la función notificará los éxitos.",
+        "Comando de verificación: gcloud pubsub topics list comprueba la existencia explícita del recurso dentro de tu ID de proyecto activo.",
+        "Tip de despliegue: El reto evalúa únicamente la existencia del tópico central; no requieres instanciar subscripciones adicionales manualmente.",
+        "Tip de sintaxis: Asegúrate de guardar solo el ID plano del tópico en la variable del código, omitiendo rutas del tipo projects/...",
+        "Comando de ayuda: gcloud pubsub topics --help provee información sobre configuraciones extendidas de retención de mensajes si fuera necesario."
+      ]
+    },
+    {
+      "title": "Task 3: Create the thumbnail Cloud Run Function",
+      "conceptNote": "La función debe dispararse al crear objetos en el bucket y generar miniaturas 64x64 para imágenes JPG/PNG.",
+      "guidingQuestion": "¿La función usa Node.js 22, trigger de Cloud Storage, entry point correcto y runtime 2nd gen?",
+      "observation": "Crea Cloud Run Function Name (2nd gen, Node.js 22), trigger Cloud Storage sobre Bucket Name, entry point igual al nombre de función solicitado por el panel. En index.js y package.json pega el código del enunciado y reemplaza topicName con Topic Name y el nombre de la función en functions.cloudEvent('FUNCTION_NAME', ...).",
+      "reflection": "Si subes una imagen y no aparece thumbnail, revisa trigger, nombre de entry point, logs y permisos de Eventarc/Service Agents.",
+      "participationQuestions": [
+        "Comando de despliegue: gcloud functions deploy FUNCTION_NAME --gen2 --runtime=nodejs22 --region=REGION --trigger-bucket=gs://BUCKET_NAME --entry-point=FUNCTION_NAME automatiza la compilación del entorno.",
+        "Comando de logs: gcloud functions logs read FUNCTION_NAME --gen2 --region=REGION imprime errores del motor sharp o fallas en llamadas de red.",
+        "Tip de inyección: En index.js completa functions.cloudEvent('FUNCTION_NAME', ...) y const topicName = 'TOPIC_NAME' con los strings exactos del lab.",
+        "Tip de permisos: Si experimentas fallas de Eventarc Service Agent asigna manualmente el rol de Pub/Sub Publisher a la cuenta de Cloud Run.",
+        "Comando de prueba: gcloud storage cp map.jpg gs://BUCKET_NAME/ sube la imagen muestra para forzar la ejecución y validar el flujo."
+      ]
+    },
+    {
+      "title": "Task 4: Remove the previous cloud engineer",
+      "conceptNote": "Esta tarea valida gobernanza IAM: eliminar accesos heredados innecesarios en el proyecto.",
+      "guidingQuestion": "¿Quitaste el usuario Viewer (Username 2) y mantuviste solo tu cuenta Owner (Username 1)?",
+      "observation": "En IAM, identifica la cuenta del ingeniero previo con rol Viewer y elimínala del proyecto.",
+      "reflection": "Si borras el usuario incorrecto puedes perder acceso; confirma correo y rol antes de remover.",
+      "participationQuestions": [
+        "Comando de remoción: gcloud projects remove-iam-policy-binding PROJECT_ID --member=user:USERNAME_2 --role=roles/viewer limpia de forma inmediata el acceso.",
+        "Comando de auditoría: gcloud projects get-iam-policy PROJECT_ID vuelca la lista de identidades vigentes para asegurar que la baja fue exitosa.",
+        "Tip UI rápida: En la consola web navega a IAM & Admin > IAM, localiza la fila del usuario con rol Viewer y presiona Remove.",
+        "Tip de seguridad: Nunca modifiques los permisos de tu propia cuenta (Username 1) para evitar bloqueos del entorno de evaluación.",
+        "Tip de validación: Ejecuta el Check my progress final para consolidar tu puntuación de 100% una vez completado este paso."
+      ]
+    }
+  ]
+}
   
 ];
 
