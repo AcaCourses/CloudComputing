@@ -17,6 +17,7 @@ import { getTopicContent, ContentSection } from "@/data/content";
 import { getRelatedLabs } from "@/data/topicLabMap";
 import Navbar from "@/app/components/Navbar";
 import { RelatedLabBanner } from "@/app/components/RelatedLabBanner";
+import { QuizBanner } from "@/app/components/QuizBanner";
 import {
   TriggerQuestion,
   TabsSection,
@@ -55,8 +56,10 @@ import { RelationalMap } from "@/app/components/RelationalMap";
 import { ManagedSqlExplorer } from "@/app/components/ManagedSqlExplorer";
 import { GlobalDbExplainer } from "@/app/components/GlobalDbExplainer";
 import { NoSqlExplorer } from "@/app/components/NoSqlExplorer";
+import { LoadBalancerSimulator } from "@/app/components/LoadBalancerSimulator";
 import { StarService } from "@/app/components/StarService";
 import { UseCaseCards } from "@/app/components/UseCaseCards";
+import { ApiVisualizer } from "@/app/components/ApiVisualizer";
 
 type Params = {
   unit: string;
@@ -289,6 +292,12 @@ function SectionRenderer({ section }: { section: ContentSection }) {
     case "noSqlExplorer":
       return <NoSqlExplorer />;
 
+    case "loadBalancerSimulator":
+      return <LoadBalancerSimulator />;
+
+    case "apiVisualizer":
+      return <ApiVisualizer />;
+
     case "starService":
       return <StarService serviceName={section.serviceName} icon={section.icon} description={section.description} features={section.features} commands={section.commands} />;
 
@@ -408,6 +417,11 @@ export default async function TopicPage({ params }: { params: Promise<Params> })
 
           {/* Related lab banner */}
           <RelatedLabBanner labs={relatedLabs} />
+
+          {/* Quiz banner */}
+          {topicContent?.quizLinks && topicContent.quizLinks.length > 0 && (
+            <QuizBanner quizLinks={topicContent.quizLinks} />
+          )}
 
           {/* Content sections */}
           {topicContent ? (

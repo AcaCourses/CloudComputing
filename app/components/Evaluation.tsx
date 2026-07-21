@@ -30,8 +30,8 @@ const evaluationItems = [
   {
     icon: FlaskConical,
     label: "Google Career Launch Pad",
-    value: "50%",
-    numValue: 50,
+    value: "40%",
+    numValue: 40,
     description: "Completar todas las actividades del programa.",
     color: "text-blue",
     barColor: "bg-blue",
@@ -40,8 +40,8 @@ const evaluationItems = [
   {
     icon: FileCheck,
     label: "Exámenes",
-    value: "20%",
-    numValue: 20,
+    value: "30%",
+    numValue: 30,
     description: "2 exámenes parciales.",
     color: "text-red",
     barColor: "bg-red",
@@ -542,7 +542,7 @@ export default function Evaluation() {
                 Google Career Launch Pad - Reglas
               </h3>
               <p className="text-xs text-text-secondary mt-0.5">
-                Criterios para el 50% de Launch Pad y puntos extra
+                Criterios para el 40% de Launch Pad y puntos extra
               </p>
             </div>
           </div>
@@ -550,10 +550,10 @@ export default function Evaluation() {
           <div className="space-y-6">
             <div className="rounded-xl border border-blue/20 bg-blue-light/20 p-4 md:p-5">
               <h4 className="text-sm font-semibold text-blue-dark mb-3">
-                1) Requisito principal - 30% de la calificacion
+                1) Requisito principal - 20% de la calificacion
               </h4>
               <p className="text-sm text-foreground mb-4">
-                Terminar y obtener credencial en ambos modulos Foundations. 15% por cada modulo.
+                Terminar y obtener credencial en ambos modulos Foundations. 10% por cada modulo.
               </p>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">

@@ -295,6 +295,44 @@ export default async function LabPage({ params, searchParams }: PageProps) {
               ))}
             </div>
           </section>
+
+          {/* Challenge Lab answers links */}
+          {slug === "implement-load-balancing-on-compute-engine-challenge-lab" && (
+            <section className="mt-12 p-6 rounded-2xl border-2 border-azure/30 bg-azure/5">
+              <h3 className="text-lg font-bold text-foreground mb-2">
+                📋 Guía de respuestas (comando por comando)
+              </h3>
+              <p className="text-sm text-text-secondary mb-4">
+                Una vez que hayas intentado resolver el challenge por tu cuenta, consulta
+                la guía explicativa donde cada comando se desglosa línea por línea.
+              </p>
+              <Link
+                href="/labs/challenge-lab-answers"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-azure text-white rounded-lg text-sm font-medium hover:bg-azure/90 transition-colors"
+              >
+                <BookOpen className="w-4 h-4" />
+                Ver guía de respuestas paso a paso
+              </Link>
+            </section>
+          )}
+          {slug === "set-up-an-app-dev-environment-challenge-lab" && (
+            <section className="mt-12 p-6 rounded-2xl border-2 border-azure/30 bg-azure/5">
+              <h3 className="text-lg font-bold text-foreground mb-2">
+                📋 Guía de respuestas (comando por comando)
+              </h3>
+              <p className="text-sm text-text-secondary mb-4">
+                Una vez que hayas intentado resolver el challenge por tu cuenta, consulta
+                la guía explicativa donde cada comando y línea de código se desglosa paso a paso.
+              </p>
+              <Link
+                href="/labs/set-up-dev-challenge-answers"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-azure text-white rounded-lg text-sm font-medium hover:bg-azure/90 transition-colors"
+              >
+                <BookOpen className="w-4 h-4" />
+                Ver guía de respuestas paso a paso
+              </Link>
+            </section>
+          )}
         </div>
       </main>
     </>

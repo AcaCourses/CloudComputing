@@ -41,8 +41,15 @@ export type ContentSection =
   | { type: "managedSqlExplorer" }
   | { type: "globalDbExplainer" }
   | { type: "noSqlExplorer" }
+  | { type: "loadBalancerSimulator" }
+  | { type: "apiVisualizer" }
   | { type: "starService"; serviceName: string; icon: string; description: string; features: string[]; commands: { command: string; description: string }[] }
   | { type: "useCaseCards"; serviceName: string; cases: { title: string; icons: string[]; explanation: string; subjects: string[]; tag: string }[] };
+
+export type QuizLink = {
+  label: string;
+  url: string;
+};
 
 export type TopicContent = {
   slug: string;
@@ -51,6 +58,7 @@ export type TopicContent = {
   objectives: string[];
   courseLink?: string;
   courseTitle?: string;
+  quizLinks?: QuizLink[];
   sections: ContentSection[];
 };
 
@@ -127,6 +135,23 @@ export const unit1Content: TopicContent[] = [
             question: "¿Qué riesgo corre? ¿Cómo le ayudaría la nube?",
             hint: "Considera qué pasa si el disco se daña o pierde.",
           },
+        ],
+      },
+      {
+        type: "text",
+        title: "Evolución del cloud: las cuatro olas",
+        content:
+          "La computación ha pasado por cuatro etapas evolutivas. (1) On-premises: la organización posee y administra todo el hardware en su propio edificio. (2) Colocation: la organización renta espacio físico en un data center externo, pero sigue comprando y administrando sus propios servidores. (3) Virtualized data center: los recursos físicos se abstraen mediante virtualización — múltiples máquinas virtuales comparten un mismo servidor, pero la administración sigue siendo manual. (4) Container-based architecture: la cuarta ola — una nube completamente automatizada y elástica donde los servicios se empaquetan en contenedores, se orquestan automáticamente y los datos escalan sin intervención manual. Esta última ola es la base de los servicios modernos de Google Cloud.",
+      },
+      {
+        type: "table",
+        title: "Las cuatro olas del cloud computing",
+        headers: ["Ola", "Modelo", "Quién administra", "Elasticidad"],
+        rows: [
+          ["1ª", "On-premises", "Tú: hardware, red, software, todo", "Nula — capacidad fija"],
+          ["2ª", "Colocation", "Tú: servidores propios en data center rentado", "Muy baja — compras más hardware"],
+          ["3ª", "Virtualized data center", "Parcial: VMs sobre hardware compartido", "Media — escalas VMs manualmente"],
+          ["4ª", "Container-based architecture", "El proveedor: servicios automatizados y datos escalables", "Total — elástica y automatizada"],
         ],
       },
       {

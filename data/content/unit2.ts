@@ -7,6 +7,12 @@ export const unit2Content: TopicContent[] = [
         courseLink: "https://www.skills.google/paths/36/course_templates/153",
     courseTitle: "Google Cloud Computing Foundations: Cloud Computing Fundamentals",
     readingTime: "10 min",
+    quizLinks: [
+      {
+        label: "Quiz: Cloud Computing Fundamentals",
+        url: "https://www.skills.google/paths/36/course_templates/153/quizzes/625199",
+      },
+    ],
     objectives: [
       "Identificar las capas principales de la arquitectura cloud: cómputo, almacenamiento, red, identidad y bases de datos",
       "Comprender cómo se organizan los servicios dentro de un proveedor cloud",
@@ -94,6 +100,22 @@ export const unit2Content: TopicContent[] = [
         ],
       },
       {
+        type: "text",
+        title: "¿Dónde se despliegan los recursos de Google Cloud?",
+        content:
+          "Todos los recursos de Google Cloud se despliegan en zonas. Una zona es un área de despliegue independiente dentro de una región (por ejemplo, us-central1-a). Una región es una colección de zonas en una ubicación geográfica cercana (por ejemplo, us-central1 tiene las zonas a, b, c, f). Las multi-regiones agrupan varias regiones para máxima disponibilidad y redundancia. La jerarquía es: Multi-región → Región → Zona. Elegir la zona correcta impacta la latencia, disponibilidad y precio de tus servicios.",
+      },
+      {
+        type: "table",
+        title: "Jerarquía geográfica de Google Cloud",
+        headers: ["Nivel", "Qué es", "Ejemplo", "Cuándo importa"],
+        rows: [
+          ["Zona", "Un data center independiente dentro de una región", "us-central1-a", "Aquí se crean VMs, discos y recursos individuales"],
+          ["Región", "Colección de zonas geográficamente cercanas", "us-central1 (Iowa)", "Baja latencia entre zonas; alta disponibilidad si usas varias zonas"],
+          ["Multi-región", "Varias regiones combinadas", "US, EU, ASIA", "Máxima redundancia para datos (ej. Cloud Storage multi-regional)"],
+        ],
+      },
+      {
         type: "quiz",
         question: "¿Cuál de las siguientes afirmaciones sobre la arquitectura cloud es CORRECTA?",
         options: [
@@ -169,6 +191,16 @@ export const unit2Content: TopicContent[] = [
             content:
               "En AWS existe una lógica equivalente: Organizations (raíz) → Organizational Units (OUs) → Accounts → Resources, con tags para clasificar. La diferencia principal es que en AWS cada account actúa como contenedor aislado (similar al project de GCP), y las OUs equivalen a las folders. El concepto transferible es el mismo: jerarquía + etiquetas = organización.",
           },
+        ],
+      },
+      {
+        type: "table",
+        title: "Identificadores de un proyecto en Google Cloud",
+        headers: ["Identificador", "Qué es", "¿Es único globalmente?", "¿Se puede cambiar?"],
+        rows: [
+          ["Project name", "Nombre legible que tú eliges (ej. 'Mi Proyecto Cloud')", "No — puede repetirse entre usuarios", "Sí, se puede renombrar"],
+          ["Project ID", "Identificador técnico (ej. 'mi-proyecto-cloud-123')", "Sí — es único en todo Google Cloud", "No, es permanente una vez creado"],
+          ["Project number", "Número asignado automáticamente (ej. 123456789012)", "Sí — es único globalmente", "No, lo asigna Google"],
         ],
       },
       {
@@ -337,7 +369,14 @@ export const unit2Content: TopicContent[] = [
           ["Presupuestos", "Define límites de gasto con notificaciones", "Budgets & Alerts", "AWS Budgets"],
           ["Etiquetas de costo", "Clasifica gastos por proyecto, equipo o entorno", "Labels", "Cost Allocation Tags"],
           ["Reportes", "Exporta datos de consumo para análisis externo", "Billing Export a BigQuery", "AWS Cost & Usage Report"],
+          ["Cuotas (Quotas)", "Límites duros que previenen el consumo excesivo de recursos por error o ataque", "Quotas (API & Services)", "Service Quotas"],
         ],
+      },
+      {
+        type: "text",
+        title: "Quotas: protección contra el consumo excesivo",
+        content:
+          "A diferencia de los presupuestos (que solo notifican), las cuotas (quotas) son límites duros que impiden que un servicio supere un umbral de uso. Google Cloud aplica quotas por defecto en cada API y servicio — por ejemplo, límites de peticiones por minuto o cantidad máxima de VMs por proyecto. Su propósito principal es proteger contra errores de programación o ataques maliciosos que podrían generar un consumo descontrolado. Puedes consultar y solicitar ajustes de quotas desde la consola en IAM & Admin → Quotas.",
       },
       {
         type: "list",
@@ -406,6 +445,12 @@ export const unit2Content: TopicContent[] = [
         courseLink: "https://www.skills.google/paths/36/course_templates/153",
     courseTitle: "Google Cloud Computing Foundations: Cloud Computing Fundamentals",
     readingTime: "9 min",
+    quizLinks: [
+      {
+        label: "Quiz: Google Cloud Console & SDK",
+        url: "https://www.skills.google/paths/36/course_sessions/39700450/quizzes/625213",
+      },
+    ],
     objectives: [
       "Entender qué es un SDK y cómo se diferencia de la CLI y la API directa",
       "Comprender la automatización como evolución natural del trabajo cloud",
@@ -473,6 +518,24 @@ export const unit2Content: TopicContent[] = [
           ["CLI", "Programa de terminal que traduce comandos a llamadas API", "Operación rápida, scripting básico, CI/CD", "gcloud storage ls, gcloud compute instances list", "aws s3 ls, aws ec2 describe-instances"],
           ["SDK", "Biblioteca de lenguaje que envuelve las APIs en métodos nativos", "Desarrollo de aplicaciones, lógica compleja, automatización", "storage.Client().list_buckets()", "boto3.client('s3').list_buckets()"],
           ["IaC", "Plantillas declarativas que definen infraestructura completa", "Ambientes reproducibles, producción, auditoría", "Deployment Manager / Terraform", "CloudFormation / Terraform"],
+        ],
+      },
+      {
+        type: "text",
+        title: "Herramientas incluidas en el Google Cloud SDK",
+        content:
+          "El Google Cloud SDK no es solo gcloud. Incluye varias herramientas de línea de comandos especializadas: gcloud (administración general de recursos y servicios), gsutil (operaciones con Cloud Storage: copiar, sincronizar, listar objetos), bq (consultas y administración de BigQuery desde la terminal) y kubectl (gestión de clústeres de Kubernetes, incluido con el componente GKE). Cloud Shell es un entorno de terminal en el navegador que viene con el SDK preinstalado — no necesitas instalar nada localmente para empezar a operar.",
+      },
+      {
+        type: "table",
+        title: "Herramientas del Google Cloud SDK",
+        headers: ["Herramienta", "Propósito", "Ejemplo de uso"],
+        rows: [
+          ["gcloud", "Administrar recursos y servicios de Google Cloud", "gcloud compute instances list"],
+          ["gsutil", "Operar con Cloud Storage (buckets y objetos)", "gsutil cp archivo.txt gs://mi-bucket/"],
+          ["bq", "Consultar y administrar BigQuery", "bq query 'SELECT * FROM dataset.tabla LIMIT 10'"],
+          ["kubectl", "Gestionar clústeres de Kubernetes (GKE)", "kubectl get pods"],
+          ["Cloud Shell", "Terminal en el navegador con SDK preinstalado", "Accesible desde la consola de Google Cloud"],
         ],
       },
       {

@@ -38,7 +38,7 @@ export const unit6Content: TopicContent[] = [
       {
         type: "text",
         content:
-          "Google Cloud ofrece bases relacionales administradas como Cloud SQL (MySQL, PostgreSQL, SQL Server) y también servicios de mayor escala como AlloyDB y Spanner para escenarios más exigentes. Lo importante es entender la idea de relación: una tabla no vive sola, sino que se conecta con otras mediante claves y reglas de integridad.",
+          "Google Cloud ofrece bases relacionales administradas como Cloud SQL (MySQL, PostgreSQL, SQL Server) y también servicios de mayor escala como AlloyDB y Spanner para escenarios más exigentes. Lo importante es entender la idea de relación: una tabla no vive sola, sino que se conecta con otras mediante claves y reglas de integridad. Los dos servicios relacionales administrados principales de Google Cloud son Cloud SQL (escalado vertical, regional) y Spanner (distribuido globalmente).",
       },
       {
         type: "relationalMap",
@@ -653,6 +653,12 @@ export const unit6Content: TopicContent[] = [
         courseLink: "https://www.skills.google/paths/36/course_templates/154",
     courseTitle: "Google Cloud Computing Foundations: Infrastructure in Google Cloud",
     readingTime: "11 min",
+    quizLinks: [
+      {
+        label: "Quiz: Storage in the Cloud",
+        url: "https://www.skills.google/paths/36/course_templates/154/quizzes/631654",
+      },
+    ],
     objectives: [
       "Entender qué significa NoSQL y por qué existe como alternativa al modelo relacional",
       "Distinguir NoSQL de una base de datos relacional según estructura, escalado y casos de uso",

@@ -77,6 +77,10 @@ export const unitsData: Unit[] = [
       {
         title: "Serverless y funciones",
         slug: "serverless-funciones"
+      },
+      {
+        title: "Load Balancers: distribución de tráfico",
+        slug: "load-balancers"
       }
     ]
   },

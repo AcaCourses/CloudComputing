@@ -651,6 +651,17 @@ export const unit5Content: TopicContent[] = [
         ],
       },
       {
+        type: "table",
+        title: "Clases de almacenamiento de Cloud Storage",
+        headers: ["Clase", "Frecuencia de acceso", "Cuándo usarla", "Costo de almacenamiento"],
+        rows: [
+          ["Standard", "Frecuente (diario)", "Datos activos, sitios web, apps, streaming", "Más alto"],
+          ["Nearline", "Baja (\u22641 vez/mes)", "Respaldos que se revisan mensualmente, logs recientes", "Menor que Standard"],
+          ["Coldline", "Muy baja (\u22641 vez/trimestre)", "Respaldos de recuperación ante desastres, archivos de proyecto", "Menor que Nearline"],
+          ["Archive", "Casi nula (\u22641 vez/año)", "Archivos históricos que tal vez nunca se vuelvan a acceder", "Mínimo (recuperación tiene costo)"],
+        ],
+      },
+      {
         type: "quiz",
         question: "¿Qué describe mejor el almacenamiento de objetos?",
         options: [

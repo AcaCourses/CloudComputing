@@ -554,7 +554,7 @@ export const unit3Content: TopicContent[] = [
             label: "Standard",
             badge: "Recomendado",
             content:
-              "Entorno sandbox con runtimes predefinidos. Escala a cero (no pagas sin tráfico). Inicio rápido (milisegundos). Restricciones: solo lenguajes soportados, sin escritura en disco local, sin procesos en background persistentes. Ideal para: apps web estándar, APIs REST, prototipos rápidos.",
+              "Entorno sandbox basado en instancias de contenedores preconfiguradas con runtimes predefinidos. Escala a cero (no pagas sin tráfico). Inicio rápido (milisegundos). Restricciones: solo lenguajes soportados, sin escritura en disco local, sin procesos en background persistentes. Ideal para: apps web estándar, APIs REST, prototipos rápidos.",
           },
           {
             id: "flexible",
@@ -1160,6 +1160,12 @@ export const unit3Content: TopicContent[] = [
     readingTime: "11 min",
     courseLink: "https://www.skills.google/paths/36/course_templates/153",
     courseTitle: "Google Cloud Computing Foundations: Cloud Computing Fundamentals",
+    quizLinks: [
+      {
+        label: "Quiz: Compute in the Cloud",
+        url: "https://www.skills.google/paths/36/course_templates/153/quizzes/625231",
+      },
+    ],
     objectives: [
       "Comprender qué significa el modelo serverless en cloud y qué parte de la operación abstrae",
       "Explicar qué es una función cloud y cómo responde a eventos o solicitudes",
@@ -1385,6 +1391,192 @@ export const unit3Content: TopicContent[] = [
             label: "Un sistema operativo dentro de un bucket",
             correct: false,
             explanation: "Un bucket es almacenamiento de objetos, no tiene relación con ejecutar sistemas operativos ni funciones.",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    slug: "load-balancers",
+    title: "Load Balancers: distribución de tráfico",
+    courseLink: "https://www.skills.google/paths/36/course_templates/153",
+    courseTitle: "Google Cloud Computing Foundations: Cloud Computing Fundamentals",
+    readingTime: "12 min",
+    objectives: [
+      "Comprender qué es un load balancer y por qué es fundamental en arquitecturas cloud",
+      "Diferenciar balanceo en capa 4 (red) y capa 7 (aplicación)",
+      "Identificar cuándo una aplicación necesita balanceo de carga",
+      "Relacionar conceptos de health checks, alta disponibilidad y escalabilidad horizontal",
+    ],
+    sections: [
+      {
+        type: "trigger",
+        question: "Si tu aplicación web recibe 10,000 usuarios al mismo tiempo y solo tienes un servidor, ¿qué crees que pasará? ¿Cómo lo resolverías?",
+      },
+      {
+        type: "concept",
+        title: "¿Qué es un Load Balancer?",
+        content:
+          "Un load balancer (balanceador de carga) es como un \"director de tránsito\" que se coloca delante de varios servidores y reparte las solicitudes que llegan de los usuarios entre ellos, para que ninguno se sobrecargue y la aplicación siga respondiendo rápido y de forma estable. Es un sistema (software, hardware o servicio en la nube) que recibe todas las peticiones de los clientes y decide a cuál servidor enviarlas, siguiendo algún algoritmo: round-robin, el menos cargado, por prioridad, etcétera.",
+      },
+      {
+        type: "text",
+        title: "Ejemplo sencillo",
+        content:
+          "Tienes tres servidores web con el mismo sitio, y un único load balancer al frente. Todos los usuarios apuntan a la IP del load balancer; él decide a qué servidor enviar cada visita. Los usuarios siempre ven \"una sola entrada\", pero detrás hay varias \"ventanas de atención\".",
+      },
+      {
+        type: "tabs",
+        title: "¿Por qué son útiles?",
+        tabs: [
+          {
+            id: "sobrecarga",
+            label: "Evitar sobrecargas",
+            badge: "Rendimiento",
+            content: "Si todo el tráfico llega a un único servidor, éste puede saturarse, volverse lento o caer. El load balancer reparte las solicitudes para que la carga se distribuya y ningún servidor se 'queme'. Ejemplo: en un evento con miles de usuarios simultáneos, el balanceador distribuye las visitas entre varios servidores para que la web siga funcionando.",
+          },
+          {
+            id: "disponibilidad",
+            label: "Alta disponibilidad",
+            badge: "Resiliencia",
+            content: "El balanceador verifica constantemente qué servidores están sanos mediante health checks. Si un servidor falla, deja de enviarle tráfico y dirige todas las solicitudes a los servidores que siguen funcionando. Los usuarios no notan la caída porque sus peticiones van a las otras VMs disponibles.",
+          },
+          {
+            id: "escalabilidad",
+            label: "Escalabilidad",
+            badge: "Crecimiento",
+            content: "Permite agregar nuevos servidores cuando aumenta la demanda y retirarlos cuando baja, sin cambiar la forma en que los usuarios acceden (siguen viendo la misma IP o URL). Tu API recibe el doble de tráfico por un lanzamiento: añades más instancias y el balanceador automáticamente empieza a enviarles solicitudes.",
+          },
+          {
+            id: "flexibilidad",
+            label: "Flexibilidad",
+            badge: "Algoritmos",
+            content: "Se puede configurar para usar distintos algoritmos de reparto: round-robin, el servidor menos ocupado, asignación por peso, afinidad de sesión (mantener al usuario en el mismo servidor), etcétera. En una app de e-commerce puedes mantener a un usuario en el mismo servidor durante su sesión de compra.",
+          },
+        ],
+      },
+      {
+        type: "table",
+        title: "Tipos de Load Balancers",
+        headers: ["Tipo", "Capa", "Qué ve", "Ejemplo de uso"],
+        rows: [
+          ["Network LB (L4)", "Capa 4 (transporte)", "Solo IP y puerto — no mira el contenido HTTP", "Balancear conexiones TCP de un juego en línea entre servidores"],
+          ["Application LB (L7)", "Capa 7 (aplicación)", "Entiende HTTP/HTTPS: URL, host, cabeceras, contenido", "Enviar /api a un backend y /imagenes a otro con un solo LB"],
+        ],
+      },
+      {
+        type: "text",
+        title: "L4 vs L7 en detalle",
+        content:
+          "El balanceador de capa 4 trabaja con IP y puertos: todo lo que llegue a IP:80 se reparte entre servidores que escuchan en el puerto 80. No mira el contenido del mensaje HTTP, por lo que es más simple y muy rápido. El de capa 7 entiende el protocolo HTTP/HTTPS y puede tomar decisiones según la URL, el host, las cabeceras o el contenido. Permite cosas como: enviar /api a un conjunto de servidores y /imagenes a otro, o dirigir tráfico según el dominio.",
+      },
+      {
+        type: "loadBalancerSimulator",
+      },
+      {
+        type: "scenario",
+        title: "¿Necesitas un Load Balancer?",
+        scenarios: [
+          {
+            situation: "Tu aplicación web tiene picos de tráfico en horarios punta y un solo servidor empieza a dar timeouts.",
+            question: "¿Qué tipo de balanceador implementarías y por qué?",
+            hint: "Piensa si necesitas inspeccionar las URLs o solo distribuir conexiones TCP.",
+          },
+          {
+            situation: "Tienes una API REST en /api y un frontend estático en /app, y quieres que cada uno corra en servidores diferentes.",
+            question: "¿Un balanceador L4 puede resolver esto? ¿O necesitas L7?",
+            hint: "L4 no mira las URLs — solo IP y puerto. L7 sí puede enrutar por path.",
+          },
+          {
+            situation: "Un servidor de tu pool se cae por un error de disco. Los usuarios reportan que la web está intermitente.",
+            question: "¿Cómo evitaría un load balancer que los usuarios noten la caída?",
+            hint: "Piensa en health checks: el balanceador detecta que el servidor no responde y deja de enviarle tráfico.",
+          },
+        ],
+      },
+      {
+        type: "table",
+        title: "Analogías para recordar",
+        headers: ["Analogía", "Cómo se relaciona"],
+        rows: [
+          ["Director de tránsito", "El balanceador está en la entrada de una autopista de muchos carriles; elige por qué carril va cada coche para evitar embotellamientos"],
+          ["Cajeros de banco", "Los clientes hacen fila frente a un punto único; el coordinador los envía al cajero libre. Si un cajero se descompone, simplemente deja de usarlo"],
+          ["Mesero de restaurante", "Un solo mesero recibe a todos los comensales y los asigna a las mesas disponibles. Si una mesa está sucia (servidor caído), no la usa"],
+        ],
+      },
+      {
+        type: "list",
+        title: "¿Cuándo empezar a pensar en un Load Balancer?",
+        items: [
+          "Cuando la aplicación empieza a tener picos de tráfico o tiempos de respuesta variables, y un solo servidor ya no es suficiente",
+          "Cuando necesitas tolerancia a fallos: no quieres que una caída de una instancia deje sin servicio a todos los usuarios",
+          "Cuando quieres escalar horizontalmente en la nube, usando varias VMs, contenedores o instancias serverless bajo una misma dirección",
+          "El load balancer es el punto natural para separar 'cómo entran los usuarios' de 'cuántos servidores tengo detrás'",
+        ],
+      },
+      {
+        type: "list",
+        title: "Puntos clave del tema",
+        items: [
+          "Un load balancer distribuye el tráfico entre múltiples servidores para evitar sobrecargas",
+          "Usa health checks para detectar servidores caídos y dejar de enviarles tráfico",
+          "Existen balanceadores de capa 4 (red/transporte) y capa 7 (aplicación/HTTP)",
+          "L4 es rápido y simple: solo mira IP y puerto. L7 es más inteligente: puede enrutar por URL, host o cabeceras",
+          "Permite escalabilidad horizontal: agregar o quitar servidores sin cambiar la IP de entrada",
+          "En Google Cloud: Network Load Balancer (L4) y Application Load Balancer (L7) son servicios gestionados",
+          "Los algoritmos más comunes son: round-robin, menos cargado, afinidad de sesión y por peso",
+          "Es prerequisito conceptual para los labs de balanceo de carga del Skill Badge",
+        ],
+      },
+      {
+        type: "quiz",
+        question: "¿Cuál es la principal diferencia entre un load balancer de capa 4 y uno de capa 7?",
+        options: [
+          {
+            label: "L4 es más caro que L7",
+            correct: false,
+            explanation: "El costo no es la diferencia principal. La diferencia está en qué información del tráfico puede inspeccionar cada uno.",
+          },
+          {
+            label: "L4 solo ve IP y puerto; L7 entiende HTTP y puede enrutar por URL, host o cabeceras",
+            correct: true,
+            explanation: "Correcto. L4 trabaja en la capa de transporte (TCP/UDP) y L7 en la capa de aplicación (HTTP/HTTPS). Esto permite a L7 tomar decisiones más inteligentes.",
+          },
+          {
+            label: "L7 no puede hacer health checks",
+            correct: false,
+            explanation: "Ambos tipos pueden hacer health checks. L7 incluso puede verificar respuestas HTTP específicas.",
+          },
+          {
+            label: "L4 solo funciona en la nube y L7 solo on-premises",
+            correct: false,
+            explanation: "Ambos tipos existen tanto en la nube como on-premises. No están limitados a un entorno específico.",
+          },
+        ],
+      },
+      {
+        type: "quiz",
+        question: "¿Qué sucede cuando un load balancer detecta que un servidor no pasa el health check?",
+        options: [
+          {
+            label: "Apaga el servidor automáticamente",
+            correct: false,
+            explanation: "El balanceador no apaga servidores — solo deja de enviarles tráfico. El servidor puede seguir intentando recuperarse.",
+          },
+          {
+            label: "Envía todas las peticiones a ese servidor para reiniciarlo",
+            correct: false,
+            explanation: "Enviar más tráfico a un servidor fallando empeoraría la situación, no la resolvería.",
+          },
+          {
+            label: "Deja de enviarle tráfico y redirige las peticiones a los servidores sanos",
+            correct: true,
+            explanation: "Correcto. El balanceador marca al servidor como no saludable y distribuye el tráfico solo entre los que siguen respondiendo correctamente.",
+          },
+          {
+            label: "Notifica al usuario que hay un error y le pide que espere",
+            correct: false,
+            explanation: "El objetivo del balanceador es que el usuario NO note la falla. La redirección es transparente.",
           },
         ],
       },
