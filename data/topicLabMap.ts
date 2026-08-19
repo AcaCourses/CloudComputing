@@ -16,6 +16,7 @@ type TopicLabMapping = Record<string, RelatedLab[]>;
 export const topicLabMap: TopicLabMapping = {
   // Unit 1
   "1:introduccion-computacion-nube": [
+    { slug: "a-tour-of-google-cloud-hands-on-labs", labNumber: 1, title: "A Tour of Google Cloud Hands-on Labs" },
     { slug: "create-a-virtual-machine", labNumber: 3, title: "Create a Virtual Machine" },
   ],
   "1:modelos-servicio": [
@@ -30,15 +31,18 @@ export const topicLabMap: TopicLabMapping = {
 
   // Unit 2
   "2:arquitectura-entorno-cloud": [
-    { slug: "create-a-virtual-machine", labNumber: 3, title: "Create a Virtual Machine" },
+    { slug: "a-tour-of-google-cloud-hands-on-labs", labNumber: 1, title: "A Tour of Google Cloud Hands-on Labs" },
+    { slug: "getting-started-with-cloud-shell-and-gcloud", labNumber: 2, title: "Getting Started with Cloud Shell and gcloud" },
   ],
   "2:proyectos-recursos": [
+    { slug: "a-tour-of-google-cloud-hands-on-labs", labNumber: 1, title: "A Tour of Google Cloud Hands-on Labs" },
     { slug: "create-a-virtual-machine", labNumber: 3, title: "Create a Virtual Machine" },
   ],
   "2:facturacion-administracion": [
     { slug: "create-a-virtual-machine", labNumber: 3, title: "Create a Virtual Machine" },
   ],
   "2:sdk-automatizacion": [
+    { slug: "getting-started-with-cloud-shell-and-gcloud", labNumber: 2, title: "Getting Started with Cloud Shell and gcloud" },
     { slug: "cloud-run-functions-qwik-start-command-line", labNumber: 5, title: "Cloud Run Functions: Qwik Start" },
   ],
 

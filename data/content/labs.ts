@@ -41,6 +41,353 @@ export type LabContent = {
 
 export const labsContent: LabContent[] = [
   {
+    slug: "a-tour-of-google-cloud-hands-on-labs",
+    labNumber: 1,
+    labUrl: "https://www.skills.google/paths/36/course_templates/153/labs/631613",
+    title: "A Tour of Google Cloud Hands-on Labs",
+    description:
+      "Introducción práctica a la consola de Google Cloud, gestión de proyectos, recursos y permisos básicos.",
+    overview: {
+      serviceIcon: "/assets/Google Cloud.svg",
+      serviceName: "Google Cloud Console & IAM",
+      duration: "20 min",
+      level: "Introductory",
+      credits: 0,
+      objectives: [
+        "Acceder a la consola de Google Cloud con credenciales temporales y explorar la plataforma",
+        "Visualizar proyectos de Google Cloud e identificar conceptos erróneos comunes",
+        "Usar el menú de navegación para explorar servicios e inspeccionar la biblioteca de APIs",
+        "Gestionar roles básicos e inspeccionar permisos con Cloud IAM",
+      ],
+      steps: [
+        {
+          step: 1,
+          action: "Acceder a la Consola de Cloud",
+          detail: "Iniciar el lab y usar las credenciales temporales de estudiante para acceder a la consola de Google Cloud.",
+          icon: "Shield",
+        },
+        {
+          step: 2,
+          action: "Visualizar Proyectos de GCP",
+          detail: "Revisar la información del proyecto asignado y comprender la diferencia con recursos compartidos como 'Qwiklabs Resources'.",
+          icon: "Layers",
+        },
+        {
+          step: 3,
+          action: "Revisar y modificar roles de IAM",
+          detail: "Navegar a IAM & Admin, examinar los roles básicos (Viewer, Editor, Owner) y otorgar el rol Viewer a un usuario secundario.",
+          icon: "Users",
+        },
+        {
+          step: 4,
+          action: "Habilitar APIs y Servicios",
+          detail: "Explorar la biblioteca de APIs, buscar 'Dialogflow API' y habilitarla en el proyecto temporal.",
+          icon: "code",
+        },
+        {
+          step: 5,
+          action: "Finalizar el laboratorio",
+          detail: "Hacer clic en End Lab para liberar el entorno temporal y confirmar el cierre del recurso.",
+          icon: "check-circle",
+        },
+      ],
+      whatYouLearn: [
+        "Cómo funciona la plataforma de laboratorios y el temporizador de sesión",
+        "La estructura de proyectos, IDs de proyecto y recursos en Google Cloud",
+        "Cómo se aplican los roles de IAM (Viewer, Editor, Owner) a nivel de proyecto",
+        "Cómo buscar y activar APIs dentro del ecosistema de Google Cloud",
+      ],
+    },
+    introduction:
+      "En este laboratorio introductorio, darás tus primeros pasos en Google Cloud practicando en la consola web (Cloud Console). Aprenderás a identificar los componentes fundamentales de la plataforma, administrar credenciales temporales, inspeccionar la jerarquía de proyectos y manejar permisos de acceso mediante Cloud IAM.\n\nAdemás de conocer la interfaz, comprenderás la importancia de separar entornos, habilitar APIs bajo demanda y manejar correctamente el ciclo de vida de los proyectos en la nube.",
+    concepts: [
+      {
+        term: "Google Cloud Console",
+        definition:
+          "Interfaz gráfica basada en navegador que permite acceder, gestionar y administrar todos los servicios y recursos de Google Cloud.",
+      },
+      {
+        term: "Proyecto de GCP (Project ID)",
+        definition:
+          "Entidad organizativa global e única que agrupa recursos, configuraciones, permisos y facturación. Todo lo que creas en GCP pertenece a un proyecto.",
+      },
+      {
+        term: "Cloud IAM (Identity and Access Management)",
+        definition:
+          "Servicio que administra quién (identidad/principal) tiene qué acceso (rol/permisos) sobre cuáles recursos en Google Cloud.",
+      },
+      {
+        term: "Roles Básicos (Primitive Roles)",
+        definition:
+          "Permisos históricos a nivel de proyecto: Viewer (lectura), Editor (lectura y modificación), y Owner (control total + gestión de roles y facturación).",
+      },
+      {
+        term: "API Library",
+        definition:
+          "Catálogo integrado con más de 200 APIs de Google Cloud que permiten conectar servicios e integrar funciones de cómputo, IA y almacenamiento en aplicaciones.",
+      },
+    ],
+    interactionPattern: [
+      "Antes de la tarea: una pregunta guía breve.",
+      "Durante la tarea: una nota de \"observa esto\" con el concepto clave.",
+      "Después de la tarea: una mini reflexión o evidencia esperada.",
+      "Cierre de tarea: participación oral o escrita de 2 estudiantes.",
+    ],
+    participationRules: [
+      "Solo se participa respondiendo una pregunta.",
+      "Cada pregunta la contestan 2 personas.",
+      "Las preguntas son abiertas, no de opción múltiple.",
+      "Deben responderse de forma breve, pero justificando con base en lo que hicieron en el laboratorio.",
+      "Las preguntas se distribuyen a lo largo de las tasks para mantener atención y ritmo.",
+    ],
+    tasks: [
+      {
+        title: "Task 1: Acceder a la Consola de Cloud",
+        conceptNote:
+          "El panel de detalles del lab provee credenciales temporales de IAM (estudiante) asociadas a un Project ID único.",
+        guidingQuestion:
+          "¿Por qué es fundamental iniciar sesión con la cuenta student-xx@qwiklabs.net en lugar de tu cuenta personal?",
+        observation:
+          "Observa cómo la consola te solicita aceptar los Términos de Servicio y muestra el panel de información del proyecto.",
+        reflection:
+          "¿Qué acabas de configurar? El acceso seguro y autenticado a un entorno aislado de Google Cloud.",
+        participationQuestions: [
+          "¿Qué sucede con los recursos del proyecto cuando el temporizador del laboratorio llega a 00:00:00?",
+          "¿Qué diferencia existe entre el nombre de usuario de estudiante y una cuenta personal de Google?",
+        ],
+      },
+      {
+        title: "Task 2: Visualizar proyectos en la consola",
+        conceptNote:
+          "Un proyecto es la unidad organizativa fundamental en Google Cloud. Existen proyectos dedicados al estudiante y proyectos compartidos en modo lectura como 'Qwiklabs Resources'.",
+        guidingQuestion:
+          "¿Por qué no se debe trabajar ni intentar modificar el proyecto 'Qwiklabs Resources'?",
+        observation:
+          "Observa el selector de proyectos en la barra superior de la consola y distingue entre tu proyecto asignado y los de recursos globales.",
+        reflection:
+          "¿Qué acabas de configurar? La navegación entre proyectos e identificación de tu ámbito de trabajo (Project ID).",
+        participationQuestions: [
+          "¿Qué tres identificadores caracterizan a un proyecto en Google Cloud (Nombre, Número, ID)?",
+          "¿Por qué las organizaciones suelen estructurar sus recursos en múltiples proyectos?",
+        ],
+      },
+      {
+        title: "Task 3: Revisar y modificar roles y permisos con IAM",
+        conceptNote:
+          "Cloud IAM asigna roles a principales. Los roles primitivos (Viewer, Editor, Owner) aplican permisos a nivel de todo el proyecto.",
+        guidingQuestion:
+          "¿Qué diferencia existe entre los permisos de un rol Viewer y los de un rol Editor?",
+        observation:
+          "Observa la lista de principales en IAM & Admin y verifica el rol asignado a tu cuenta de estudiante.",
+        reflection:
+          "¿Qué acabas de configurar? La adición de un nuevo usuario con rol Viewer utilizando el botón 'Grant Access'.",
+        participationQuestions: [
+          "¿Puede un usuario con rol Editor agregar o quitar miembros del proyecto en IAM?",
+          "¿Por qué se considera buena práctica aplicar el principio de menor privilegio en IAM?",
+        ],
+      },
+      {
+        title: "Task 4: Habilitar APIs y servicios",
+        conceptNote:
+          "Muchos servicios de GCP requieren que su API correspondiente esté habilitada en el proyecto antes de poder utilizarlos.",
+        guidingQuestion:
+          "¿Qué información y métricas proporciona la consola sobre el uso de las APIs habilitadas?",
+        observation:
+          "Observa la interfaz de la biblioteca de APIs al buscar 'Dialogflow API' y el cambio de estado tras presionar Enable.",
+        reflection:
+          "¿Qué acabas de configurar? La activación explícita de una API dentro de la biblioteca de servicios de Google Cloud.",
+        participationQuestions: [
+          "¿Por qué los proyectos nuevos fuera del entorno de lab requieren que habilites las APIs manualmente?",
+          "¿Qué funcionalidad ofrece Dialogflow API al ser habilitada en un proyecto?",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "getting-started-with-cloud-shell-and-gcloud",
+    labNumber: 2,
+    labUrl: "https://www.skills.google/paths/36/course_templates/153/labs/631615",
+    title: "Getting Started with Cloud Shell and gcloud",
+    description:
+      "Uso del entorno interactivo Cloud Shell y comandos de gcloud para gestionar recursos en la nube.",
+    overview: {
+      serviceIcon: "/assets/Cloud Shell.svg",
+      serviceName: "Cloud Shell & gcloud CLI",
+      duration: "25 min",
+      level: "Introductory",
+      credits: 1,
+      objectives: [
+        "Conectarse a los recursos de Google Cloud mediante Cloud Shell y el CLI gcloud",
+        "Configurar variables de entorno, región y zona por defecto",
+        "Crear y administrar instancias de Compute Engine usando comandos de gcloud",
+        "Filtrar salidas de línea de comandos, configurar reglas de firewall e inspeccionar logs del sistema",
+      ],
+      steps: [
+        {
+          step: 1,
+          action: "Activar Cloud Shell",
+          detail: "Iniciar la máquina virtual Debian persistente integrada en la consola y autorizar gcloud.",
+          icon: "terminal",
+        },
+        {
+          step: 2,
+          action: "Configurar entorno y variables",
+          detail: "Establecer región, zona y definir variables de entorno como $PROJECT_ID y $ZONE.",
+          icon: "globe",
+        },
+        {
+          step: 3,
+          action: "Crear VM con gcloud",
+          detail: "Ejecutar gcloud compute instances create gcelab2 para desplegar una instancia virtual.",
+          icon: "service:Compute Engine",
+        },
+        {
+          step: 4,
+          action: "Filtrar salidas de gcloud",
+          detail: "Usar flags como --filter para consultar instancias específicas y reglas de firewall.",
+          icon: "Filter",
+        },
+        {
+          step: 5,
+          action: "Conectar por SSH e instalar NGINX",
+          detail: "Acceder a la VM con gcloud compute ssh, instalar NGINX y ajustar el firewall para el puerto 80.",
+          icon: "server",
+        },
+        {
+          step: 6,
+          action: "Inspeccionar registros de sistema",
+          detail: "Consultar logs con gcloud logging logs list y gcloud logging read.",
+          icon: "BookOpen",
+        },
+      ],
+      whatYouLearn: [
+        "Las capacidades de Cloud Shell como VM de administración persistente (5 GB de disco home)",
+        "El uso de la herramienta de línea de comandos gcloud y su estructura de subcomandos y flags",
+        "Cómo filtrar salidas de comandos de GCP directamente desde la terminal",
+        "Cómo conectar instancias, configurar tags de red/firewall y leer logs del sistema",
+      ],
+    },
+    introduction:
+      "Cloud Shell es una máquina virtual basada en Debian con 5 GB de almacenamiento persistente en el directorio $HOME y la CLI `gcloud` preinstalada. En este laboratorio aprenderás a gestionar tu infraestructura de Google Cloud sin depender de la consola gráfica, dominando la línea de comandos para crear instancias, gestionar reglas de firewall, realizar conexiones SSH e inspeccionar registros del sistema.\n\nEl uso fluido de `gcloud` es esencial para tareas de automatización, scripting e integración continua en arquitecturas Cloud.",
+    concepts: [
+      {
+        term: "Cloud Shell",
+        definition:
+          "Máquina virtual temporal con almacenamiento persistente que ofrece acceso directo por línea de comandos a recursos de Google Cloud desde el navegador.",
+      },
+      {
+        term: "gcloud CLI",
+        definition:
+          "Herramienta principal de línea de comandos para interactuar con los servicios de Google Cloud (Compute Engine, IAM, Cloud Storage, etc.).",
+      },
+      {
+        term: "Región y Zona",
+        definition:
+          "Ubicación geográfica (región) y centro de datos específico (zona) donde residen los recursos de cómputo.",
+      },
+      {
+        term: "Variables de Entorno",
+        definition:
+          "Valores guardados en la sesión de terminal (como $PROJECT_ID o $ZONE) que simplifican la ejecución de comandos y scripts.",
+      },
+      {
+        term: "Tags de Red y Firewall",
+        definition:
+          "Etiquetas asociadas a instancias que permiten aplicar reglas de firewall específicas (por ejemplo, permitir tráfico HTTP en el puerto 80).",
+      },
+    ],
+    interactionPattern: [
+      "Antes de la tarea: una pregunta guía breve.",
+      "Durante la tarea: una nota de \"observa esto\" con el concepto clave.",
+      "Después de la tarea: una mini reflexión o evidencia esperada.",
+      "Cierre de tarea: participación oral o escrita de 2 estudiantes.",
+    ],
+    participationRules: [
+      "Solo se participa respondiendo una pregunta.",
+      "Cada pregunta la contestan 2 personas.",
+      "Las preguntas son abiertas, no de opción múltiple.",
+      "Deben responderse de forma breve, pero justificando con base en lo que hicieron en el laboratorio.",
+      "Las preguntas se distribuyen a lo largo de las tasks para mantener atención y ritmo.",
+    ],
+    tasks: [
+      {
+        title: "Task 1: Configurar el entorno de desarrollo",
+        conceptNote:
+          "gcloud permite establecer parámetros por defecto para la región y zona, facilitando la creación de recursos sin repetir banderas en cada comando.",
+        guidingQuestion:
+          "¿Por qué es útil exportar variables de entorno como $PROJECT_ID y $ZONE en Cloud Shell?",
+        observation:
+          "Observa la salida de `gcloud config list` y `gcloud compute project-info describe` para verificar los metadatos configurados.",
+        reflection:
+          "¿Qué acabas de configurar? El entorno local de la CLI listo con los valores predeterminados de región, zona y proyecto.",
+        participationQuestions: [
+          "¿Qué comando se utiliza para verificar cuál es la cuenta activa en gcloud (`gcloud auth list`)?",
+          "¿Qué diferencia existe entre los recursos que viven en una zona (zonal) y los que son globales o regionales?",
+        ],
+      },
+      {
+        title: "Task 2: Filtrar la salida de comandos en la CLI",
+        conceptNote:
+          "El flag `--filter` permite extraer únicamente los recursos o campos que cumplen condiciones específicas, evitando salidas extensas de texto.",
+        guidingQuestion:
+          "¿Cómo ayuda el filtrado en CLI cuando se administra un proyecto con cientos de máquinas virtuales o reglas de red?",
+        observation:
+          "Observa cómo la consulta con `--filter=\"name=('gcelab2')\"` devuelve únicamente la fila correspondiente a la VM creada.",
+        reflection:
+          "¿Qué acabas de configurar? Consultas avanzadas en la CLI para inspeccionar recursos de forma precisa.",
+        participationQuestions: [
+          "¿Cómo estructuraste el filtro para obtener únicamente las reglas de firewall aplicadas a la red 'default'?",
+          "¿Qué ventaja tiene usar `--filter` frente a herramientas como `grep` en la terminal?",
+        ],
+      },
+      {
+        title: "Task 3: Conectar a la VM mediante SSH e instalar NGINX",
+        conceptNote:
+          "El comando `gcloud compute ssh` genera automáticamente pares de claves SSH y gestiona la autenticación de forma transparente.",
+        guidingQuestion:
+          "¿Qué cambios notas en el prompt de la terminal al establecer la conexión SSH hacia la VM?",
+        observation:
+          "Observa cómo al instalar NGINX y salir de SSH vuelves al prompt original de Cloud Shell.",
+        reflection:
+          "¿Qué acabas de configurar? Una sesión remota en una VM Linux y la instalación de un servicio web NGINX.",
+        participationQuestions: [
+          "¿Qué sucede si intentas hacer `curl` a la IP externa de la VM antes de actualizar el firewall?",
+          "¿Por qué fue necesario autenticar y autorizar la generación de la clave SSH la primera vez?",
+        ],
+      },
+      {
+        title: "Task 4: Actualizar el firewall para permitir tráfico HTTP",
+        conceptNote:
+          "Las reglas de firewall en Google Cloud permiten asociar etiquetas de destino (`http-server`) para habilitar trafico en puertos específicos (tcp:80).",
+        guidingQuestion:
+          "¿Por qué la instalación exitosa de NGINX no basta para responder peticiones en el puerto 80 desde el exterior?",
+        observation:
+          "Observa cómo al añadir el tag `http-server` a la VM y crear la regla de firewall `default-allow-http`, la petición `curl` responde exitosamente con el HTML de NGINX.",
+        reflection:
+          "¿Qué acabas de configurar? Una regla de ingress en el firewall que expone el puerto 80 hacia la red pública.",
+        participationQuestions: [
+          "¿Qué parámetros componen la regla de firewall creada con `gcloud compute firewall-rules create`?",
+          "¿Cómo confirmas desde Cloud Shell que la VM responde adecuadamente tras aplicar el tag de red?",
+        ],
+      },
+      {
+        title: "Task 5: Visualización de registros del sistema",
+        conceptNote:
+          "Google Cloud Logging recolecta eventos de auditoría y registros de recursos como `gce_instance` accesibles por `gcloud logging`.",
+        guidingQuestion:
+          "¿Qué tipo de eventos o actividades puedes auditar usando `gcloud logging read`?",
+        observation:
+          "Observa los registros filtrados por el tipo de recurso `resource.type=gce_instance` e identificador de la VM.",
+        reflection:
+          "¿Qué acabas de configurar? La inspección de logs operacionales para auditar la actividad de las instancias de Compute Engine.",
+        participationQuestions: [
+          "¿Qué comando usaste para listar todos los tipos de logs disponibles en tu proyecto?",
+          "¿Por qué es crítico consultar los logs durante el diagnóstico de fallas en infraestructura cloud?",
+        ],
+      },
+    ],
+  },
+  {
     slug: "create-a-virtual-machine",
     labNumber: 3,
     labUrl:"https://www.skills.google/paths/36/course_templates/153/labs/631624",
