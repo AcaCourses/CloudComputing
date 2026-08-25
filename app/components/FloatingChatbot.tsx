@@ -247,6 +247,18 @@ export default function FloatingChatbot() {
               </div>
             </div>
             <div className="flex items-center space-x-1">
+              {messages.length > 0 && (
+                <button
+                  onClick={() => {
+                    const lastAssistantMsg = [...messages].reverse().find((m) => m.role === "assistant");
+                    if (lastAssistantMsg) setZoomedMessage(lastAssistantMsg);
+                  }}
+                  title="Ver conversación en grande"
+                  className="p-1.5 text-slate-400 hover:text-cyan-300 hover:bg-slate-800 rounded-lg transition-colors"
+                >
+                  <Maximize2 className="w-4 h-4" />
+                </button>
+              )}
               <button
                 onClick={handleNewConversation}
                 title="Nueva Conversación"
