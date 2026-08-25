@@ -142,11 +142,11 @@ export default function FloatingChatbot() {
       setHasValidKey(true);
       setShowKeyInput(false);
       setKeyError(false);
-    } catch (e) {}
+    } catch (e) { }
   };
 
   // Guardar historial truncado a los últimos 40 mensajes
-  
+
   // Función para calificar una respuesta (👍 / 👎)
   const handleRating = async (targetMsg: ChatMessage, ratingValue: number) => {
     if (!targetMsg.log_id) return;
@@ -181,7 +181,7 @@ export default function FloatingChatbot() {
     setCurrentStreamBuffer("");
     try {
       localStorage.removeItem(STORAGE_KEYS.CHAT_HISTORY);
-    } catch (e) {}
+    } catch (e) { }
   };
 
   // Navegar a la fuente citada
@@ -383,11 +383,10 @@ export default function FloatingChatbot() {
               <button
                 onClick={() => setShowKeyInput(!showKeyInput)}
                 title={hasValidKey ? "Clave de acceso configurada" : "Ingresar clave de acceso"}
-                className={`p-1.5 rounded-lg transition-colors flex items-center space-x-1 text-xs ${
-                  hasValidKey
+                className={`p-1.5 rounded-lg transition-colors flex items-center space-x-1 text-xs ${hasValidKey
                     ? "text-emerald-400 hover:bg-slate-800"
                     : "text-amber-400 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30"
-                }`}
+                  }`}
               >
                 <Key className="w-4 h-4" />
                 {!hasValidKey && <span className="text-[11px] font-medium pr-1">Clave</span>}
@@ -472,11 +471,10 @@ export default function FloatingChatbot() {
                   </div>
                 )}
                 <div
-                  className={`max-w-[88%] p-3.5 rounded-2xl text-xs leading-relaxed overflow-x-auto ${
-                    msg.role === "user"
+                  className={`max-w-[88%] p-3.5 rounded-2xl text-xs leading-relaxed overflow-x-auto ${msg.role === "user"
                       ? "bg-cyan-600 text-white rounded-br-none shadow-md shadow-cyan-950/40"
                       : "bg-slate-800/90 text-slate-200 border border-slate-700/60 rounded-bl-none"
-                  }`}
+                    }`}
                 >
                   {msg.role === "user" ? (
                     <p className="whitespace-pre-wrap">{msg.content}</p>
@@ -545,29 +543,26 @@ export default function FloatingChatbot() {
                         {msg.isCached && (
                           <span className="inline-flex items-center space-x-1 px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-300 border border-amber-500/30 text-[9px] font-semibold" title="Respuesta ultra rapida desde Cache Semantico">
                             <Zap className="w-2.5 h-2.5 text-amber-400 fill-amber-400" />
-                            <span>Instantanea</span>
                           </span>
                         )}
                         {msg.log_id && (
                           <div className="flex items-center space-x-1 pl-1">
                             <button
                               onClick={() => handleRating(msg, 1)}
-                              className={`p-1 rounded-md border text-[10px] font-medium transition-colors flex items-center space-x-1 ${
-                                msg.rating === 1
+                              className={`p-1 rounded-md border text-[10px] font-medium transition-colors flex items-center space-x-1 ${msg.rating === 1
                                   ? "bg-emerald-950 text-emerald-300 border-emerald-500/50"
                                   : "bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-emerald-300 border-slate-700/60"
-                              }`}
+                                }`}
                               title="Respuesta util (👍)"
                             >
                               <ThumbsUp className="w-3 h-3 text-emerald-400" />
                             </button>
                             <button
                               onClick={() => handleRating(msg, -1)}
-                              className={`p-1 rounded-md border text-[10px] font-medium transition-colors flex items-center space-x-1 ${
-                                msg.rating === -1
+                              className={`p-1 rounded-md border text-[10px] font-medium transition-colors flex items-center space-x-1 ${msg.rating === -1
                                   ? "bg-rose-950 text-rose-300 border-rose-500/50"
                                   : "bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-rose-300 border-slate-700/60"
-                              }`}
+                                }`}
                               title="Respuesta no util (👎)"
                             >
                               <ThumbsDown className="w-3 h-3 text-rose-400" />
