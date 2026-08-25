@@ -269,11 +269,11 @@ export default function FloatingChatbot() {
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-6 right-6 p-4 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white rounded-full shadow-2xl shadow-cyan-900/50 transition-all duration-300 transform hover:scale-105 z-50 flex items-center space-x-2 group border border-cyan-400/30"
+          className="fixed bottom-4 sm:bottom-6 right-4 sm:right-6 p-3.5 sm:p-4 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white rounded-full shadow-2xl shadow-cyan-900/50 transition-all duration-300 transform hover:scale-105 z-50 flex items-center space-x-2 group border border-cyan-400/30"
           aria-label="Abrir Asistente Tutor IA"
         >
-          <Bot className="w-6 h-6 animate-pulse" />
-          <span className="max-w-0 overflow-hidden group-hover:max-w-xs transition-all duration-500 whitespace-nowrap text-sm font-semibold pr-1">
+          <Bot className="w-5 h-5 sm:w-6 sm:h-6 animate-pulse" />
+          <span className="max-w-0 overflow-hidden group-hover:max-w-xs transition-all duration-500 whitespace-nowrap text-xs sm:text-sm font-semibold pr-1">
             Asistente Tutor IA
           </span>
         </button>
@@ -281,7 +281,7 @@ export default function FloatingChatbot() {
 
       {/* Ventana Desplegable de Chatbot */}
       {isOpen && (
-        <div className="fixed bottom-6 right-6 w-[480px] max-w-[calc(100vw-2rem)] h-[580px] max-h-[calc(100vh-4rem)] bg-slate-900/95 backdrop-blur-xl border border-cyan-500/30 rounded-3xl shadow-2xl z-50 flex flex-col overflow-hidden transition-all duration-300">
+        <div className="fixed bottom-4 sm:bottom-6 right-3 sm:right-6 w-[480px] max-w-[calc(100vw-1.5rem)] h-[580px] max-h-[calc(100vh-5rem)] bg-slate-900/95 backdrop-blur-xl border border-cyan-500/30 rounded-3xl shadow-2xl z-50 flex flex-col overflow-hidden transition-all duration-300">
           {/* Encabezado del Chat */}
           <div className="p-4 bg-gradient-to-r from-slate-900 via-slate-800 to-cyan-950 border-b border-slate-700/80 flex items-center justify-between">
             <div className="flex items-center space-x-2.5">

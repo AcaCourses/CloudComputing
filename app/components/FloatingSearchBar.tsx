@@ -155,7 +155,7 @@ export default function FloatingSearchBar() {
   };
 
   return (
-    <div ref={containerRef} className="fixed bottom-5 left-1/2 -translate-x-1/2 w-[92%] max-w-xl z-40">
+    <div ref={containerRef} className="fixed bottom-4 sm:bottom-5 left-4 sm:left-1/2 sm:-translate-x-1/2 w-[calc(100%-6rem)] sm:w-[92%] max-w-xl z-40">
       {/* Barra de Búsqueda Flotante Principal Estilo Dock */}
       <div className="relative flex items-center bg-slate-900/95 backdrop-blur-xl border border-cyan-500/30 rounded-2xl shadow-2xl shadow-cyan-950/50 focus-within:border-cyan-400 focus-within:ring-4 focus-within:ring-cyan-500/20 transition-all duration-300">
         <Search className="w-5 h-5 ml-4 text-cyan-400 shrink-0" />
