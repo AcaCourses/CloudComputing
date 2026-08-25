@@ -155,9 +155,9 @@ export default function FloatingSearchBar() {
   };
 
   return (
-    <div ref={containerRef} className="relative w-full max-w-xl mx-auto">
-      {/* Barra de Búsqueda Flotante Principal */}
-      <div className="relative flex items-center bg-slate-900/90 backdrop-blur-md border border-slate-700/80 rounded-2xl shadow-xl shadow-cyan-950/20 focus-within:border-cyan-500/80 focus-within:ring-2 focus-within:ring-cyan-500/20 transition-all duration-300">
+    <div ref={containerRef} className="fixed bottom-5 left-1/2 -translate-x-1/2 w-[92%] max-w-xl z-40">
+      {/* Barra de Búsqueda Flotante Principal Estilo Dock */}
+      <div className="relative flex items-center bg-slate-900/95 backdrop-blur-xl border border-cyan-500/30 rounded-2xl shadow-2xl shadow-cyan-950/50 focus-within:border-cyan-400 focus-within:ring-4 focus-within:ring-cyan-500/20 transition-all duration-300">
         <Search className="w-5 h-5 ml-4 text-cyan-400 shrink-0" />
         <input
           type="text"
@@ -184,9 +184,9 @@ export default function FloatingSearchBar() {
         )}
       </div>
 
-      {/* Dropdown de Resultados y Búsquedas Recientes */}
+      {/* Dropdown de Resultados Desplegable Hacia Arriba (bottom-full) */}
       {isOpen && (
-        <div className="absolute top-full left-0 right-0 mt-2 bg-slate-900/95 backdrop-blur-lg border border-slate-700/90 rounded-2xl shadow-2xl z-50 overflow-hidden max-h-96 overflow-y-auto">
+        <div className="absolute bottom-full left-0 right-0 mb-3 bg-slate-900/95 backdrop-blur-xl border border-slate-700/90 rounded-2xl shadow-2xl z-50 overflow-hidden max-h-[60vh] overflow-y-auto">
           {/* Estado de Carga y Mensaje Slow (>3s) */}
           {(status === "loading" || status === "slow") && (
             <div className="p-4 flex items-center space-x-3 text-slate-300 text-sm border-b border-slate-800">

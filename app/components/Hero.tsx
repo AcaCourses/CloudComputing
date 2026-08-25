@@ -8,7 +8,6 @@ import {
   FlaskConical,
   GraduationCap,
 } from "lucide-react";
-import FloatingSearchBar from "./FloatingSearchBar";
 
 const metrics = [
   { icon: Cloud, label: "Unidades", value: "5", color: "text-azure" },
@@ -115,11 +114,6 @@ export default function Hero() {
                 gestión de costos, seguridad y confiabilidad. Un curso práctico orientado
                 a la certificación y al proyecto integrador.
               </p>
-            </div>
-
-            {/* Barra de Búsqueda Semántica Flotante RAG */}
-            <div className="pt-2">
-              <FloatingSearchBar />
             </div>
 
             <div className="flex flex-wrap gap-3 pt-2">

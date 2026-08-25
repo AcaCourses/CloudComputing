@@ -10,6 +10,7 @@ import Evaluation from "./components/Evaluation";
 import Profesor from "./components/Profesor";
 import Footer from "./components/Footer";
 import FloatingChatbot from "./components/FloatingChatbot";
+import FloatingSearchBar from "./components/FloatingSearchBar";
 import ExamGeneratorModal from "./components/ExamGeneratorModal";
 
 export default function Home() {
@@ -32,7 +33,8 @@ export default function Home() {
       <Profesor />
       <Footer />
 
-      {/* Componentes Flotantes e Interactivos RAG */}
+      {/* Componentes Flotantes e Interactivos RAG (SearchBar Dock + Chatbot + Modal) */}
+      <FloatingSearchBar />
       <FloatingChatbot />
       <ExamGeneratorModal
         isOpen={isExamModalOpen}
