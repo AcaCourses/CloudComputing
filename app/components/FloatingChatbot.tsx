@@ -2,10 +2,10 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { MessageSquare, X, Send, RotateCcw, Bot, User, ExternalLink, Loader2, Sparkles, Maximize2, FileText, Download, Key, Lock, Check } from "lucide-react";
+import { MessageSquare, X, Send, RotateCcw, Bot, User, ExternalLink, Loader2, Sparkles, Maximize2, FileText, Download, Key, Lock, Check, ThumbsUp, ThumbsDown, Zap } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { API_URL, STORAGE_KEYS, ChatMessage, ChatSource } from "../lib/api";
+import { API_URL, STORAGE_KEYS, ChatMessage, ChatSource, sendChatFeedback } from "../lib/api";
 
 export default function FloatingChatbot() {
   const router = useRouter();
@@ -146,6 +146,20 @@ export default function FloatingChatbot() {
   };
 
   // Guardar historial truncado a los últimos 40 mensajes
+  
+  // Función para calificar una respuesta (👍 / 👎)
+  const handleRating = async (targetMsg: ChatMessage, ratingValue: number) => {
+    if (!targetMsg.log_id) return;
+    const newRating = targetMsg.rating === ratingValue ? 0 : ratingValue;
+    const updated = messages.map((m) =>
+      m.id === targetMsg.id ? { ...m, rating: newRating } : m
+    );
+    saveChatHistory(updated);
+    if (newRating !== 0) {
+      await sendChatFeedback(targetMsg.log_id, newRating);
+    }
+  };
+
   const saveChatHistory = (newMessages: ChatMessage[]) => {
     const truncated = newMessages.slice(-40);
     setMessages(truncated);
@@ -224,6 +238,8 @@ export default function FloatingChatbot() {
     abortControllerRef.current = new AbortController();
     let accumulatedText = "";
     let receivedSources: ChatSource[] = [];
+    let receivedLogId = "";
+    let isCachedResponse = false;
 
     try {
       const accessKey = localStorage.getItem(STORAGE_KEYS.CHAT_ACCESS_KEY) || "";
@@ -271,6 +287,12 @@ export default function FloatingChatbot() {
               if (data.sources) {
                 receivedSources = data.sources;
               }
+              if (data.log_id) {
+                receivedLogId = data.log_id;
+              }
+              if (data.cached) {
+                isCachedResponse = true;
+              }
               if (data.error) {
                 accumulatedText += `\n[Error: ${data.error}]`;
                 setCurrentStreamBuffer(accumulatedText);
@@ -288,6 +310,8 @@ export default function FloatingChatbot() {
         role: "assistant",
         content: accumulatedText || "Respuesta recibida.",
         sources: receivedSources,
+        log_id: receivedLogId,
+        isCached: isCachedResponse,
         timestamp: Date.now(),
       };
 
@@ -515,6 +539,41 @@ export default function FloatingChatbot() {
                           <FileText className="w-3 h-3 text-emerald-400" />
                           <span>PDF Notebook</span>
                         </button>
+                      </div>
+
+                      <div className="flex items-center space-x-1">
+                        {msg.isCached && (
+                          <span className="inline-flex items-center space-x-1 px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-300 border border-amber-500/30 text-[9px] font-semibold" title="Respuesta ultra rapida desde Cache Semantico">
+                            <Zap className="w-2.5 h-2.5 text-amber-400 fill-amber-400" />
+                            <span>Instantanea</span>
+                          </span>
+                        )}
+                        {msg.log_id && (
+                          <div className="flex items-center space-x-1 pl-1">
+                            <button
+                              onClick={() => handleRating(msg, 1)}
+                              className={`p-1 rounded-md border text-[10px] font-medium transition-colors flex items-center space-x-1 ${
+                                msg.rating === 1
+                                  ? "bg-emerald-950 text-emerald-300 border-emerald-500/50"
+                                  : "bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-emerald-300 border-slate-700/60"
+                              }`}
+                              title="Respuesta util (👍)"
+                            >
+                              <ThumbsUp className="w-3 h-3 text-emerald-400" />
+                            </button>
+                            <button
+                              onClick={() => handleRating(msg, -1)}
+                              className={`p-1 rounded-md border text-[10px] font-medium transition-colors flex items-center space-x-1 ${
+                                msg.rating === -1
+                                  ? "bg-rose-950 text-rose-300 border-rose-500/50"
+                                  : "bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-rose-300 border-slate-700/60"
+                              }`}
+                              title="Respuesta no util (👎)"
+                            >
+                              <ThumbsDown className="w-3 h-3 text-rose-400" />
+                            </button>
+                          </div>
+                        )}
                       </div>
                     </div>
                   )}

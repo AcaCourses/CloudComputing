@@ -34,7 +34,31 @@ export interface ChatMessage {
   role: "user" | "assistant";
   content: string;
   sources?: ChatSource[];
+  log_id?: string;
+  rating?: number; // 1 (👍) o -1 (👎)
+  isCached?: boolean;
   timestamp: number;
+}
+
+/**
+ * Envia la calificación (👍 / 👎) de una respuesta del asistente al backend.
+ */
+export async function sendChatFeedback(logId: string, rating: number, comment?: string): Promise<boolean> {
+  try {
+    const accessKey = typeof window !== "undefined" ? localStorage.getItem(STORAGE_KEYS.CHAT_ACCESS_KEY) || "" : "";
+    const response = await fetch(`${API_URL}/chat/feedback`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Access-Key": accessKey,
+      },
+      body: JSON.stringify({ log_id: logId, rating, comment, access_key: accessKey }),
+    });
+    return response.ok;
+  } catch (err) {
+    console.warn("Error enviando feedback de rating", err);
+    return false;
+  }
 }
 
 export interface ExamRequestPayload {
