@@ -187,6 +187,21 @@ export default function FloatingChatbot() {
     const query = input.trim();
     if (!query || isStreaming) return;
 
+    const accessKey = localStorage.getItem(STORAGE_KEYS.CHAT_ACCESS_KEY) || "";
+
+    // BLOQUEO ESTRICTO EN FRONTEND: Si no hay clave de acceso guardada, exige ingresarla antes de consumir la API
+    if (!hasValidKey || !accessKey.trim()) {
+      setShowKeyInput(true);
+      const promptKeyMsg: ChatMessage = {
+        id: `err-${Date.now()}`,
+        role: "assistant",
+        content: "🔒 Se requiere la Clave de Acceso del curso para enviar consultas y proteger los recursos de la plataforma. Por favor ingresa la clave arriba.",
+        timestamp: Date.now(),
+      };
+      setMessages((prev) => [...prev, promptKeyMsg]);
+      return;
+    }
+
     const userMessage: ChatMessage = {
       id: `user-${Date.now()}`,
       role: "user",
@@ -582,13 +597,13 @@ export default function FloatingChatbot() {
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Escribe tu duda sobre Cloud..."
-              className="flex-1 bg-slate-800/80 border border-slate-700/70 rounded-xl px-3.5 py-2.5 text-xs text-slate-100 placeholder-slate-400 focus:outline-none focus:border-cyan-500"
-              disabled={isStreaming}
+              placeholder={hasValidKey ? "Escribe tu duda sobre Cloud..." : "🔒 Ingresa la clave arriba para chatear..."}
+              className="flex-1 bg-slate-800/80 border border-slate-700/70 rounded-xl px-3.5 py-2.5 text-xs text-slate-100 placeholder-slate-400 focus:outline-none focus:border-cyan-500 disabled:opacity-60"
+              disabled={isStreaming || !hasValidKey}
             />
             <button
               type="submit"
-              disabled={isStreaming || !input.trim()}
+              disabled={isStreaming || !input.trim() || !hasValidKey}
               className="p-2.5 bg-cyan-600 hover:bg-cyan-500 disabled:bg-slate-800 text-white disabled:text-slate-600 rounded-xl transition-colors shrink-0"
             >
               <Send className="w-4 h-4" />
