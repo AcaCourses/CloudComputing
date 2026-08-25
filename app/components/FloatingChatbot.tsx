@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { MessageSquare, X, Send, RotateCcw, Bot, User, ExternalLink, Loader2, Sparkles, Maximize2, FileText, Download } from "lucide-react";
+import { MessageSquare, X, Send, RotateCcw, Bot, User, ExternalLink, Loader2, Sparkles, Maximize2, FileText, Download, Key, Lock, Check } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { API_URL, STORAGE_KEYS, ChatMessage, ChatSource } from "../lib/api";
@@ -15,6 +15,12 @@ export default function FloatingChatbot() {
   const [isStreaming, setIsStreaming] = useState(false);
   const [currentStreamBuffer, setCurrentStreamBuffer] = useState("");
   const [zoomedMessage, setZoomedMessage] = useState<ChatMessage | null>(null);
+
+  // Estado para la Clave de Acceso del curso
+  const [accessKeyInput, setAccessKeyInput] = useState("");
+  const [hasValidKey, setHasValidKey] = useState(false);
+  const [showKeyInput, setShowKeyInput] = useState(false);
+  const [keyError, setKeyError] = useState(false);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const abortControllerRef = useRef<AbortController | null>(null);
@@ -109,17 +115,35 @@ export default function FloatingChatbot() {
     printWindow.document.close();
   };
 
-  // Cargar historial de localStorage al montar
+  // Cargar historial y clave de localStorage al montar
   useEffect(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEYS.CHAT_HISTORY);
       if (saved) {
         setMessages(JSON.parse(saved));
       }
+      const savedKey = localStorage.getItem(STORAGE_KEYS.CHAT_ACCESS_KEY);
+      if (savedKey) {
+        setHasValidKey(true);
+        setAccessKeyInput(savedKey);
+      }
     } catch (e) {
       console.warn("No se pudo cargar el historial de chat", e);
     }
   }, []);
+
+  const handleSaveKey = (e: React.FormEvent) => {
+    e.preventDefault();
+    const cleanKey = accessKeyInput.trim();
+    if (!cleanKey) return;
+
+    try {
+      localStorage.setItem(STORAGE_KEYS.CHAT_ACCESS_KEY, cleanKey);
+      setHasValidKey(true);
+      setShowKeyInput(false);
+      setKeyError(false);
+    } catch (e) {}
+  };
 
   // Guardar historial truncado a los últimos 40 mensajes
   const saveChatHistory = (newMessages: ChatMessage[]) => {
@@ -187,12 +211,21 @@ export default function FloatingChatbot() {
     let receivedSources: ChatSource[] = [];
 
     try {
+      const accessKey = localStorage.getItem(STORAGE_KEYS.CHAT_ACCESS_KEY) || "";
+
       const response = await fetch(`${API_URL}/chat`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ query, history: historyPayload }),
+        headers: {
+          "Content-Type": "application/json",
+          "X-Access-Key": accessKey,
+        },
+        body: JSON.stringify({ query, history: historyPayload, access_key: accessKey }),
         signal: abortControllerRef.current.signal,
       });
+
+      if (response.status === 401) {
+        throw new Error("CLAVE_INVALIDA");
+      }
 
       if (!response.ok) {
         throw new Error(`Error en servidor (${response.status})`);
@@ -246,16 +279,28 @@ export default function FloatingChatbot() {
       saveChatHistory([...updatedMessages, assistantMessage]);
     } catch (err: any) {
       if (err.name !== "AbortError") {
-        const errorMessage: ChatMessage = {
-          id: `err-${Date.now()}`,
-          role: "assistant",
-          content: accumulatedText
-            ? `${accumulatedText}\n\n⚠️ (La respuesta se cortó por conexión. Intenta de nuevo.)`
-            : "⚠️ Ocurrió un problema de conexión con el Asistente IA (servidor despertando en Render). Intenta en unos segundos.",
-          sources: receivedSources,
-          timestamp: Date.now(),
-        };
-        saveChatHistory([...updatedMessages, errorMessage]);
+        if (err.message === "CLAVE_INVALIDA") {
+          localStorage.removeItem(STORAGE_KEYS.CHAT_ACCESS_KEY);
+          setHasValidKey(false);
+          const errorMessage: ChatMessage = {
+            id: `err-${Date.now()}`,
+            role: "assistant",
+            content: "🔒 La clave de acceso ingresada es incorrecta o ha caducado. Por favor, ingresa la clave de nuevo arriba para continuar.",
+            timestamp: Date.now(),
+          };
+          saveChatHistory([...updatedMessages, errorMessage]);
+        } else {
+          const errorMessage: ChatMessage = {
+            id: `err-${Date.now()}`,
+            role: "assistant",
+            content: accumulatedText
+              ? `${accumulatedText}\n\n⚠️ (La respuesta se cortó por conexión. Intenta de nuevo.)`
+              : "⚠️ Ocurrió un problema de conexión con el Asistente IA (servidor despertando en Render). Intenta en unos segundos.",
+            sources: receivedSources,
+            timestamp: Date.now(),
+          };
+          saveChatHistory([...updatedMessages, errorMessage]);
+        }
       }
     } finally {
       setIsStreaming(false);
@@ -296,6 +341,18 @@ export default function FloatingChatbot() {
               </div>
             </div>
             <div className="flex items-center space-x-1">
+              <button
+                onClick={() => setShowKeyInput(!showKeyInput)}
+                title={hasValidKey ? "Clave de acceso configurada" : "Ingresar clave de acceso"}
+                className={`p-1.5 rounded-lg transition-colors flex items-center space-x-1 text-xs ${
+                  hasValidKey
+                    ? "text-emerald-400 hover:bg-slate-800"
+                    : "text-amber-400 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30"
+                }`}
+              >
+                <Key className="w-4 h-4" />
+                {!hasValidKey && <span className="text-[11px] font-medium pr-1">Clave</span>}
+              </button>
               {messages.length > 0 && (
                 <button
                   onClick={() => {
@@ -323,6 +380,35 @@ export default function FloatingChatbot() {
               </button>
             </div>
           </div>
+
+          {/* Banner o Formulario para pedir la clave si no está configurada o si el usuario quiere cambiarla */}
+          {(!hasValidKey || showKeyInput) && (
+            <div className="bg-slate-950 border-b border-amber-500/30 p-3.5 flex flex-col space-y-2">
+              <div className="flex items-center space-x-2 text-amber-400 text-xs font-semibold">
+                <Lock className="w-4 h-4 shrink-0" />
+                <span>Clave de Acceso al Asistente IA</span>
+              </div>
+              <p className="text-[11px] text-slate-400 leading-normal">
+                Para proteger los tokens del curso de uso externo, ingresa la clave asignada en clase.
+              </p>
+              <form onSubmit={handleSaveKey} className="flex items-center space-x-2 pt-1">
+                <input
+                  type="password"
+                  value={accessKeyInput}
+                  onChange={(e) => setAccessKeyInput(e.target.value)}
+                  placeholder="Ingresa clave (ej. rgm8dh)"
+                  className="flex-1 bg-slate-900 border border-slate-700 focus:border-amber-500 text-xs rounded-lg px-3 py-1.5 text-slate-100 placeholder-slate-500 outline-none"
+                />
+                <button
+                  type="submit"
+                  className="bg-amber-600 hover:bg-amber-500 text-white text-xs px-3 py-1.5 rounded-lg font-medium transition-colors flex items-center space-x-1"
+                >
+                  <Check className="w-3.5 h-3.5" />
+                  <span>Guardar</span>
+                </button>
+              </form>
+            </div>
+          )}
 
           {/* Lista de Mensajes */}
           <div className="flex-1 p-4 overflow-y-auto space-y-4">

@@ -9,6 +9,7 @@ export const STORAGE_KEYS = {
   RECENT_SEARCHES: "cloud_recent_searches",
   CHAT_HISTORY: "cloud_chat_history",
   EXAM_CONFIG: "cloud_exam_config",
+  CHAT_ACCESS_KEY: "cloud_chat_access_key",
 };
 
 export interface SearchResult {

@@ -60,15 +60,24 @@ export default function ExamGeneratorModal({
     } catch (e) {}
 
     try {
+      const accessKey = typeof window !== "undefined" ? (localStorage.getItem(STORAGE_KEYS.CHAT_ACCESS_KEY) || "") : "";
+
       const response = await fetchWithTimeout(
         `${API_URL}/exam`,
         {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(config),
+          headers: { 
+            "Content-Type": "application/json",
+            "X-Access-Key": accessKey,
+          },
+          body: JSON.stringify({ ...config, access_key: accessKey }),
         },
         20000
       );
+
+      if (response.status === 401) {
+        throw new Error("Clave de acceso requerida o incorrecta. Por favor ingresa la clave en el Chatbot.");
+      }
 
       if (!response.ok) throw new Error(`Error generando examen (${response.status})`);
 
