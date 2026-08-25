@@ -74,9 +74,13 @@ type StyleExample = {
   data: any;
 };
 
-const BASE_URL = "";
-const buildUrl = (slug: string, isLab: boolean = false) =>
-  isLab ? `${BASE_URL}/#lab-${slug}` : `${BASE_URL}/#${slug}`;
+const BASE_URL = "https://cloud-computing-beta-plum.vercel.app";
+const buildUrl = (slug: string, isLab: boolean = false, unidad?: number) => {
+  if (isLab) {
+    return `${BASE_URL}/labs/${slug}`;
+  }
+  return unidad ? `${BASE_URL}/unidades/${unidad}/${slug}` : `${BASE_URL}/#${slug}`;
+};
 
 // ─────────────────────────────────────────────────────────────
 // 3. EXTRACCIÓN DE TEXTO POR TIPO DE SECCIÓN DE LECCIONES
@@ -288,7 +292,7 @@ function buildKnowledgeChunks(): KnowledgeChunk[] {
         slug: topic.slug,
         title: topic.title,
         text: parts.filter(Boolean).join("\n\n"),
-        url: buildUrl(topic.slug, false),
+        url: buildUrl(topic.slug, false, unidad),
       });
     }
   }
