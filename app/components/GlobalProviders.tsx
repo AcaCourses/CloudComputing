@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import FloatingChatbot from "./components/FloatingChatbot";
-import FloatingSearchBar from "./components/FloatingSearchBar";
-import ExamGeneratorModal from "./components/ExamGeneratorModal";
+import FloatingChatbot from "./FloatingChatbot";
+import FloatingSearchBar from "./FloatingSearchBar";
+import ExamGeneratorModal from "./ExamGeneratorModal";
 
 export default function GlobalProviders({ children }: { children: React.ReactNode }) {
   const [isExamModalOpen, setIsExamModalOpen] = useState(false);
