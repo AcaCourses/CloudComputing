@@ -176,6 +176,16 @@ export default function Navbar() {
                 </Link>
               )
             )}
+            <button
+              onClick={() => {
+                if (typeof window !== "undefined") {
+                  window.dispatchEvent(new CustomEvent("open-exam-modal"));
+                }
+              }}
+              className="ml-2 px-3.5 py-1.5 bg-cyan-600 hover:bg-cyan-500 text-white font-medium text-xs rounded-full shadow-md transition-all flex items-center gap-1.5"
+            >
+              <span>Generar Examen</span>
+            </button>
           </div>
 
           {/* Mobile toggle */}
