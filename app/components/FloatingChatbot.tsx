@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { MessageSquare, X, Send, RotateCcw, Bot, User, ExternalLink, Loader2, Sparkles } from "lucide-react";
+import { MessageSquare, X, Send, RotateCcw, Bot, User, ExternalLink, Loader2, Sparkles, Maximize2, FileText, Download } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { API_URL, STORAGE_KEYS, ChatMessage, ChatSource } from "../lib/api";
@@ -14,9 +14,51 @@ export default function FloatingChatbot() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isStreaming, setIsStreaming] = useState(false);
   const [currentStreamBuffer, setCurrentStreamBuffer] = useState("");
+  const [zoomedMessage, setZoomedMessage] = useState<ChatMessage | null>(null);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const abortControllerRef = useRef<AbortController | null>(null);
+
+  // Función para exportar apunte a PDF / HTML compatible con Gemini Notebook
+  const handleExportNotebookPDF = (msg: ChatMessage) => {
+    const printWindow = window.open("", "_blank");
+    if (!printWindow) return;
+
+    const htmlContent = `
+      <!DOCTYPE html>
+      <html lang="es">
+      <head>
+        <meta charset="UTF-8">
+        <title>Apunte Cloud Computing - Notebook LMS</title>
+        <style>
+          body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 40px; color: #1e293b; max-width: 800px; margin: 0 auto; line-height: 1.6; }
+          h1 { color: #0284c7; border-b: 2px solid #e2e8f0; padding-bottom: 8px; font-size: 24px; }
+          h2 { color: #0f172a; margin-top: 24px; font-size: 18px; }
+          table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 13px; }
+          th { background: #f1f5f9; color: #0369a1; padding: 10px; border: 1px solid #cbd5e1; text-align: left; }
+          td { padding: 8px 10px; border: 1px solid #cbd5e1; }
+          pre, code { background: #f8fafc; border: 1px solid #e2e8f0; padding: 4px 8px; border-radius: 4px; font-family: monospace; }
+          .footer { margin-top: 40px; pt: 16px; border-top: 1px solid #e2e8f0; font-size: 11px; color: #64748b; }
+        </style>
+      </head>
+      <body>
+        <h1>📓 Apunte Académico: Cloud Computing (GCP)</h1>
+        <p style="font-size: 12px; color: #64748b;">Generado desde la plataforma del curso • ${new Date().toLocaleDateString("es-MX")}</p>
+        <div style="margin-top: 20px;">
+          ${msg.content.replace(/\n/g, "<br/>")}
+        </div>
+        <div class="footer">
+          <p>Curso de Cloud Computing • FES Acatlán - UNAM • Formato optimizado para Gemini Notebook LM</p>
+        </div>
+        <script>
+          window.onload = function() { window.print(); }
+        </script>
+      </body>
+      </html>
+    `;
+    printWindow.document.write(htmlContent);
+    printWindow.document.close();
+  };
 
   // Cargar historial de localStorage al montar
   useEffect(() => {
@@ -291,9 +333,33 @@ export default function FloatingChatbot() {
                     </div>
                   )}
 
+                  {/* Botones de Acción (Ver en Grande + PDF Gemini Notebook) */}
+                  {msg.role === "assistant" && (
+                    <div className="mt-3 pt-2 border-t border-slate-700/60 flex items-center justify-between">
+                      <div className="flex items-center space-x-1.5">
+                        <button
+                          onClick={() => setZoomedMessage(msg)}
+                          className="inline-flex items-center space-x-1 px-2 py-1 rounded-md bg-slate-900 hover:bg-cyan-950 text-cyan-300 border border-cyan-500/30 text-[10px] font-medium transition-colors"
+                          title="Ver respuesta ampliada en modal"
+                        >
+                          <Maximize2 className="w-3 h-3 text-cyan-400" />
+                          <span>Ver en grande</span>
+                        </button>
+                        <button
+                          onClick={() => handleExportNotebookPDF(msg)}
+                          className="inline-flex items-center space-x-1 px-2 py-1 rounded-md bg-slate-900 hover:bg-emerald-950 text-emerald-300 border border-emerald-500/30 text-[10px] font-medium transition-colors"
+                          title="Exportar apunte PDF para Gemini Notebook"
+                        >
+                          <FileText className="w-3 h-3 text-emerald-400" />
+                          <span>PDF Notebook</span>
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
                   {/* Fuentes RAG citadas */}
                   {msg.sources && msg.sources.length > 0 && (
-                    <div className="mt-3 pt-2 border-t border-slate-700/60 space-y-1">
+                    <div className="mt-2 space-y-1">
                       <p className="text-[10px] text-cyan-400 font-semibold uppercase tracking-wider">Fuentes:</p>
                       <div className="flex flex-wrap gap-1.5">
                         {msg.sources.map((src, idx) => (
@@ -381,6 +447,104 @@ export default function FloatingChatbot() {
               <Send className="w-4 h-4" />
             </button>
           </form>
+        </div>
+      )}
+
+      {/* Modal Ampliado ("Ver en Grande") */}
+      {zoomedMessage && (
+        <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-[100] flex items-center justify-center p-4 sm:p-6 animate-fade-in">
+          <div className="bg-slate-900 border border-slate-700/80 rounded-3xl w-full max-w-3xl h-[85vh] flex flex-col overflow-hidden shadow-2xl">
+            {/* Header del Modal */}
+            <div className="p-4 sm:p-5 border-b border-slate-800 flex items-center justify-between bg-slate-950/40">
+              <div className="flex items-center space-x-2">
+                <div className="p-2 bg-cyan-500/10 border border-cyan-500/30 rounded-xl">
+                  <Bot className="w-5 h-5 text-cyan-400" />
+                </div>
+                <div>
+                  <h3 className="text-sm sm:text-base font-bold text-slate-100">Respuesta Ampliada del Tutor IA</h3>
+                  <p className="text-xs text-slate-400">Vista detallada para estudio profundo y toma de notas</p>
+                </div>
+              </div>
+              <div className="flex items-center space-x-2">
+                <button
+                  onClick={() => handleExportNotebookPDF(zoomedMessage)}
+                  className="px-3 py-1.5 bg-emerald-950 hover:bg-emerald-900 text-emerald-300 border border-emerald-500/30 text-xs font-semibold rounded-xl flex items-center space-x-1.5 transition-colors"
+                >
+                  <FileText className="w-4 h-4 text-emerald-400" />
+                  <span>PDF Gemini Notebook</span>
+                </button>
+                <button
+                  onClick={() => setZoomedMessage(null)}
+                  className="p-2 text-slate-400 hover:text-slate-100 hover:bg-slate-800 rounded-xl transition-colors"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+
+            {/* Contenido Ampliado en ReactMarkdown */}
+            <div className="flex-1 p-6 overflow-y-auto space-y-4 text-slate-200">
+              <div className="prose prose-invert max-w-none text-sm leading-relaxed">
+                <ReactMarkdown
+                  remarkPlugins={[remarkGfm]}
+                  components={{
+                    table: ({ node, ...props }) => (
+                      <div className="my-4 overflow-x-auto rounded-xl border border-slate-700 bg-slate-950/60 p-1">
+                        <table className="w-full text-left text-xs border-collapse" {...props} />
+                      </div>
+                    ),
+                    th: ({ node, ...props }) => (
+                      <th className="bg-slate-800/90 text-cyan-300 font-semibold p-3 border-b border-slate-700" {...props} />
+                    ),
+                    td: ({ node, ...props }) => (
+                      <td className="p-3 border-b border-slate-800 text-slate-300" {...props} />
+                    ),
+                    h2: ({ node, ...props }) => (
+                      <h2 className="text-base font-bold text-cyan-300 mt-4 mb-2 border-b border-slate-700/60 pb-1" {...props} />
+                    ),
+                    h3: ({ node, ...props }) => (
+                      <h3 className="text-sm font-semibold text-slate-100 mt-3 mb-1" {...props} />
+                    ),
+                    code: ({ node, children, ...props }) => (
+                      <code className="bg-slate-950 text-cyan-400 px-2 py-1 rounded font-mono text-xs" {...props}>
+                        {children}
+                      </code>
+                    ),
+                    a: ({ node, children, href, ...props }) => (
+                      <a href={href} target="_blank" rel="noopener noreferrer" className="text-cyan-400 underline hover:text-cyan-300 font-medium" {...props}>
+                        {children}
+                      </a>
+                    )
+                  }}
+                >
+                  {zoomedMessage.content}
+                </ReactMarkdown>
+              </div>
+
+              {/* Fuentes RAG citadas en modal */}
+              {zoomedMessage.sources && zoomedMessage.sources.length > 0 && (
+                <div className="mt-6 pt-4 border-t border-slate-800 space-y-2">
+                  <p className="text-xs text-cyan-400 font-semibold uppercase tracking-wider">Fuentes RAG Referenciadas:</p>
+                  <div className="flex flex-wrap gap-2">
+                    {zoomedMessage.sources.map((src, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => {
+                          setZoomedMessage(null);
+                          setIsOpen(false);
+                          handleNavigateSource(src);
+                        }}
+                        className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-cyan-950 text-cyan-300 border border-cyan-500/30 text-xs transition-colors"
+                      >
+                        <span>{src.title}</span>
+                        <ExternalLink className="w-3 h-3" />
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
       )}
     </>

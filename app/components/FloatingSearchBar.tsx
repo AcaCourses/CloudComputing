@@ -187,14 +187,14 @@ export default function FloatingSearchBar() {
       {/* Dropdown de Resultados Desplegable Hacia Arriba (bottom-full) */}
       {isOpen && (
         <div className="absolute bottom-full left-0 right-0 mb-3 bg-slate-900/95 backdrop-blur-xl border border-slate-700/90 rounded-2xl shadow-2xl z-50 overflow-hidden max-h-[60vh] overflow-y-auto">
-          {/* Estado de Carga y Mensaje Slow (>3s) */}
+          {/* Estado de Carga y Mensaje de Cold Start Prominente */}
           {(status === "loading" || status === "slow") && (
-            <div className="p-4 flex items-center space-x-3 text-slate-300 text-sm border-b border-slate-800">
-              <Loader2 className="w-5 h-5 text-cyan-400 animate-spin shrink-0" />
+            <div className={`p-4 flex items-center space-x-3 text-xs border-b border-slate-800 ${status === "slow" ? "bg-amber-950/40 text-amber-200" : "text-slate-300"}`}>
+              <Loader2 className="w-4 h-4 text-cyan-400 animate-spin shrink-0" />
               <span>
                 {status === "slow"
-                  ? "Esto está tardando más de lo normal (el servidor puede estar despertando en Render)..."
-                  : "Buscando en lecciones y laboratorios..."}
+                  ? "⚡ El servidor backend en Render se está iniciando (Cold Start ~20s en la primera consulta)..."
+                  : "Buscando semánticamente en el corpus del curso..."}
               </span>
             </div>
           )}
