@@ -27,7 +27,7 @@ export default function FloatingChatbot() {
     const messagesToExport = targetMsg ? [targetMsg] : messages;
 
     // Convertidor liviano de Markdown a HTML para PDF limpio
-    const markdownToHTML = (text: str) => {
+    const markdownToHTML = (text: string) => {
       let html = text
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
