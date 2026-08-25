@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { 
   BarChart3, RefreshCw, ThumbsUp, ThumbsDown, Zap, Clock, 
   ShieldAlert, BookOpen, Search, CheckCircle2, AlertTriangle, 
-  Key, Lock, Sparkles, HelpCircle, UserCheck, MessageSquare, Layers
+  Lock, Sparkles, Layers, PieChart, Sun, Moon, TrendingUp, Activity
 } from "lucide-react";
 import { API_URL, STORAGE_KEYS } from "../lib/api";
 
@@ -111,23 +111,33 @@ export default function TeacherDashboard() {
     return matchesSearch && matchesUnit;
   });
 
+  // Calcular franjas horarias de estudio (Mañana: 6-12, Tarde: 12-18, Noche: 18-24, Madrugada: 0-6)
+  const timeSlots = { "Mañana (6-12h)": 0, "Tarde (12-18h)": 0, "Noche (18-24h)": 0, "Madrugada (0-6h)": 0 };
+  (data?.recent_logs || []).forEach((log) => {
+    const hour = new Date(log.created_at).getHours();
+    if (hour >= 6 && hour < 12) timeSlots["Mañana (6-12h)"] += 1;
+    else if (hour >= 12 && hour < 18) timeSlots["Tarde (12-18h)"] += 1;
+    else if (hour >= 18 && hour < 24) timeSlots["Noche (18-24h)"] += 1;
+    else timeSlots["Madrugada (0-6h)"] += 1;
+  });
+
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 p-4 sm:p-8 pt-24 font-sans">
+    <div className="min-h-screen bg-slate-50 text-slate-800 p-4 sm:p-8 pt-24 font-sans">
       <div className="max-w-7xl mx-auto space-y-8">
         
-        {/* Encabezado del Dashboard */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-slate-900/80 border border-slate-800 backdrop-blur-xl p-6 rounded-3xl shadow-xl">
+        {/* Encabezado del Dashboard - Modo Claro / Azul Oscuro Elegante */}
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white border border-slate-200/80 p-6 sm:p-8 rounded-3xl shadow-sm">
           <div>
-            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-xs font-semibold mb-2">
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>Panel de Control Pedagógico</span>
+            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-900 text-xs font-semibold mb-2">
+              <Sparkles className="w-3.5 h-3.5 text-blue-700" />
+              <span>Panel de Control Pedagógico Docente</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-100 flex items-center gap-3">
-              <BarChart3 className="w-8 h-8 text-cyan-400" />
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-blue-950 tracking-tight flex items-center gap-3">
+              <BarChart3 className="w-8 h-8 text-blue-800" />
               Analíticas del Tutor IA & Diagnóstico del Curso
             </h1>
-            <p className="text-xs sm:text-sm text-slate-400 mt-1">
-              Supervisión en tiempo real de preguntas de alumnos, tasa de satisfacción y temas con mayor duda.
+            <p className="text-xs sm:text-sm text-slate-600 mt-1">
+              Supervisión en tiempo real de dudas de estudiantes, tasa de satisfacción y temas con mayor consulta.
             </p>
           </div>
 
@@ -135,7 +145,7 @@ export default function TeacherDashboard() {
             <button
               onClick={() => fetchAnalytics(accessKey)}
               disabled={loading || !hasValidKey}
-              className="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 disabled:opacity-50 text-cyan-300 border border-slate-700 rounded-xl text-xs font-semibold transition-colors flex items-center space-x-2"
+              className="px-4 py-2.5 bg-blue-900 hover:bg-blue-800 disabled:opacity-50 text-white rounded-xl text-xs font-semibold shadow-sm transition-colors flex items-center space-x-2"
             >
               <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} />
               <span>Actualizar Datos</span>
@@ -145,12 +155,12 @@ export default function TeacherDashboard() {
 
         {/* Modal de Autenticación Docente */}
         {(!hasValidKey || errorMsg) && (
-          <div className="bg-slate-900 border border-amber-500/40 p-6 rounded-3xl max-w-xl mx-auto space-y-4 shadow-2xl">
-            <div className="flex items-center space-x-3 text-amber-400 font-bold text-base">
-              <Lock className="w-6 h-6 shrink-0" />
+          <div className="bg-white border border-amber-300 p-6 rounded-3xl max-w-xl mx-auto space-y-4 shadow-md">
+            <div className="flex items-center space-x-3 text-amber-800 font-bold text-base">
+              <Lock className="w-6 h-6 shrink-0 text-amber-600" />
               <span>Acceso Restringido para Docentes</span>
             </div>
-            <p className="text-xs text-slate-400 leading-relaxed">
+            <p className="text-xs text-slate-600 leading-relaxed">
               Ingresa la Clave del Curso asignada en Render/variables de entorno para visualizar el reporte completo de estadísticas.
             </p>
             <form onSubmit={handleSaveKey} className="flex items-center space-x-2">
@@ -159,97 +169,110 @@ export default function TeacherDashboard() {
                 value={accessKey}
                 onChange={(e) => setAccessKey(e.target.value)}
                 placeholder="Clave de acceso (ej. rgm8dh)"
-                className="flex-1 bg-slate-950 border border-slate-700 focus:border-amber-500 text-xs rounded-xl px-4 py-2.5 text-slate-100 placeholder-slate-500 outline-none"
+                className="flex-1 bg-slate-50 border border-slate-300 focus:border-blue-600 text-xs rounded-xl px-4 py-2.5 text-slate-800 placeholder-slate-400 outline-none"
               />
               <button
                 type="submit"
-                className="bg-amber-600 hover:bg-amber-500 text-white text-xs font-semibold px-4 py-2.5 rounded-xl transition-colors shrink-0"
+                className="bg-blue-900 hover:bg-blue-800 text-white text-xs font-semibold px-4 py-2.5 rounded-xl transition-colors shrink-0"
               >
                 Ingresar
               </button>
             </form>
-            {errorMsg && <p className="text-xs text-rose-400 font-medium">{errorMsg}</p>}
+            {errorMsg && <p className="text-xs text-rose-600 font-medium">{errorMsg}</p>}
           </div>
         )}
 
         {/* Contenido Principal de Analíticas */}
         {hasValidKey && data && (
           <>
-            {/* Grid de KPIs Principales */}
+            {/* Grid de KPIs Principales (Tarjetas Blancas con Texto Azul Oscuro y Bordes Elegantes) */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               
               {/* Card 1: Total Consultas */}
-              <div className="bg-slate-900/80 border border-slate-800 p-5 rounded-2xl space-y-2 shadow-lg hover:border-cyan-500/30 transition-colors">
-                <div className="flex items-center justify-between text-slate-400 text-xs font-medium">
+              <div className="bg-white border border-slate-200/90 p-6 rounded-2xl space-y-2 shadow-sm hover:shadow-md transition-shadow">
+                <div className="flex items-center justify-between text-slate-500 text-xs font-semibold uppercase tracking-wider">
                   <span>Total Consultas</span>
-                  <MessageSquare className="w-4 h-4 text-cyan-400" />
+                  <div className="p-2 bg-blue-50 text-blue-900 rounded-xl">
+                    <Activity className="w-4 h-4" />
+                  </div>
                 </div>
-                <div className="text-3xl font-black text-slate-100">
+                <div className="text-3xl font-black text-blue-950">
                   {data.total_queries_sample}
                 </div>
-                <p className="text-[11px] text-slate-400">Preguntas registradas por alumnos</p>
+                <p className="text-[11px] text-slate-500 font-medium">Preguntas registradas por alumnos</p>
               </div>
 
               {/* Card 2: Satisfacción Alumnos */}
-              <div className="bg-slate-900/80 border border-slate-800 p-5 rounded-2xl space-y-2 shadow-lg hover:border-emerald-500/30 transition-colors">
-                <div className="flex items-center justify-between text-slate-400 text-xs font-medium">
+              <div className="bg-white border border-slate-200/90 p-6 rounded-2xl space-y-2 shadow-sm hover:shadow-md transition-shadow">
+                <div className="flex items-center justify-between text-slate-500 text-xs font-semibold uppercase tracking-wider">
                   <span>Satisfacción Alumnos</span>
-                  <ThumbsUp className="w-4 h-4 text-emerald-400" />
+                  <div className="p-2 bg-emerald-50 text-emerald-700 rounded-xl">
+                    <ThumbsUp className="w-4 h-4" />
+                  </div>
                 </div>
-                <div className="text-3xl font-black text-emerald-400 flex items-baseline gap-1">
+                <div className="text-3xl font-black text-emerald-700 flex items-baseline gap-1">
                   <span>{data.satisfaction_rate_percent}%</span>
-                  <span className="text-xs font-normal text-slate-400">👍</span>
+                  <span className="text-xs font-normal text-slate-500">👍</span>
                 </div>
-                <div className="flex items-center justify-between text-[11px] text-slate-400">
-                  <span>{data.positive_ratings} Útiles</span>
-                  <span>{data.negative_ratings} No útiles</span>
+                <div className="flex items-center justify-between text-[11px] text-slate-500 font-medium pt-1">
+                  <span className="text-emerald-700 font-semibold">{data.positive_ratings} Útiles</span>
+                  <span className="text-rose-600 font-semibold">{data.negative_ratings} No útiles</span>
                 </div>
               </div>
 
               {/* Card 3: Eficiencia Caché Semántica */}
-              <div className="bg-slate-900/80 border border-slate-800 p-5 rounded-2xl space-y-2 shadow-lg hover:border-amber-500/30 transition-colors">
-                <div className="flex items-center justify-between text-slate-400 text-xs font-medium">
-                  <span>Ahorro Caché Semántica</span>
-                  <Zap className="w-4 h-4 text-amber-400 fill-amber-400" />
+              <div className="bg-white border border-slate-200/90 p-6 rounded-2xl space-y-2 shadow-sm hover:shadow-md transition-shadow">
+                <div className="flex items-center justify-between text-slate-500 text-xs font-semibold uppercase tracking-wider">
+                  <span>Caché Semántica</span>
+                  <div className="p-2 bg-amber-50 text-amber-700 rounded-xl">
+                    <Zap className="w-4 h-4 fill-amber-500" />
+                  </div>
                 </div>
-                <div className="text-3xl font-black text-amber-300">
+                <div className="text-3xl font-black text-amber-700">
                   {data.cache_hit_ratio_percent}%
                 </div>
-                <p className="text-[11px] text-slate-400">
+                <p className="text-[11px] text-slate-500 font-medium">
                   {data.cached_hits_count} consultas resueltas a 0 tokens (&lt;50ms)
                 </p>
               </div>
 
               {/* Card 4: Latencia Media */}
-              <div className="bg-slate-900/80 border border-slate-800 p-5 rounded-2xl space-y-2 shadow-lg hover:border-blue-500/30 transition-colors">
-                <div className="flex items-center justify-between text-slate-400 text-xs font-medium">
-                  <span>Latencia Promedio</span>
-                  <Clock className="w-4 h-4 text-blue-400" />
+              <div className="bg-white border border-slate-200/90 p-6 rounded-2xl space-y-2 shadow-sm hover:shadow-md transition-shadow">
+                <div className="flex items-center justify-between text-slate-500 text-xs font-semibold uppercase tracking-wider">
+                  <span>Latencia Media</span>
+                  <div className="p-2 bg-indigo-50 text-indigo-700 rounded-xl">
+                    <Clock className="w-4 h-4" />
+                  </div>
                 </div>
-                <div className="text-3xl font-black text-blue-400">
+                <div className="text-3xl font-black text-indigo-950">
                   {data.avg_response_time_ms} ms
                 </div>
-                <p className="text-[11px] text-slate-400">Tiempo medio de respuesta SSE</p>
+                <p className="text-[11px] text-slate-500 font-medium">Tiempo medio de respuesta SSE</p>
               </div>
 
             </div>
 
-            {/* Fila 2: Desglose por Unidad Temática & Métricas Técnicas */}
+            {/* Fila 2: Gráficas Adicionales (Barras por Unidad + Anillo de Satisfacción + Horarios de Estudio) */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               
-              {/* Gráfico de Barras de Dudas por Unidad */}
-              <div className="lg:col-span-2 bg-slate-900/80 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-xl">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-base font-bold text-slate-100 flex items-center gap-2">
-                    <BookOpen className="w-5 h-5 text-cyan-400" />
-                    Distribución de Dudas por Unidad Temática
-                  </h3>
-                  <span className="text-xs text-slate-400">Mapa de calor pedagógico</span>
+              {/* Gráfica 1: Barras de Dudas por Unidad Temática */}
+              <div className="lg:col-span-2 bg-white border border-slate-200/90 p-6 sm:p-8 rounded-3xl space-y-5 shadow-sm">
+                <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+                  <div>
+                    <h3 className="text-base font-bold text-blue-950 flex items-center gap-2">
+                      <BookOpen className="w-5 h-5 text-blue-800" />
+                      Distribución de Dudas por Unidad Temática
+                    </h3>
+                    <p className="text-xs text-slate-500">Muestra las unidades del programa con mayor concentración de preguntas</p>
+                  </div>
+                  <span className="text-xs font-semibold px-2.5 py-1 bg-blue-50 text-blue-800 rounded-full">
+                    Programa del Curso
+                  </span>
                 </div>
 
-                <div className="space-y-3 pt-2">
+                <div className="space-y-4 pt-1">
                   {Object.entries(data.unit_breakdown || {}).length === 0 && (
-                    <p className="text-xs text-slate-500">No hay datos por unidad registrados aún.</p>
+                    <p className="text-xs text-slate-400">No hay datos por unidad registrados aún.</p>
                   )}
 
                   {Object.entries(data.unit_breakdown || {})
@@ -257,14 +280,14 @@ export default function TeacherDashboard() {
                     .map(([unitName, count]) => {
                       const percentage = Math.round((count / (data.total_queries_sample || 1)) * 100);
                       return (
-                        <div key={unitName} className="space-y-1">
-                          <div className="flex justify-between text-xs font-medium">
-                            <span className="text-slate-200">{unitName}</span>
-                            <span className="text-cyan-400 font-bold">{count} preguntas ({percentage}%)</span>
+                        <div key={unitName} className="space-y-1.5">
+                          <div className="flex justify-between text-xs font-semibold">
+                            <span className="text-slate-800">{unitName}</span>
+                            <span className="text-blue-900 font-bold">{count} preguntas ({percentage}%)</span>
                           </div>
-                          <div className="h-2.5 bg-slate-950 rounded-full overflow-hidden border border-slate-800">
+                          <div className="h-3 bg-slate-100 rounded-full overflow-hidden border border-slate-200">
                             <div
-                              className="h-full bg-gradient-to-r from-cyan-500 to-blue-600 rounded-full transition-all duration-500"
+                              className="h-full bg-gradient-to-r from-blue-800 to-indigo-600 rounded-full transition-all duration-500"
                               style={{ width: `${Math.max(percentage, 4)}%` }}
                             />
                           </div>
@@ -274,67 +297,146 @@ export default function TeacherDashboard() {
                 </div>
               </div>
 
-              {/* Panel de Salud del Sistema y Guardrails */}
-              <div className="bg-slate-900/80 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-xl">
-                <h3 className="text-base font-bold text-slate-100 flex items-center gap-2">
-                  <ShieldAlert className="w-5 h-5 text-amber-400" />
-                  Salud & Seguridad RAG
-                </h3>
+              {/* Gráfica 2: Donut / Indicador de Satisfacción del Alumno */}
+              <div className="bg-white border border-slate-200/90 p-6 sm:p-8 rounded-3xl space-y-5 shadow-sm flex flex-col justify-between">
+                <div>
+                  <h3 className="text-base font-bold text-blue-950 flex items-center gap-2 border-b border-slate-100 pb-4">
+                    <PieChart className="w-5 h-5 text-emerald-600" />
+                    Índice de Aprobación del Alumno
+                  </h3>
+                  <p className="text-xs text-slate-500 mt-2">Valoración general de la utilidad de las respuestas</p>
+                </div>
 
-                <div className="space-y-3 pt-1 text-xs">
-                  <div className="p-3 bg-slate-950/60 rounded-xl border border-slate-800 flex justify-between items-center">
-                    <span className="text-slate-400">IA Groq (Modelos Activos)</span>
-                    <span className="font-bold text-emerald-400">{data.success_count - data.cached_hits_count} resueltas</span>
+                {/* Anillo Visual SVG */}
+                <div className="flex flex-col items-center justify-center my-4 relative">
+                  <svg className="w-40 h-40 transform -rotate-90" viewBox="0 0 36 36">
+                    <path
+                      className="text-slate-100"
+                      strokeWidth="3.8"
+                      stroke="currentColor"
+                      fill="none"
+                      d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                    />
+                    <path
+                      className="text-emerald-500 transition-all duration-1000 ease-out"
+                      strokeDasharray={`${data.satisfaction_rate_percent}, 100`}
+                      strokeWidth="3.8"
+                      strokeLinecap="round"
+                      stroke="currentColor"
+                      fill="none"
+                      d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                    />
+                  </svg>
+                  <div className="absolute flex flex-col items-center justify-center text-center">
+                    <span className="text-2xl font-black text-slate-900">{data.satisfaction_rate_percent}%</span>
+                    <span className="text-[10px] text-slate-500 font-semibold uppercase">Positivo</span>
                   </div>
+                </div>
 
-                  <div className="p-3 bg-slate-950/60 rounded-xl border border-slate-800 flex justify-between items-center">
-                    <span className="text-slate-400">Respuestas en Caché</span>
-                    <span className="font-bold text-amber-400">{data.cached_hits_count} instantáneas</span>
+                <div className="grid grid-cols-2 gap-2 text-center text-xs pt-2 border-t border-slate-100">
+                  <div className="p-2 bg-emerald-50 rounded-xl border border-emerald-100">
+                    <span className="text-emerald-800 font-bold block">{data.positive_ratings}</span>
+                    <span className="text-[10px] text-emerald-700">👍 Útiles</span>
                   </div>
-
-                  <div className="p-3 bg-slate-950/60 rounded-xl border border-slate-800 flex justify-between items-center">
-                    <span className="text-slate-400">Bloqueos por Guardrails</span>
-                    <span className="font-bold text-cyan-400">{data.blocked_guardrails_count} rechazadas</span>
-                  </div>
-
-                  <div className="p-3 bg-slate-950/60 rounded-xl border border-slate-800 flex justify-between items-center">
-                    <span className="text-slate-400">Errores de Generación</span>
-                    <span className="font-bold text-rose-400">{data.error_count} errores</span>
+                  <div className="p-2 bg-rose-50 rounded-xl border border-rose-100">
+                    <span className="text-rose-800 font-bold block">{data.negative_ratings}</span>
+                    <span className="text-[10px] text-rose-700">👎 No útiles</span>
                   </div>
                 </div>
               </div>
 
             </div>
 
-            {/* Fila 3: Tabla de Actividad y Consultas Recientes */}
-            <div className="bg-slate-900/80 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-xl">
+            {/* Fila 3: Gráfica Adicional de Horarios de Estudio + Salud de Sistema */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+              {/* Gráfica 3: Hábitos y Franjas Horarias de Estudio */}
+              <div className="lg:col-span-2 bg-white border border-slate-200/90 p-6 sm:p-8 rounded-3xl space-y-4 shadow-sm">
+                <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+                  <div>
+                    <h3 className="text-base font-bold text-blue-950 flex items-center gap-2">
+                      <TrendingUp className="w-5 h-5 text-indigo-700" />
+                      Franjas Horarias de Mayor Estudio
+                    </h3>
+                    <p className="text-xs text-slate-500">Identifica a qué horas del día los estudiantes realizan más consultas</p>
+                  </div>
+                  <span className="text-xs font-semibold px-2.5 py-1 bg-indigo-50 text-indigo-900 rounded-full">
+                    Actividad Diaria
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
+                  {Object.entries(timeSlots).map(([slotName, count]) => (
+                    <div key={slotName} className="p-4 bg-slate-50 rounded-2xl border border-slate-200 text-center space-y-1">
+                      <span className="text-[11px] font-semibold text-slate-600 block">{slotName}</span>
+                      <span className="text-2xl font-black text-blue-950 block">{count}</span>
+                      <span className="text-[10px] text-slate-500">consultas</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Salud del Servicio RAG & Guardrails */}
+              <div className="bg-white border border-slate-200/90 p-6 sm:p-8 rounded-3xl space-y-4 shadow-sm">
+                <h3 className="text-base font-bold text-blue-950 flex items-center gap-2 border-b border-slate-100 pb-4">
+                  <ShieldAlert className="w-5 h-5 text-amber-600" />
+                  Rendimiento y Seguridad RAG
+                </h3>
+
+                <div className="space-y-2.5 text-xs pt-1">
+                  <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 flex justify-between items-center">
+                    <span className="text-slate-600 font-medium">IA Groq (Modelos Activos)</span>
+                    <span className="font-bold text-blue-900">{data.success_count - data.cached_hits_count} resueltas</span>
+                  </div>
+
+                  <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 flex justify-between items-center">
+                    <span className="text-slate-600 font-medium">Caché Semántica</span>
+                    <span className="font-bold text-amber-700">{data.cached_hits_count} instantáneas</span>
+                  </div>
+
+                  <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 flex justify-between items-center">
+                    <span className="text-slate-600 font-medium">Bloqueos Guardrails</span>
+                    <span className="font-bold text-slate-700">{data.blocked_guardrails_count} rechazadas</span>
+                  </div>
+
+                  <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 flex justify-between items-center">
+                    <span className="text-slate-600 font-medium">Errores de Generación</span>
+                    <span className="font-bold text-rose-700">{data.error_count} errores</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            {/* Fila 4: Bitácora de Consultas Recientes (Tabla en Fondo Blanco con Texto Oscuro) */}
+            <div className="bg-white border border-slate-200/90 p-6 sm:p-8 rounded-3xl space-y-4 shadow-sm">
               
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
                 <div>
-                  <h3 className="text-base font-bold text-slate-100 flex items-center gap-2">
-                    <Layers className="w-5 h-5 text-cyan-400" />
+                  <h3 className="text-base font-bold text-blue-950 flex items-center gap-2">
+                    <Layers className="w-5 h-5 text-blue-800" />
                     Bitácora en Tiempo Real de Consultas
                   </h3>
-                  <p className="text-xs text-slate-400">Últimas preguntas realizadas por los alumnos con snippet y calificación</p>
+                  <p className="text-xs text-slate-500">Últimas preguntas realizadas por los alumnos con snippet y calificación</p>
                 </div>
 
                 {/* Filtros de Búsqueda y Unidad */}
                 <div className="flex items-center gap-2">
                   <div className="relative">
-                    <Search className="w-3.5 h-3.5 text-slate-500 absolute left-3 top-3" />
+                    <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-3" />
                     <input
                       type="text"
                       value={searchFilter}
                       onChange={(e) => setSearchFilter(e.target.value)}
                       placeholder="Buscar duda..."
-                      className="bg-slate-950 border border-slate-800 text-xs rounded-xl pl-9 pr-3 py-2 text-slate-200 placeholder-slate-500 outline-none focus:border-cyan-500"
+                      className="bg-slate-50 border border-slate-200 text-xs rounded-xl pl-9 pr-3 py-2 text-slate-800 placeholder-slate-400 outline-none focus:border-blue-700"
                     />
                   </div>
 
                   <select
                     value={unitFilter}
                     onChange={(e) => setUnitFilter(e.target.value)}
-                    className="bg-slate-950 border border-slate-800 text-xs rounded-xl px-3 py-2 text-slate-200 outline-none focus:border-cyan-500"
+                    className="bg-slate-50 border border-slate-200 text-xs rounded-xl px-3 py-2 text-slate-800 outline-none focus:border-blue-700 font-medium"
                   >
                     <option value="all">Todas las Unidades</option>
                     <option value="general">General / Duda Global</option>
@@ -350,8 +452,8 @@ export default function TeacherDashboard() {
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-xs border-collapse">
                   <thead>
-                    <tr className="border-b border-slate-800 text-slate-400 bg-slate-950/40">
-                      <th className="p-3">Fecha / Hora</th>
+                    <tr className="border-b border-slate-200 text-slate-500 bg-slate-50/80 uppercase font-semibold text-[11px]">
+                      <th className="p-3">Hora / Fecha</th>
                       <th className="p-3">Unidad</th>
                       <th className="p-3">Consulta del Alumno</th>
                       <th className="p-3">Latencia</th>
@@ -359,69 +461,71 @@ export default function TeacherDashboard() {
                       <th className="p-3">Rating</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-800/60">
+                  <tbody className="divide-y divide-slate-100">
                     {filteredLogs.length === 0 && (
                       <tr>
-                        <td colSpan={6} className="p-6 text-center text-slate-500">
+                        <td colSpan={6} className="p-8 text-center text-slate-400 font-medium">
                           No se encontraron registros de consultas coincidentes.
                         </td>
                       </tr>
                     )}
 
                     {filteredLogs.map((log) => (
-                      <tr key={log.id || Math.random().toString()} className="hover:bg-slate-800/40 transition-colors">
-                        <td className="p-3 text-slate-400 whitespace-nowrap">
-                          {new Date(log.created_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
-                          <span className="block text-[10px] text-slate-500">
+                      <tr key={log.id || Math.random().toString()} className="hover:bg-blue-50/40 transition-colors">
+                        <td className="p-3 text-slate-600 whitespace-nowrap">
+                          <span className="font-semibold text-slate-800 block">
+                            {new Date(log.created_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                          </span>
+                          <span className="text-[10px] text-slate-400">
                             {new Date(log.created_at).toLocaleDateString("es-MX")}
                           </span>
                         </td>
 
-                        <td className="p-3 font-semibold text-cyan-400 whitespace-nowrap">
+                        <td className="p-3 font-bold text-blue-900 whitespace-nowrap">
                           {log.unidad !== null ? `Unidad ${log.unidad}` : "General"}
                         </td>
 
                         <td className="p-3 max-w-md">
-                          <p className="font-semibold text-slate-100 line-clamp-1">{log.user_query}</p>
-                          <p className="text-[11px] text-slate-400 line-clamp-1 mt-0.5">{log.assistant_snippet}</p>
+                          <p className="font-bold text-slate-900 line-clamp-1">{log.user_query}</p>
+                          <p className="text-[11px] text-slate-500 line-clamp-1 mt-0.5">{log.assistant_snippet}</p>
                         </td>
 
                         <td className="p-3 whitespace-nowrap">
-                          <span className="font-mono text-slate-300">{log.response_time_ms} ms</span>
+                          <span className="font-mono text-slate-700 font-medium">{log.response_time_ms} ms</span>
                         </td>
 
                         <td className="p-3 whitespace-nowrap">
                           {log.status === "success_cached" ? (
-                            <span className="inline-flex items-center space-x-1 px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-300 border border-amber-500/30 text-[10px]">
-                              <Zap className="w-2.5 h-2.5 text-amber-400 fill-amber-400" />
+                            <span className="inline-flex items-center space-x-1 px-2.5 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-200 text-[10px] font-semibold">
+                              <Zap className="w-2.5 h-2.5 text-amber-600 fill-amber-500" />
                               <span>Caché</span>
                             </span>
                           ) : log.status === "success" ? (
-                            <span className="inline-flex items-center space-x-1 px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-300 border border-emerald-500/30 text-[10px]">
-                              <CheckCircle2 className="w-2.5 h-2.5 text-emerald-400" />
+                            <span className="inline-flex items-center space-x-1 px-2.5 py-0.5 rounded-full bg-blue-50 text-blue-900 border border-blue-200 text-[10px] font-semibold">
+                              <CheckCircle2 className="w-2.5 h-2.5 text-blue-700" />
                               <span>Groq IA</span>
                             </span>
                           ) : (
-                            <span className="inline-flex items-center space-x-1 px-2 py-0.5 rounded-full bg-rose-500/10 text-rose-300 border border-rose-500/30 text-[10px]">
-                              <AlertTriangle className="w-2.5 h-2.5 text-rose-400" />
-                              <span>Error/Rechazo</span>
+                            <span className="inline-flex items-center space-x-1 px-2.5 py-0.5 rounded-full bg-rose-50 text-rose-800 border border-rose-200 text-[10px] font-semibold">
+                              <AlertTriangle className="w-2.5 h-2.5 text-rose-600" />
+                              <span>Rechazo</span>
                             </span>
                           )}
                         </td>
 
                         <td className="p-3 whitespace-nowrap">
                           {log.rating === 1 ? (
-                            <span className="inline-flex items-center space-x-1 text-emerald-400 font-bold">
-                              <ThumbsUp className="w-3.5 h-3.5" />
+                            <span className="inline-flex items-center space-x-1 text-emerald-700 font-bold">
+                              <ThumbsUp className="w-3.5 h-3.5 text-emerald-600" />
                               <span>Útil</span>
                             </span>
                           ) : log.rating === -1 ? (
-                            <span className="inline-flex items-center space-x-1 text-rose-400 font-bold">
-                              <ThumbsDown className="w-3.5 h-3.5" />
+                            <span className="inline-flex items-center space-x-1 text-rose-600 font-bold">
+                              <ThumbsDown className="w-3.5 h-3.5 text-rose-600" />
                               <span>No útil</span>
                             </span>
                           ) : (
-                            <span className="text-slate-600 text-[11px]">Sin calificar</span>
+                            <span className="text-slate-400 text-[11px]">Sin calificar</span>
                           )}
                         </td>
                       </tr>
