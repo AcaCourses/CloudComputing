@@ -19,36 +19,85 @@ export default function FloatingChatbot() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const abortControllerRef = useRef<AbortController | null>(null);
 
-  // Función para exportar apunte a PDF / HTML compatible con Gemini Notebook
-  const handleExportNotebookPDF = (msg: ChatMessage) => {
+  // Función para exportar la conversación completa o apunte a PDF General impecable
+  const handleExportNotebookPDF = (targetMsg?: ChatMessage) => {
     const printWindow = window.open("", "_blank");
     if (!printWindow) return;
+
+    const messagesToExport = targetMsg ? [targetMsg] : messages;
+
+    // Convertidor liviano de Markdown a HTML para PDF limpio
+    const markdownToHTML = (text: str) => {
+      let html = text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+
+      // Formatear tablas Markdown
+      const tableRegex = /\|(.+)\|[\r\n]\|[-:| ]+\|[\r\n]((?:\|.+\|[\r\n]?)+)/g;
+      html = html.replace(tableRegex, (match, headerLine, bodyLines) => {
+        const headers = headerLine.split("|").filter((h: string) => h.trim() !== "").map((h: string) => `<th>${h.trim()}</th>`).join("");
+        const rows = bodyLines.trim().split("\n").map((row: string) => {
+          const cols = row.split("|").filter((c: string) => c.trim() !== "").map((c: string) => `<td>${c.trim()}</td>`).join("");
+          return `<tr>${cols}</tr>`;
+        }).join("");
+        return `<table class="pdf-table"><thead><tr>${headers}</tr></thead><tbody>${rows}</tbody></table>`;
+      });
+
+      // Formatear títulos, negritas y código
+      html = html
+        .replace(/^## (.*$)/gim, '<h2 class="pdf-h2">$1</h2>')
+        .replace(/^### (.*$)/gim, '<h3 class="pdf-h3">$1</h3>')
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/`([^`]+)`/g, '<code class="pdf-code">$1</code>')
+        .replace(/\n/g, '<br/>');
+
+      return html;
+    };
+
+    const renderedMessages = messagesToExport.map((m) => `
+      <div class="msg-box ${m.role === 'user' ? 'user-msg' : 'assistant-msg'}">
+        <div class="msg-header">
+          <strong>${m.role === 'user' ? '👤 Alumno' : '🤖 Tutor Cloud IA'}</strong>
+          <span class="msg-date">${new Date(m.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+        </div>
+        <div class="msg-body">${markdownToHTML(m.content)}</div>
+      </div>
+    `).join("");
 
     const htmlContent = `
       <!DOCTYPE html>
       <html lang="es">
       <head>
         <meta charset="UTF-8">
-        <title>Apunte Cloud Computing - Notebook LMS</title>
+        <title>Apunte Académico - Cloud Computing</title>
         <style>
-          body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 40px; color: #1e293b; max-width: 800px; margin: 0 auto; line-height: 1.6; }
-          h1 { color: #0284c7; border-b: 2px solid #e2e8f0; padding-bottom: 8px; font-size: 24px; }
-          h2 { color: #0f172a; margin-top: 24px; font-size: 18px; }
-          table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 13px; }
-          th { background: #f1f5f9; color: #0369a1; padding: 10px; border: 1px solid #cbd5e1; text-align: left; }
-          td { padding: 8px 10px; border: 1px solid #cbd5e1; }
-          pre, code { background: #f8fafc; border: 1px solid #e2e8f0; padding: 4px 8px; border-radius: 4px; font-family: monospace; }
-          .footer { margin-top: 40px; pt: 16px; border-top: 1px solid #e2e8f0; font-size: 11px; color: #64748b; }
+          body { font-family: 'Segoe UI', Arial, sans-serif; padding: 32px; color: #0f172a; max-width: 840px; margin: 0 auto; line-height: 1.6; background: #fff; }
+          .header { border-bottom: 3px solid #0284c7; padding-bottom: 12px; margin-bottom: 24px; }
+          .title { font-size: 24px; font-weight: bold; color: #0284c7; margin: 0; }
+          .subtitle { font-size: 12px; color: #64748b; margin-top: 4px; }
+          .msg-box { margin-bottom: 20px; padding: 16px; border-radius: 12px; font-size: 13px; page-break-inside: avoid; }
+          .user-msg { background: #f0f9ff; border: 1px solid #bae6fd; color: #0369a1; }
+          .assistant-msg { background: #f8fafc; border: 1px solid #e2e8f0; color: #1e293b; }
+          .msg-header { font-size: 12px; margin-bottom: 8px; display: flex; justify-content: space-between; border-b: 1px solid #cbd5e1; padding-bottom: 4px; }
+          .msg-date { color: #94a3b8; font-size: 11px; }
+          .pdf-h2 { color: #0369a1; font-size: 16px; margin-top: 14px; border-bottom: 1px solid #e2e8f0; padding-bottom: 4px; }
+          .pdf-h3 { color: #0f172a; font-size: 14px; margin-top: 10px; }
+          .pdf-table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 12px; }
+          .pdf-table th { background: #e0f2fe; color: #0369a1; padding: 8px 10px; border: 1px solid #7dd3fc; text-align: left; font-weight: 600; }
+          .pdf-table td { padding: 8px 10px; border: 1px solid #e2e8f0; }
+          .pdf-code { background: #0f172a; color: #38bdf8; padding: 2px 6px; border-radius: 4px; font-family: monospace; font-size: 11px; }
+          .footer { margin-top: 40px; padding-top: 16px; border-top: 1px solid #e2e8f0; font-size: 11px; color: #64748b; text-align: center; }
         </style>
       </head>
       <body>
-        <h1>📓 Apunte Académico: Cloud Computing (GCP)</h1>
-        <p style="font-size: 12px; color: #64748b;">Generado desde la plataforma del curso • ${new Date().toLocaleDateString("es-MX")}</p>
-        <div style="margin-top: 20px;">
-          ${msg.content.replace(/\n/g, "<br/>")}
+        <div class="header">
+          <h1 class="title">📄 Documento de Estudio: Cloud Computing (GCP)</h1>
+          <p class="subtitle">Portal Académico FES Acatlán - UNAM • Exportación General • ${new Date().toLocaleDateString("es-MX")}</p>
         </div>
+        ${renderedMessages}
         <div class="footer">
-          <p>Curso de Cloud Computing • FES Acatlán - UNAM • Formato optimizado para Gemini Notebook LM</p>
+          <p>Generado automáticamente desde la plataforma de Cloud Computing • Compatible con Gemini Notebook LM & Lectores PDF</p>
         </div>
         <script>
           window.onload = function() { window.print(); }
