@@ -3,6 +3,8 @@
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { MessageSquare, X, Send, RotateCcw, Bot, User, ExternalLink, Loader2, Sparkles } from "lucide-react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { API_URL, STORAGE_KEYS, ChatMessage, ChatSource } from "../lib/api";
 
 export default function FloatingChatbot() {
@@ -188,7 +190,7 @@ export default function FloatingChatbot() {
 
       {/* Ventana Desplegable de Chatbot */}
       {isOpen && (
-        <div className="fixed bottom-6 right-6 w-96 max-w-[calc(100vw-3rem)] h-[540px] max-h-[calc(100vh-5rem)] bg-slate-900/95 backdrop-blur-xl border border-slate-700/80 rounded-3xl shadow-2xl z-50 flex flex-col overflow-hidden transition-all duration-300">
+        <div className="fixed bottom-6 right-6 w-[480px] max-w-[calc(100vw-2rem)] h-[580px] max-h-[calc(100vh-4rem)] bg-slate-900/95 backdrop-blur-xl border border-cyan-500/30 rounded-3xl shadow-2xl z-50 flex flex-col overflow-hidden transition-all duration-300">
           {/* Encabezado del Chat */}
           <div className="p-4 bg-gradient-to-r from-slate-900 via-slate-800 to-cyan-950 border-b border-slate-700/80 flex items-center justify-between">
             <div className="flex items-center space-x-2.5">
@@ -242,13 +244,52 @@ export default function FloatingChatbot() {
                   </div>
                 )}
                 <div
-                  className={`max-w-[82%] p-3.5 rounded-2xl text-xs leading-relaxed ${
+                  className={`max-w-[88%] p-3.5 rounded-2xl text-xs leading-relaxed overflow-x-auto ${
                     msg.role === "user"
                       ? "bg-cyan-600 text-white rounded-br-none shadow-md shadow-cyan-950/40"
                       : "bg-slate-800/90 text-slate-200 border border-slate-700/60 rounded-bl-none"
                   }`}
                 >
-                  <p className="whitespace-pre-wrap">{msg.content}</p>
+                  {msg.role === "user" ? (
+                    <p className="whitespace-pre-wrap">{msg.content}</p>
+                  ) : (
+                    <div className="prose prose-invert max-w-none text-xs leading-relaxed space-y-2">
+                      <ReactMarkdown
+                        remarkPlugins={[remarkGfm]}
+                        components={{
+                          table: ({ node, ...props }) => (
+                            <div className="my-2 overflow-x-auto rounded-lg border border-slate-700">
+                              <table className="w-full text-left text-[11px] border-collapse bg-slate-900/60" {...props} />
+                            </div>
+                          ),
+                          th: ({ node, ...props }) => (
+                            <th className="bg-slate-800/90 text-cyan-300 font-semibold p-2 border-b border-slate-700" {...props} />
+                          ),
+                          td: ({ node, ...props }) => (
+                            <td className="p-2 border-b border-slate-800/80 text-slate-300" {...props} />
+                          ),
+                          h2: ({ node, ...props }) => (
+                            <h2 className="text-xs font-bold text-cyan-300 mt-2 mb-1 border-b border-slate-700/50 pb-1" {...props} />
+                          ),
+                          h3: ({ node, ...props }) => (
+                            <h3 className="text-xs font-semibold text-slate-100 mt-2 mb-1" {...props} />
+                          ),
+                          code: ({ node, className, children, ...props }) => (
+                            <code className="bg-slate-950 text-cyan-400 px-1.5 py-0.5 rounded font-mono text-[11px]" {...props}>
+                              {children}
+                            </code>
+                          ),
+                          a: ({ node, children, href, ...props }) => (
+                            <a href={href} target="_blank" rel="noopener noreferrer" className="text-cyan-400 underline hover:text-cyan-300 font-medium" {...props}>
+                              {children}
+                            </a>
+                          )
+                        }}
+                      >
+                        {msg.content}
+                      </ReactMarkdown>
+                    </div>
+                  )}
 
                   {/* Fuentes RAG citadas */}
                   {msg.sources && msg.sources.length > 0 && (
@@ -283,9 +324,33 @@ export default function FloatingChatbot() {
                 <div className="w-7 h-7 rounded-lg bg-cyan-950 border border-cyan-500/30 flex items-center justify-center text-cyan-400 shrink-0 mt-0.5">
                   <Bot className="w-4 h-4 animate-spin" />
                 </div>
-                <div className="max-w-[82%] p-3.5 rounded-2xl rounded-bl-none bg-slate-800/90 text-slate-200 border border-slate-700/60 text-xs leading-relaxed">
+                <div className="max-w-[88%] p-3.5 rounded-2xl rounded-bl-none bg-slate-800/90 text-slate-200 border border-slate-700/60 text-xs leading-relaxed overflow-x-auto">
                   {currentStreamBuffer ? (
-                    <p className="whitespace-pre-wrap">{currentStreamBuffer}</p>
+                    <div className="prose prose-invert max-w-none text-xs leading-relaxed">
+                      <ReactMarkdown
+                        remarkPlugins={[remarkGfm]}
+                        components={{
+                          table: ({ node, ...props }) => (
+                            <div className="my-2 overflow-x-auto rounded-lg border border-slate-700">
+                              <table className="w-full text-left text-[11px] border-collapse bg-slate-900/60" {...props} />
+                            </div>
+                          ),
+                          th: ({ node, ...props }) => (
+                            <th className="bg-slate-800/90 text-cyan-300 font-semibold p-2 border-b border-slate-700" {...props} />
+                          ),
+                          td: ({ node, ...props }) => (
+                            <td className="p-2 border-b border-slate-800/80 text-slate-300" {...props} />
+                          ),
+                          code: ({ node, children, ...props }) => (
+                            <code className="bg-slate-950 text-cyan-400 px-1.5 py-0.5 rounded font-mono text-[11px]" {...props}>
+                              {children}
+                            </code>
+                          )
+                        }}
+                      >
+                        {currentStreamBuffer}
+                      </ReactMarkdown>
+                    </div>
                   ) : (
                     <div className="flex items-center space-x-2 text-cyan-400">
                       <Loader2 className="w-4 h-4 animate-spin" />
