@@ -53,6 +53,18 @@ const monthNames = [
   "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre",
 ];
 
+/** Returns formatted date or 'Por definir' */
+function formatLabDate(dueDate: string): string {
+  if (!dueDate || dueDate === "Por definir") return "Por definir";
+  const d = new Date(dueDate);
+  if (isNaN(d.getTime())) return dueDate;
+  return d.toLocaleDateString("es-MX", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
+}
+
 /** Returns urgency info based on days remaining until due date */
 function getUrgency(dueDate: string): {
   label: string;
@@ -60,9 +72,16 @@ function getUrgency(dueDate: string): {
   borderClass: string;
   daysLeft: number;
 } {
+  if (!dueDate || dueDate === "Por definir") {
+    return { label: "", className: "text-text-secondary", borderClass: "border-border", daysLeft: 999 };
+  }
+  const due = new Date(dueDate);
+  if (isNaN(due.getTime())) {
+    return { label: "", className: "text-text-secondary", borderClass: "border-border", daysLeft: 999 };
+  }
+
   const now = new Date();
   now.setHours(0, 0, 0, 0);
-  const due = new Date(dueDate);
   due.setHours(0, 0, 0, 0);
   const diff = Math.ceil((due.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
 
@@ -96,8 +115,11 @@ export default function Labs() {
   const availableMonths = useMemo(() => {
     const months = new Set<number>();
     for (const lab of labs) {
-      if (lab.group === selectedGroup) {
-        months.add(new Date(lab.dueDate).getMonth());
+      if (lab.group === selectedGroup && lab.dueDate && lab.dueDate !== "Por definir") {
+        const d = new Date(lab.dueDate);
+        if (!isNaN(d.getTime())) {
+          months.add(d.getMonth());
+        }
       }
     }
     return Array.from(months).sort((a, b) => a - b);
@@ -107,8 +129,9 @@ export default function Labs() {
     if (lab.group !== selectedGroup) return false;
     if (selectedUnit !== 0 && lab.unit !== selectedUnit) return false;
     if (selectedMonth !== 0) {
-      const labMonth = new Date(lab.dueDate).getMonth();
-      if (labMonth !== selectedMonth - 1) return false;
+      if (!lab.dueDate || lab.dueDate === "Por definir") return false;
+      const d = new Date(lab.dueDate);
+      if (isNaN(d.getTime()) || d.getMonth() !== selectedMonth - 1) return false;
     }
     return true;
   });
@@ -240,11 +263,7 @@ export default function Labs() {
 
                     <div className="flex items-center gap-3 shrink-0">
                       <span className={`flex items-center gap-1 text-xs ${urgency.className}`}>
-                        {new Date(lab.dueDate).toLocaleDateString("es-MX", {
-                          day: "numeric",
-                          month: "short",
-                          year: "numeric",
-                        })}
+                        {formatLabDate(lab.dueDate)}
                       </span>
                       {isOpen ? (
                         <ChevronUp className="w-4 h-4 text-azure" />
@@ -355,11 +374,7 @@ export default function Labs() {
                   {urgency.daysLeft <= 7 && urgency.daysLeft >= 0 && (
                     <AlertTriangle className="w-3 h-3" />
                   )}
-                  {new Date(lab.dueDate).toLocaleDateString("es-MX", {
-                    day: "numeric",
-                    month: "short",
-                    year: "numeric",
-                  })}
+                  {formatLabDate(lab.dueDate)}
                   {urgency.label && (
                     <span className="font-bold ml-1">({urgency.label})</span>
                   )}
