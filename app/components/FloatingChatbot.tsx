@@ -64,7 +64,7 @@ export default function FloatingChatbot() {
     const renderedMessages = messagesToExport.map((m) => `
       <div class="msg-box ${m.role === 'user' ? 'user-msg' : 'assistant-msg'}">
         <div class="msg-header">
-          <strong>${m.role === 'user' ? '👤 Alumno' : '🤖 Tutor Cloud IA'}</strong>
+          <strong>${m.role === 'user' ? '👤 Alumno' : '🤖 Atlas'}</strong>
           <span class="msg-date">${new Date(m.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
         </div>
         <div class="msg-body">${markdownToHTML(m.content)}</div>
@@ -354,11 +354,11 @@ export default function FloatingChatbot() {
         <button
           onClick={() => setIsOpen(true)}
           className="fixed bottom-4 sm:bottom-6 right-4 sm:right-6 p-3.5 sm:p-4 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white rounded-full shadow-2xl shadow-cyan-900/50 transition-all duration-300 transform hover:scale-105 z-50 flex items-center space-x-2 group border border-cyan-400/30"
-          aria-label="Abrir Asistente Tutor IA"
+          aria-label="Abrir Atlas"
         >
           <Bot className="w-5 h-5 sm:w-6 sm:h-6 animate-pulse" />
           <span className="max-w-0 overflow-hidden group-hover:max-w-xs transition-all duration-500 whitespace-nowrap text-xs sm:text-sm font-semibold pr-1">
-            Asistente Tutor IA
+            Atlas
           </span>
         </button>
       )}
@@ -374,7 +374,7 @@ export default function FloatingChatbot() {
               </div>
               <div>
                 <h3 className="text-sm font-bold text-slate-100 flex items-center gap-1.5">
-                  Tutor Cloud IA <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
+                  Atlas <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
                 </h3>
                 <p className="text-[11px] text-slate-400">RAG + Llama 3 / Gemini</p>
               </div>
@@ -453,7 +453,7 @@ export default function FloatingChatbot() {
             {messages.length === 0 && !currentStreamBuffer && (
               <div className="h-full flex flex-col items-center justify-center text-center p-6 text-slate-400">
                 <Bot className="w-12 h-12 text-cyan-500/50 mb-3" />
-                <p className="text-sm font-medium text-slate-200">¡Hola! Soy tu tutor del curso.</p>
+                <p className="text-sm font-medium text-slate-200">¡Hola! Soy Atlas, tu tutor del curso.</p>
                 <p className="text-xs text-slate-400 mt-1">
                   Pregúntame cualquier duda sobre Compute Engine, IAM, Cloud Storage, Serverless o laboratorios.
                 </p>
@@ -677,7 +677,7 @@ export default function FloatingChatbot() {
                   <Bot className="w-5 h-5 text-cyan-400" />
                 </div>
                 <div>
-                  <h3 className="text-sm sm:text-base font-bold text-slate-100">Respuesta Ampliada del Tutor IA</h3>
+                  <h3 className="text-sm sm:text-base font-bold text-slate-100">Respuesta Ampliada de Atlas</h3>
                   <p className="text-xs text-slate-400">Vista detallada para estudio profundo y toma de notas</p>
                 </div>
               </div>
