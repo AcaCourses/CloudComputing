@@ -44,6 +44,7 @@ import { ContainerVsVmVisual } from "@/app/components/ContainerVsVmVisual";
 import { ServerlessExplainer } from "@/app/components/ServerlessExplainer";
 import { ContainerBuilder } from "@/app/components/ContainerBuilder";
 import { ServerlessFlow } from "@/app/components/ServerlessFlow";
+import { PaasProcess } from "@/app/components/PaasProcess";
 import { EventMapper } from "@/app/components/EventMapper";
 import { EventFunctionSimulator } from "@/app/components/EventFunctionSimulator";
 import { AutomationBuilder } from "@/app/components/AutomationBuilder";
@@ -252,6 +253,9 @@ function SectionRenderer({ section }: { section: ContentSection }) {
 
     case "serverlessFlow":
       return <ServerlessFlow />;
+
+    case "paasProcess":
+      return <PaasProcess />;
 
     case "serverlessExplainer":
       return <ServerlessExplainer />;

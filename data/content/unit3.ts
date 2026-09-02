@@ -540,6 +540,9 @@ export const unit3Content: TopicContent[] = [
           "El modelo PaaS es ideal cuando tu equipo quiere enfocarse en desarrollar funcionalidades y no en operar infraestructura. Sacrificas algo de control (no eliges el SO ni configuras la red), pero ganas velocidad de despliegue, escalamiento automático y menor carga de mantenimiento.",
       },
       {
+        type: "paasProcess",
+      },
+      {
         type: "text",
         title: "App Engine: la referencia PaaS de Google Cloud",
         content:

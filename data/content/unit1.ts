@@ -29,6 +29,7 @@ export type ContentSection =
   | { type: "serverlessExplainer" }
   | { type: "containerBuilder" }
   | { type: "serverlessFlow" }
+  | { type: "paasProcess" }
   | { type: "eventMapper" }
   | { type: "eventFunctionSimulator" }
   | { type: "automationBuilder" }

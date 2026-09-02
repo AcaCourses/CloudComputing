@@ -198,6 +198,7 @@ function sectionToText(section: Section): string | null {
     case "serverlessExplainer":
     case "containerBuilder":
     case "serverlessFlow":
+    case "paasProcess":
     case "eventMapper":
     case "eventFunctionSimulator":
     case "automationBuilder":
