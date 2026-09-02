@@ -86,13 +86,13 @@ const C: Record<string, Record<string, string>> = {
 type AnimState = "idle" | "event" | "platform" | "boot" | "inject" | "run" | "result" | "destroy" | "zero";
 
 const ANIM_SEQUENCE: { state: AnimState; ms: number }[] = [
-  { state: "event",    ms: 600  },
-  { state: "platform", ms: 500  },
-  { state: "boot",     ms: 700  },
-  { state: "inject",   ms: 700  },
-  { state: "run",      ms: 1200 },
-  { state: "result",   ms: 700  },
-  { state: "destroy",  ms: 600  },
+  { state: "event",    ms: 2000  },
+  { state: "platform", ms: 2000  },
+  { state: "boot",     ms: 2500  },
+  { state: "inject",   ms: 2500  },
+  { state: "run",      ms: 3000  },
+  { state: "result",   ms: 2500  },
+  { state: "destroy",  ms: 2000  },
   { state: "zero",     ms: 99999 },
 ];
 
@@ -124,7 +124,7 @@ export function FunctionArchitecture() {
     if (animState === "run") {
       setExecPct(0);
       const steps = 30;
-      const stepMs = (t.execMs * 0.9) / steps;
+      const stepMs = 3000 / steps;
       let i = 0;
       const iv = setInterval(() => {
         i++;
@@ -193,8 +193,8 @@ export function FunctionArchitecture() {
           <div className="flex items-center justify-center gap-2 min-w-[560px]">
 
             {/* 1. Event Source */}
-            <div className={`flex flex-col items-center gap-2 transition-all duration-500 ${after("event") ? "opacity-100 scale-100" : "opacity-30 scale-90"}`}>
-              <div className={`w-14 h-14 rounded-xl border-2 flex items-center justify-center transition-all duration-500 ${after("event") ? `${c.bg} ${c.border}` : "bg-gray-900 border-gray-700"}`}>
+            <div className={`flex flex-col items-center gap-2 transition-all duration-1000 ${after("event") ? "opacity-100 scale-100" : "opacity-30 scale-90"}`}>
+              <div className={`w-14 h-14 rounded-xl border-2 flex items-center justify-center transition-all duration-1000 ${after("event") ? `${c.bg} ${c.border}` : "bg-gray-900 border-gray-700"}`}>
                 <span className={`transition-colors duration-500 ${after("event") ? c.text : "text-gray-600"}`}>
                   {t.icon && <span className="[&>svg]:w-6 [&>svg]:h-6">{t.icon}</span>}
                 </span>
@@ -203,31 +203,31 @@ export function FunctionArchitecture() {
             </div>
 
             {/* Arrow 1 */}
-            <div className={`flex flex-col items-center gap-1 transition-all duration-500 ${after("event") ? "opacity-100" : "opacity-0"}`}>
+            <div className={`flex flex-col items-center gap-1 transition-all duration-1000 ${after("event") ? "opacity-100" : "opacity-0"}`}>
               <div className={`flex items-center gap-0.5 ${is("event") ? "animate-pulse" : ""}`}>
                 {[0,1,2].map(i => (
                   <div key={i} className={`w-1.5 h-1.5 rounded-full transition-colors duration-300 ${after("event") ? c.dot : "bg-gray-700"}`}
                     style={{ animationDelay: `${i*150}ms` }} />
                 ))}
               </div>
-              <div className={`text-[8px] font-mono text-center max-w-[72px] leading-tight transition-opacity duration-500 ${after("event") ? c.text + " opacity-100" : "opacity-0"}`}>
+              <div className={`text-[8px] font-mono text-center max-w-[72px] leading-tight transition-opacity duration-1000 ${after("event") ? c.text + " opacity-100" : "opacity-0"}`}>
                 {t.payload.slice(0, 28)}…
               </div>
             </div>
 
             {/* 2. Platform / Eventarc */}
-            <div className={`flex flex-col items-center gap-2 transition-all duration-500 ${after("platform") ? "opacity-100 scale-100" : "opacity-30 scale-90"}`}>
-              <div className={`w-14 h-14 rounded-xl border-2 flex items-center justify-center transition-all duration-500 ${after("platform") ? "bg-blue-500/10 border-blue-500/40" : "bg-gray-900 border-gray-700"}`}>
-                <Zap className={`w-6 h-6 transition-colors duration-500 ${after("platform") ? "text-blue-400" : "text-gray-600"}`} />
+            <div className={`flex flex-col items-center gap-2 transition-all duration-1000 ${after("platform") ? "opacity-100 scale-100" : "opacity-30 scale-90"}`}>
+              <div className={`w-14 h-14 rounded-xl border-2 flex items-center justify-center transition-all duration-1000 ${after("platform") ? "bg-blue-500/10 border-blue-500/40" : "bg-gray-900 border-gray-700"}`}>
+                <Zap className={`w-6 h-6 transition-colors duration-1000 ${after("platform") ? "text-blue-400" : "text-gray-600"}`} />
               </div>
               <span className="text-[9px] text-gray-500 text-center leading-tight max-w-[56px]">Eventarc / Platform</span>
             </div>
 
             {/* Arrow 2 */}
-            <ArrowRight className={`w-4 h-4 transition-all duration-500 ${after("boot") ? "text-gray-400 opacity-100" : "opacity-20"}`} />
+            <ArrowRight className={`w-4 h-4 transition-all duration-1000 ${after("boot") ? "text-gray-400 opacity-100" : "opacity-20"}`} />
 
             {/* 3. Docker Container (the big box) */}
-            <div className={`relative flex flex-col rounded-xl border-2 border-dashed transition-all duration-700 overflow-hidden ${
+            <div className={`relative flex flex-col rounded-xl border-2 border-dashed transition-all duration-1500 overflow-hidden ${
               after("boot") && !after("destroy")
                 ? "border-cyan/60 bg-cyan/5 opacity-100 scale-100 w-[180px]"
                 : after("destroy")
@@ -295,10 +295,10 @@ export function FunctionArchitecture() {
             </div>
 
             {/* Arrow 3 */}
-            <ArrowRight className={`w-4 h-4 transition-all duration-500 ${after("result") ? "text-green opacity-100" : "opacity-20"}`} />
+            <ArrowRight className={`w-4 h-4 transition-all duration-1000 ${after("result") ? "text-green opacity-100" : "opacity-20"}`} />
 
             {/* 4. Result */}
-            <div className={`flex flex-col items-center gap-2 transition-all duration-700 ${after("result") ? "opacity-100 scale-100" : "opacity-0 scale-75"}`}>
+            <div className={`flex flex-col items-center gap-2 transition-all duration-1200 ${after("result") ? "opacity-100 scale-100" : "opacity-0 scale-75"}`}>
               <div className="w-14 h-14 rounded-xl border-2 border-green/40 bg-green/10 flex items-center justify-center">
                 <CheckCircle2 className="w-6 h-6 text-green" />
               </div>
