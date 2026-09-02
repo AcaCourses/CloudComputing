@@ -4,6 +4,12 @@ export const unit9Content: TopicContent[] = [
   {
     slug: "comparativa-despliegues",
     title: "Evolución de un despliegue (VMs, PaaS, Contenedores, FaaS)",
+    readingTime: 10,
+    objectives: [
+      "Comprender las diferencias prácticas entre IaaS, PaaS, CaaS y FaaS.",
+      "Identificar qué capas de la infraestructura gestiona el desarrollador vs el proveedor.",
+      "Seleccionar el modelo de cómputo adecuado según las necesidades del proyecto."
+    ],
     sections: [
       {
         type: "text",
