@@ -42,6 +42,7 @@ import { ScalingSimulator } from "@/app/components/ScalingSimulator";
 import { ScalingComparison } from "@/app/components/ScalingComparison";
 import { ContainerVsVmVisual } from "@/app/components/ContainerVsVmVisual";
 import { FunctionArchitecture } from "@/app/components/FunctionArchitecture";
+import { ArchitectureComparison } from "@/app/components/ArchitectureComparison";
 import { ContainerBuilder } from "@/app/components/ContainerBuilder";
 import { ServerlessFlow } from "@/app/components/ServerlessFlow";
 import { PaasProcess } from "@/app/components/PaasProcess";
@@ -259,6 +260,9 @@ function SectionRenderer({ section }: { section: ContentSection }) {
 
     case "functionArchitecture":
       return <FunctionArchitecture />;
+      
+    case "architectureComparison":
+      return <ArchitectureComparison />;
 
     case "eventMapper":
       return <EventMapper />;

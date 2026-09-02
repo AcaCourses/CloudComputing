@@ -5,6 +5,7 @@ import { unit4Content } from "./unit4";
 import { unit5Content } from "./unit5";
 import { unit6Content } from "./unit6";
 import { unit7Content } from "./unit7";
+import { unit9Content } from "./unit9";
 
 export type { TopicContent, ContentSection, QuizLink };
 
@@ -16,6 +17,7 @@ const allContent: Record<string, TopicContent[]> = {
   "5": unit5Content,
   "6": unit6Content,
   "7": unit7Content,
+  "9": unit9Content,
 };
 
 export function getTopicContent(unit: string, slug: string): TopicContent | null {

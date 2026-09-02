@@ -196,6 +196,7 @@ function sectionToText(section: Section): string | null {
     case "scalingComparison":
     case "containerVsVmVisual":
     case "functionArchitecture":
+    case "architectureComparison":
     case "containerBuilder":
     case "serverlessFlow":
     case "paasProcess":

@@ -196,4 +196,15 @@ export const unitsData: Unit[] = [
       }
     ]
   },
+  {
+    number: 9,
+    title: "Casos Prácticos y Comparativa de Arquitecturas",
+    shortTitle: "Comparativa Práctica",
+    modules: [
+      {
+        title: "Evolución de un despliegue (VMs, PaaS, Contenedores, FaaS)",
+        slug: "comparativa-despliegues"
+      }
+    ]
+  },
 ]
