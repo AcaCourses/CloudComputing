@@ -26,7 +26,7 @@ export type ContentSection =
   | { type: "scalingSimulator" }
   | { type: "scalingComparison" }
   | { type: "containerVsVmVisual" }
-  | { type: "serverlessExplainer" }
+  | { type: "functionArchitecture" }
   | { type: "containerBuilder" }
   | { type: "serverlessFlow" }
   | { type: "paasProcess" }

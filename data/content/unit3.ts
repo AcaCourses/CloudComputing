@@ -1187,7 +1187,7 @@ export const unit3Content: TopicContent[] = [
           "El modelo serverless permite ejecutar código sin aprovisionar ni administrar servidores directamente. En Google Cloud, Cloud Run functions ofrece una solución ligera para crear funciones de propósito único que responden a eventos o solicitudes sin gestionar la infraestructura subyacente.",
       },
       {
-        type: "serverlessExplainer",
+        type: "functionArchitecture",
       },
       {
         type: "tabs",

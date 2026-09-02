@@ -41,7 +41,7 @@ import { RegionZoneMap } from "@/app/components/RegionZoneMap";
 import { ScalingSimulator } from "@/app/components/ScalingSimulator";
 import { ScalingComparison } from "@/app/components/ScalingComparison";
 import { ContainerVsVmVisual } from "@/app/components/ContainerVsVmVisual";
-import { ServerlessExplainer } from "@/app/components/ServerlessExplainer";
+import { FunctionArchitecture } from "@/app/components/FunctionArchitecture";
 import { ContainerBuilder } from "@/app/components/ContainerBuilder";
 import { ServerlessFlow } from "@/app/components/ServerlessFlow";
 import { PaasProcess } from "@/app/components/PaasProcess";
@@ -257,8 +257,8 @@ function SectionRenderer({ section }: { section: ContentSection }) {
     case "paasProcess":
       return <PaasProcess />;
 
-    case "serverlessExplainer":
-      return <ServerlessExplainer />;
+    case "functionArchitecture":
+      return <FunctionArchitecture />;
 
     case "eventMapper":
       return <EventMapper />;
