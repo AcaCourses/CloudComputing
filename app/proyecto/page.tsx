@@ -11,7 +11,6 @@ import {
   Shield,
   Brain,
   Globe,
-  BookOpen,
   Heart,
   Eye,
   Laptop,
@@ -494,18 +493,6 @@ const rubricaProyecto = [
   },
 ];
 
-const serviciosCloud = [
-  { name: "Cloud Run / App Engine", desc: "Alojar la aplicación web", icon: Rocket },
-  { name: "Cloud Storage", desc: "Guardar imágenes, documentos o archivos", icon: Cloud },
-  { name: "Cloud SQL", desc: "Almacenar información estructurada", icon: Layers },
-  { name: "Pub/Sub", desc: "Notificaciones o comunicación entre componentes", icon: Sparkles },
-  { name: "Text-to-Speech", desc: "Accesibilidad y lectura en voz alta", icon: Monitor },
-  { name: "Speech-to-Text", desc: "Convertir voz en texto", icon: Monitor },
-  { name: "Translation API", desc: "Contenido multilingüe", icon: Globe },
-  { name: "Vision API", desc: "Analizar imágenes o documentos", icon: Eye },
-  { name: "IAM / IAP", desc: "Controlar acceso y seguridad", icon: Shield },
-  { name: "Cloud Logging / Monitoring", desc: "Observabilidad de la plataforma", icon: Target },
-];
 
 const reglasGenerales = [
   "Los equipos serán de máximo 3 integrantes de la misma área.",
