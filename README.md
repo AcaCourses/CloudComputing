@@ -55,7 +55,13 @@ CloudComputing/
 
 ## 🔧 Configuración para Desarrollo Local
 
-1. Instalar dependencias:
+1. Clonar el repositorio:
+   ```bash
+   git clone https://github.com/AcaCourses/CloudComputing.git
+   cd CloudComputing
+   ```
+
+2. Instalar dependencias:
    ```bash
    npm install
    ```
